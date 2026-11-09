@@ -35,7 +35,7 @@ node scripts/kiem-config.js         # liệt kê giá trị mẫu còn lại tro
 ## Kiến trúc
 
 - `index.html`: toàn bộ trang một file; nội dung tĩnh (hero, quy trình, FAQ, footer), `<head>` có SEO và JSON-LD. Các danh sách động chỉ có khung rỗng (`#topic-list`, `#lib-list`, `#plans`, `#zalo-list`, `#stats`), JS đổ dữ liệu vào.
-- `assets/js/config.js`: **nơi duy nhất thay thông tin đơn vị**: SĐT, email, Zalo, nhóm Zalo, gói học phí, `registerEndpoint`. Mọi giá trị hiện tại là **mẫu**. HTML nhận giá trị qua thuộc tính `data-cfg`, `data-cfg-tel`, `data-cfg-mail`, `data-cfg-href`.
+- `assets/js/config.js`: **nơi duy nhất thay thông tin đơn vị**: SĐT, email, Zalo, nhóm Zalo, gói học phí, `registerEndpoint`. Thông tin liên hệ, nhóm Zalo và 2 gói học phí đã là số thật của đơn vị (cập nhật 11/2026); `registerEndpoint` để trống nên form gửi qua Zalo. HTML nhận giá trị qua thuộc tính `data-cfg`, `data-cfg-tel`, `data-cfg-mail`, `data-cfg-href`.
 - `assets/js/data.js`: đề tài đồ án, thư viện (công thức/Excel/bài viết), và các hàm máy tính nhanh (`calcs`). Thêm phần tử vào mảng là trang, bộ lọc và số liệu thống kê tự cập nhật.
 - `assets/js/main.js`: toàn bộ tương tác. Phần trình mô phỏng (`Plan`, `initSim`, `initHero`) dựng mặt bằng bằng **hàm thuần trả chuỗi SVG** (`renderCad`, `renderSim`, `compose`), dùng chung cho hero, khung tương tác và tải PNG (SVG → canvas), nên chỉnh hình học ở một chỗ (`ROOMS`, `EXITS`, `FIRE`). Người thoát nạn sinh bằng PRNG có seed cố định nên kết quả (RSET, CSV) lặp lại được. Các số RSET/ASET chỉ để minh họa, không phải tính toán công trình thật.
 - `assets/css/styles.css`: token màu/khoảng cách ở `:root`; lớp `.js` trên `<html>` do JS thêm, hiệu ứng `.reveal` chỉ ẩn khi có `.js`.

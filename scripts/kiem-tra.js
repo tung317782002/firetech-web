@@ -55,10 +55,13 @@ async function interactions(browser) {
   // Nội dung được dựng
   ok((await page.locator(".topic").count()) === 9, "9 đề tài hiển thị");
   ok((await page.locator(".doc").count()) === 13, "13 tài liệu hiển thị");
-  ok((await page.locator(".plan").count()) === 3, "3 gói học phí");
-  ok((await page.locator(".zalo-card").count()) === 3, "3 nhóm Zalo");
+  ok((await page.locator(".plan").count()) === 2, "2 gói học phí");
+  ok((await page.locator(".plan").first().innerText()).includes("10.000.000"), "gói PyroSim + Pathfinder giá 10.000.000 ₫");
+  ok((await page.locator(".plan").nth(1).innerText()).includes("5.000.000"), "gói FDS giá 5.000.000 ₫");
+  ok((await page.locator(".zalo-card").count()) === 1, "1 nhóm Zalo");
+  ok((await page.locator("#zalo-list a").first().getAttribute("href")) === "https://zalo.me/g/lvhvkq842", "link nhóm Zalo thật");
   ok((await page.locator("#hero-plan svg").count()) === 1, "hero có hình mô phỏng");
-  ok((await page.locator('a[href^="tel:"]').first().getAttribute("href")) === "tel:+84900000000", "liên kết gọi điện đúng");
+  ok((await page.locator('a[href^="tel:"]').first().getAttribute("href")) === "tel:+84387582114", "liên kết gọi điện đúng");
 
   // Menu: ở desktop không có hamburger
   ok(!(await page.locator("#menu-btn").isVisible()), "desktop ẩn nút menu");
@@ -221,7 +224,7 @@ async function interactions(browser) {
   // ---- Form đăng ký
   await page.locator(".plan.hot").getByRole("button", { name: /Đăng ký gói này/ }).click();
   await page.waitForTimeout(700);
-  ok((await page.locator("#f-course").inputValue()) === "combo", "chọn gói Combo điền sẵn khóa học");
+  ok((await page.locator("#f-course").inputValue()) === "pyrosim-pathfinder", "chọn gói nổi bật điền sẵn khóa học");
   await page.locator("#reg-submit").click();
   ok((await page.locator("#e-name").innerText()).length > 0, "thiếu tên báo lỗi");
   await page.fill("#f-name", "Nguyễn Văn A");
@@ -232,7 +235,7 @@ async function interactions(browser) {
   await page.locator("#reg-submit").click();
   ok(await page.locator("#reg-done").isVisible(), "form hợp lệ hiện nội dung đã chuẩn bị");
   const msg = await page.locator("#reg-msg").inputValue();
-  ok(msg.includes("Nguyễn Văn A") && msg.includes("0912345678") && msg.includes("Combo"), "nội dung đăng ký đầy đủ");
+  ok(msg.includes("Nguyễn Văn A") && msg.includes("0912345678") && msg.includes("PyroSim + Pathfinder"), "nội dung đăng ký đầy đủ");
   ok((await page.locator("#reg-done-text").innerText()).includes("chưa được gửi"), "nói rõ thông tin chưa được gửi đi");
   await page.locator("#reg-again").click();
   ok(await page.locator("#reg-form").isVisible(), "nhập lại hiện lại form");

@@ -3,7 +3,7 @@ firetech.edu.vn - Nền tảng đào tạo & tư vấn mô phỏng cháy, thoát
 
 ## Trước khi công bố
 
-Số điện thoại, email, liên kết Zalo, link nhóm Zalo, giá/lịch học và `registerEndpoint` trong `assets/js/config.js` hiện là **giá trị mẫu**. Chạy lệnh sau để biết còn mục nào chưa thay (thoát mã 1 nếu còn):
+Thông tin liên hệ, nhóm Zalo và học phí nằm trong `assets/js/config.js`. Chạy lệnh sau để kiểm tra còn giá trị mẫu nào chưa thay (thoát mã 1 nếu còn; `registerEndpoint` trống chỉ là lưu ý):
 
 ```bash
 node scripts/kiem-config.js

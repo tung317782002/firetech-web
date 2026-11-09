@@ -1,7 +1,7 @@
 /*
  * Kiểm tra assets/js/config.js còn giá trị mẫu hay không, trước khi công bố trang.
  * Chạy:  node scripts/kiem-config.js [đường-dẫn-config.js]
- * Thoát mã 1 nếu còn giá trị mẫu, mã 0 nếu đã thay hết. Không cần trình duyệt hay server.
+ * Thoát mã 1 nếu còn giá trị mẫu, mã 0 nếu đã thay hết (registerEndpoint trống chỉ là lưu ý, không làm lỗi). Không cần trình duyệt hay server.
  */
 const fs = require("fs");
 const path = require("path");
@@ -21,10 +21,11 @@ if (/zalo\.me\/0900000000/.test(c.zalo || "")) { todo.push("contact.zalo: liên 
 (cfg.zaloGroups || []).forEach((g, i) => {
   if (/thay-ma-nhom/.test(g.url || "")) { todo.push(`zaloGroups[${i}].url: link nhóm "${g.name}" còn là mẫu (${g.url})`); }
 });
-if (!cfg.registerEndpoint) { todo.push("registerEndpoint: chưa có địa chỉ nhận đăng ký, form chỉ chuẩn bị nội dung để gửi qua Zalo/email"); }
+const notes = [];
+if (!cfg.registerEndpoint) { notes.push("registerEndpoint để trống: form chuẩn bị nội dung để học viên gửi qua Zalo/email (không lưu đăng ký trên máy chủ)."); }
 
+if (notes.length) { console.log("Lưu ý:"); notes.forEach((n) => console.log("  - " + n)); }
 if (todo.length === 0) { console.log("Cấu hình đã thay hết giá trị mẫu."); process.exit(0); }
 console.log(`Còn ${todo.length} mục cần thay trong ${path.relative(process.cwd(), file)}:`);
 todo.forEach((t) => console.log("  - " + t));
-console.log("\nGiá học phí, lịch học trong plans[] cũng là mẫu, hãy rà lại thủ công.");
 process.exit(1);
