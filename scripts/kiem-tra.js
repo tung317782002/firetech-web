@@ -84,7 +84,7 @@ async function interactions(browser) {
   // Sao chép đề tài
   await ctx.grantPermissions(["clipboard-read", "clipboard-write"]).catch(() => {});
   await page.locator(".topic").first().getByRole("button", { name: "Sao chép gợi ý" }).click();
-  await page.waitForSelector("#toast.show", { timeout: 3000 });
+  await page.waitForSelector("[data-sonner-toast], #toast.show", { timeout: 3000 });
   ok(true, "hiện thông báo sau khi sao chép đề tài");
 
   // Thư viện: lọc/tìm
@@ -125,13 +125,16 @@ async function interactions(browser) {
 
   // Bài viết
   await page.locator(".doc", { hasText: "Chọn kích thước ô lưới FDS" }).getByRole("button", { name: /Đọc bài viết/ }).click();
-  ok(await page.locator("#article-dialog").evaluate((d) => d.open), "mở bài viết trong dialog");
+  await page.locator('[role="dialog"], dialog[open]').first().waitFor({ state: "visible", timeout: 3000 });
+  ok(true, "mở bài viết trong dialog");
   ok((await page.locator("#article-body p").count()) >= 3, "bài viết có nội dung");
   await page.keyboard.press("Escape");
-  ok(!(await page.locator("#article-dialog").evaluate((d) => d.open)), "Escape đóng dialog");
-  await page.locator(".doc", { hasText: "RSET gồm những gì" }).getByRole("button", { name: /Đọc bài viết/ }).click();
-  await page.locator("#article-close").click();
-  ok(!(await page.locator("#article-dialog").evaluate((d) => d.open)), "nút đóng dialog hoạt động");
+  await page.locator('[role="dialog"], dialog[open]').first().waitFor({ state: "detached", timeout: 3000 });
+  ok(true, "Escape đóng dialog");
+  await page.locator(".doc", { hasText: "RSET gồm những thành phần nào" }).getByRole("button", { name: /Đọc bài viết/ }).click();
+  await page.locator('#article-close, [role="dialog"] button:has-text("Đóng")').first().click();
+  await page.locator('[role="dialog"], dialog[open]').first().waitFor({ state: "detached", timeout: 3000 });
+  ok(true, "nút đóng dialog hoạt động");
 
   // ---- Trình mô phỏng
   await page.locator("#mo-phong").scrollIntoViewIfNeeded();
