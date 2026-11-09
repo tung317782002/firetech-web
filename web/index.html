@@ -1,13 +1,98 @@
 <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>web</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FireTech – Học mô phỏng cháy và thoát nạn: PyroSim, FDS, Pathfinder</title>
+  <meta name="description" content="Nền tảng học PyroSim, FDS và Pathfinder cho sinh viên PCCC và Kiến trúc: đề tài đồ án gợi ý, thư viện công thức và bảng tính Excel miễn phí, trình mô phỏng trực quan, khóa học và nhóm Zalo gỡ lỗi.">
+  <meta name="theme-color" content="#10131c">
+  <link rel="canonical" href="https://firetech.edu.vn/">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 32 32%22%3E%3Crect width=%2232%22 height=%2232%22 rx=%228%22 fill=%22%230b1020%22/%3E%3Cpath d=%22M16 5c1.5 4.2 6 6.6 6 12a6 6 0 0 1-12 0c0-2.2 1-3.6 2-4.8.3 1.6 1.2 2.4 2 2.8C13.2 11.6 14 8.2 16 5z%22 fill=%22%23ff5a1f%22/%3E%3Cpath d=%22M16 15c.9 1.7 2.8 2.6 2.8 4.7a2.8 2.8 0 0 1-5.6 0c0-1.2.7-2 1.2-2.6.3.7.8 1 1.2 1.2-.1-1.4.1-2.6.4-3.3z%22 fill=%22%23ffd166%22/%3E%3C/svg%3E" type="image/svg+xml">
+
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="vi_VN">
+  <meta property="og:site_name" content="FireTech">
+  <meta property="og:title" content="FireTech – Học mô phỏng cháy và thoát nạn: PyroSim, FDS, Pathfinder">
+  <meta property="og:description" content="Đề tài đồ án gợi ý, thư viện công thức và bảng tính Excel miễn phí, trình mô phỏng trực quan và khóa học PyroSim, FDS, Pathfinder.">
+  <meta property="og:url" content="https://firetech.edu.vn/">
+  <meta property="og:image" content="https://firetech.edu.vn/assets/img/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Mô hình mặt bằng so sánh bản vẽ CAD thô và mô phỏng cháy, thoát nạn">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="FireTech – Học mô phỏng cháy và thoát nạn">
+  <meta name="twitter:description" content="PyroSim, FDS, Pathfinder cho sinh viên PCCC và Kiến trúc.">
+  <meta name="twitter:image" content="https://firetech.edu.vn/assets/img/og.png">
+
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": "https://firetech.edu.vn/#org",
+        "name": "FireTech",
+        "url": "https://firetech.edu.vn/",
+        "logo": "https://firetech.edu.vn/favicon.svg",
+        "description": "Đào tạo và tư vấn mô phỏng cháy, thoát nạn bằng PyroSim, FDS và Pathfinder theo QCVN 06, NFPA.",
+        "email": "firetech.ec@gmail.com",
+        "contactPoint": { "@type": "ContactPoint", "telephone": "+84387582114", "contactType": "customer service", "availableLanguage": "vi" }
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Trang chủ", "item": "https://firetech.edu.vn/" }
+        ]
+      },
+      {
+        "@type": "Course",
+        "name": "PyroSim + Pathfinder: mô phỏng cháy và thoát nạn",
+        "description": "10 buổi: dựng mô hình từ CAD/Revit, thiết lập kịch bản cháy, mô phỏng thoát nạn và tính RSET.",
+        "provider": { "@id": "https://firetech.edu.vn/#org" },
+        "inLanguage": "vi",
+        "offers": { "@type": "Offer", "price": "10000000", "priceCurrency": "VND" }
+      },
+      {
+        "@type": "Course",
+        "name": "FDS + Edit video + Xuất báo cáo mô phỏng",
+        "description": "5 buổi: chạy FDS, đọc kết quả bằng Smokeview, dựng video kết quả và xuất báo cáo mô phỏng.",
+        "provider": { "@id": "https://firetech.edu.vn/#org" },
+        "inLanguage": "vi",
+        "offers": { "@type": "Offer", "price": "5000000", "priceCurrency": "VND" }
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Máy tính cần cấu hình thế nào để chạy FDS?",
+            "acceptedAnswer": { "@type": "Answer", "text": "FDS chạy tốt hơn với CPU nhiều nhân và RAM lớn. Với đồ án, nên có tối thiểu 16 GB RAM. Khóa học hướng dẫn chọn lưới để mô hình chạy được trên laptop." }
+          },
+          {
+            "@type": "Question",
+            "name": "Phần mềm có bản quyền không?",
+            "acceptedAnswer": { "@type": "Answer", "text": "FDS và Smokeview là phần mềm miễn phí của NIST. PyroSim và Pathfinder là phần mềm thương mại của Thunderhead Engineering. Khóa học hướng dẫn đăng ký bản dùng thử hoặc bản giáo dục theo chính sách của nhà phát hành." }
+          },
+          {
+            "@type": "Question",
+            "name": "Chưa biết gì về PCCC thì có học được không?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Được. Khóa học đi từ khái niệm cơ bản như HRR, ASET, RSET đến thao tác phần mềm, và có bài viết trong thư viện để đọc trước." }
+          },
+          {
+            "@type": "Question",
+            "name": "Tài liệu trong thư viện có miễn phí không?",
+            "acceptedAnswer": { "@type": "Answer", "text": "Có. Công thức, bảng tính Excel và bài viết trong thư viện đều tải và sử dụng miễn phí." }
+          }
+        ]
+      }
+    ]
+  }
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+  <noscript>Trang cần bật JavaScript để hiển thị nội dung. Liên hệ: firetech.ec@gmail.com.</noscript>
+  <script type="module" src="/src/main.tsx"></script>
+</body>
 </html>

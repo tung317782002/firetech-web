@@ -4,56 +4,81 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
+    /* Bảng màu: giấy ấm, mực, cam lửa (cháy), xanh ngọc (thoát nạn) */
+    --paper: 40 33% 94%;
+    --ink: 224 27% 9%;
+    --ember: 16 82% 49%;
+    --ember-dark: 16 85% 40%;
+    --ember-soft: 20 90% 92%;
+    --teal: 165 80% 31%;
+    --teal-soft: 160 45% 90%;
+
+    --background: var(--paper);
+    --foreground: var(--ink);
+    --card: 42 45% 98%;
+    --card-foreground: var(--ink);
+    --popover: 42 45% 98%;
+    --popover-foreground: var(--ink);
+    --primary: var(--ink);
+    --primary-foreground: 40 33% 96%;
+    --secondary: 40 25% 89%;
+    --secondary-foreground: var(--ink);
+    --muted: 40 25% 89%;
+    --muted-foreground: 222 14% 34%;
+    --accent: var(--ember-soft);
+    --accent-foreground: var(--ink);
+    --destructive: 356 72% 42%;
     --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --radius: 0.5rem;
+    --border: 40 16% 80%;
+    --input: 40 16% 72%;
+    --ring: 16 82% 49%;
+    --radius: 0.625rem;
   }
 
-  .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-  }
-}
-
-@layer base {
   * {
     @apply border-border;
   }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+  }
+
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background font-sans text-foreground antialiased;
+    overflow-x: hidden;
+    line-height: 1.6;
+  }
+
+  h1, h2, h3 {
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+  }
+
+  :focus-visible {
+    outline: 3px solid hsl(var(--ember));
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { transition-duration: 0.001ms !important; animation-duration: 0.001ms !important; }
+  }
+}
+
+@layer components {
+  /* Vùng chọn phòng trong trình mô phỏng */
+  .hit-room { fill: transparent; stroke: transparent; stroke-width: 4; cursor: pointer; pointer-events: all; }
+  .hit-room:hover { fill: hsl(var(--ember) / 0.1); }
+  .hit-room:focus-visible { outline: none; stroke: hsl(var(--ink)); }
+  .hit-room.sel { stroke: hsl(var(--ink)); fill: hsl(var(--ember) / 0.12); }
+  .hit-badge { pointer-events: none; }
+  /* Tên phòng trong SVG: ẩn ở màn hình nhỏ vì chữ quá bé, đã có danh sách phòng bên dưới */
+  @media (max-width: 480px) { .plan-label { display: none; } }
+
+  /* Khung giữ chỗ cho ảnh và video: nền sọc nhạt, nét đứt */
+  .slot-empty {
+    background-image: repeating-linear-gradient(135deg, hsl(var(--ink) / 0.035) 0 10px, transparent 10px 20px);
   }
 }

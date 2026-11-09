@@ -7,7 +7,15 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['"Be Vietnam Pro"', '"Segoe UI"', "system-ui", "-apple-system", "Roboto", "Arial", "sans-serif"],
+        mono: ["ui-monospace", "SFMono-Regular", "Menlo", "Consolas", "monospace"],
+      },
       colors: {
+        ink: "hsl(var(--ink))",
+        paper: "hsl(var(--paper))",
+        ember: { DEFAULT: "hsl(var(--ember))", dark: "hsl(var(--ember-dark))", soft: "hsl(var(--ember-soft))" },
+        teal: { DEFAULT: "hsl(var(--teal))", soft: "hsl(var(--teal-soft))" },
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
