@@ -10,3 +10,14 @@ node scripts/kiem-config.js
 ```
 
 Chạy site: `python3 -m http.server 8080`. Kiểm thử giao diện: `node scripts/kiem-tra.js`.
+
+## Bản React (`web/`)
+
+Bản dựng lại bằng React + TypeScript + Tailwind + shadcn/ui, đóng gói thành một file HTML. Bản tĩnh ở gốc repo vẫn giữ làm dự phòng.
+
+```bash
+cd web && pnpm install && pnpm bundle      # tạo web/bundle.html
+pnpm kiem-so-lieu && pnpm kiem-cau-hinh   # số liệu mô phỏng, giá trị mẫu và vị trí ảnh/video còn trống
+```
+
+Thông tin liên hệ và học phí: `web/src/data/config.ts`. Chữ trên trang: `web/src/content/copy.ts`. Thêm ảnh, video: `web/MEDIA.md`.

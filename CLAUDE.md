@@ -21,7 +21,7 @@ Hai phần đăng ký khoá học và tra cứu thư viện cần backend hoặc
 
 ## Stack và lệnh
 
-Site **tĩnh thuần HTML/CSS/JS**, không có bước build, không package manager, không phụ thuộc mạng ngoài (font hệ thống, không CDN). Giữ như vậy trừ khi chủ dự án yêu cầu đổi stack (khi đó phải chuyển đủ SEO/meta bên dưới).
+Repo có **hai bản** của cùng một trang: bản **tĩnh thuần HTML/CSS/JS ở gốc repo** (không build, không package manager, không phụ thuộc mạng ngoài, mô tả ngay dưới đây) và bản **React trong `web/`** (xem mục "Bản React trong web/"). Bản tĩnh giữ làm dự phòng cho đến khi chủ dự án quyết định thay bằng bản React; cả hai phải giữ đủ SEO/meta bên dưới.
 
 ```bash
 python3 -m http.server 8080          # chạy site tại http://localhost:8080
@@ -43,6 +43,29 @@ node scripts/kiem-config.js         # liệt kê giá trị mẫu còn lại tro
 - Form đăng ký không có backend. Nếu `registerEndpoint` rỗng, form chỉ chuẩn bị nội dung để gửi qua Zalo/email và **nói rõ chưa gửi**. Đừng đổi thành thông báo "đã gửi" khi chưa có endpoint.
 
 Khi thêm tài liệu Excel/bài viết, nhớ khớp nội dung JSON-LD `FAQPage`/`Course` trong `index.html` (viết tay, không tự sinh từ `data.js`).
+
+## Bản React trong `web/`
+
+Dựng bằng skill `web-artifacts-builder`: React 19, TypeScript, Vite, Tailwind 3.4, shadcn/ui; đóng gói bằng Parcel thành **một file `web/bundle.html`** (không commit: `bundle.html`, `dist/`, `.parcel-cache/`, `node_modules/` nằm trong `web/.gitignore`).
+
+```bash
+cd web && pnpm install
+pnpm dev                              # chạy thử với Vite
+pnpm exec tsc -b && pnpm lint         # kiểm tra kiểu và lint (cảnh báo trong src/components/ui/ là của mẫu shadcn)
+pnpm bundle                           # ra web/bundle.html (một file: CSS, JS, font woff2 đã nhúng)
+pnpm kiem-so-lieu                     # số liệu mô phỏng và máy tính nhanh phải trùng bản tĩnh (RSET 99 s, ASET 201 s, D* = 0,959 m)
+pnpm kiem-cau-hinh                    # giá trị mẫu còn lại trong config.ts (mã 1) và vị trí media còn trống (chỉ lưu ý)
+node scripts/kiem-tra.js http://localhost:8080/web/bundle.html   # bộ kiểm thử Playwright, chạy từ gốc repo, cần server tĩnh (python3 -m http.server 8080)
+```
+
+- `src/data/config.ts`: nơi duy nhất thay SĐT, email, Zalo, nhóm Zalo, gói học phí, `registerEndpoint` (cùng nội dung với `assets/js/config.js` của bản tĩnh; sửa cả hai khi đổi thông tin liên hệ hoặc giá).
+- `src/content/copy.ts`: **toàn bộ tiêu đề, đoạn dẫn, nhãn nút** ở một chỗ. Giọng học thuật, chính xác; không dùng câu khoa trương; giữ nguyên thuật ngữ. `index.html` (title, description, JSON-LD) phải khớp với nội dung hiển thị.
+- `src/data/topics.ts`, `library.ts`, `calcs.ts`: đề tài, thư viện, máy tính nhanh. `src/data/files.ts` là file **tự sinh** (4 bảng tính `.xlsx` dạng base64): chạy `node scripts/dong-goi-xlsx.mjs` sau khi sửa file trong `assets/downloads/`.
+- `src/lib/plan.ts`: mô hình mặt bằng (hàm thuần trả chuỗi SVG, PRNG seed 7), chuyển nguyên từ bản tĩnh; đừng đổi hình học mà không chạy `pnpm kiem-so-lieu`.
+- **Vị trí ảnh/video** nằm hết trong `src/data/media.ts` (28 vị trí, để trống), hiển thị qua `MediaSlot`: `src` trống thì hiện khung giữ chỗ đúng tỉ lệ. Quy cách và cách thêm: `web/MEDIA.md`. Thêm vị trí mới thì khai báo ở `media.ts` rồi gắn `<MediaSlot id="..." />`.
+- `scripts/dong-goi.mjs` thay bước `html-inline` của script mẫu: `html-inline` làm hỏng thẻ `canonical` và không nhúng font. Giữ nguyên các thẻ `<link>` SEO và favicon dạng data URI trong `web/index.html` (Parcel không resolve `/favicon.svg`).
+- Bộ kiểm thử dùng các móc giao diện cố định: `#sim-stage`, `#sim-handle` (`role="slider"`), `.hit-room[data-room]`, `.room-btn[data-room]`, `#sim-time`, `#sim-play`, `#layer-*`, `#sim-reset/png/csv`, `#lib-*`, `.doc`, `.topic`, `.plan`/`.plan.hot`, `#f-*`, `#reg-*`. Đổi tên các móc này thì phải sửa `scripts/kiem-tra.js`.
+- Dùng TypeScript 7 nên **không có `baseUrl`** trong tsconfig; Parcel cần `"@parcel/resolver-default": { "packageExports": true }` trong `package.json` để đọc các gói Radix.
 
 ## Quy tắc frontend
 
