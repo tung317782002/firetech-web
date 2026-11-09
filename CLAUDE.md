@@ -27,6 +27,7 @@ Site **tĩnh thuần HTML/CSS/JS**, không có bước build, không package man
 python3 -m http.server 8080          # chạy site tại http://localhost:8080
 node scripts/kiem-tra.js             # kiểm thử Playwright (cần server đang chạy); thoát mã 1 nếu có lỗi
 node scripts/kiem-tra.js http://localhost:8080/index.html /đường/dẫn/lưu/ảnh   # kèm ảnh chụp từng cỡ màn hình
+node scripts/kiem-config.js         # liệt kê giá trị mẫu còn lại trong config.js (mã 1 nếu còn); chạy trước khi công bố
 ```
 
 `kiem-tra.js` chạy 100+ kiểm tra: 0 lỗi console/pageerror/request lỗi, không cuộn ngang ở 320–1440px, kéo thả/phím/click phòng/đặt lại/tải PNG-CSV-xlsx, bộ lọc, máy tính nhanh, dialog, form, SEO. Không có lệnh chạy riêng một test: sửa/comment phần liên quan trong file. Không có lint.
