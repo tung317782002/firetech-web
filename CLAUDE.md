@@ -8,6 +8,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Đối tượng là kỹ sư PCCC, tư vấn thiết kế, thẩm duyệt. Nội dung chủ yếu bằng tiếng Việt, nên giữ đúng thuật ngữ chuyên ngành: tên phần mềm (PyroSim, FDS, Pathfinder), mã tiêu chuẩn (QCVN 06:2022/BXD, NFPA 101/92…), và các khái niệm như HRR, ASET/RSET, tầm nhìn, nồng độ CO, nhiệt độ lớp khói. Không dịch các tên này hay viết khác đi.
 
+## Phạm vi chức năng (định hướng của chủ dự án)
+
+Website của công ty về ứng dụng và sử dụng phần mềm mô phỏng cháy, thoát nạn. Có bốn nhóm chức năng chính:
+
+1. **Thao tác trực tiếp với phần mềm**: người dùng tương tác ngay trên web (demo, mô phỏng hoặc trình xem kết quả). PyroSim, Pathfinder và FDS là phần mềm desktop, không chạy được trong trình duyệt. Vì vậy trước khi thiết kế phần này phải hỏi người dùng muốn làm dạng nào: video/hướng dẫn tương tác, trình xem kết quả (ví dụ dữ liệu xuất từ Smokeview/Pathfinder), công cụ tính nhanh (HRR, ASET/RSET…) hay truy cập máy ảo/phần mềm từ xa.
+2. **Thông tin sản phẩm**: các trang giới thiệu PyroSim, Pathfinder, FDS và dịch vụ tư vấn, có theo dõi thông tin/phiên bản sản phẩm.
+3. **Đăng ký khoá học**: danh mục khoá học, lịch học, form đăng ký (dùng JSON-LD `Course` cho trang khoá học).
+4. **Tra cứu thư viện**: tài liệu, tiêu chuẩn, mô hình mẫu và vật liệu, có tìm kiếm và lọc.
+
+Hai phần đăng ký khoá học và tra cứu thư viện cần backend hoặc CMS (lưu đăng ký, quản lý tài liệu). Chọn stack phải tính đến điều này.
+
 ## Trạng thái repo
 
 Khi tạo file này (11/2026), repo mới chỉ có `README.md`: chưa chọn framework, chưa có package manager, chưa có lệnh build/lint/test. Khi có stack, hãy **bổ sung vào file này**: lệnh dev/build/lint/test (kể cả cách chạy một test), cấu trúc thư mục chính và nơi khai báo SEO/meta. Đừng giả định có lệnh nào mà repo chưa có.
