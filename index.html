@@ -36,7 +36,9 @@
         "name": "FireTech",
         "url": "https://firetech.edu.vn/",
         "logo": "https://firetech.edu.vn/favicon.svg",
-        "description": "Đào tạo và tư vấn mô phỏng cháy, thoát nạn bằng PyroSim, FDS và Pathfinder theo QCVN 06, NFPA."
+        "description": "Đào tạo và tư vấn mô phỏng cháy, thoát nạn bằng PyroSim, FDS và Pathfinder theo QCVN 06, NFPA.",
+        "email": "firetech.ec@gmail.com",
+        "contactPoint": { "@type": "ContactPoint", "telephone": "+84387582114", "contactType": "customer service", "availableLanguage": "vi" }
       },
       {
         "@type": "BreadcrumbList",
@@ -46,17 +48,19 @@
       },
       {
         "@type": "Course",
-        "name": "PyroSim + FDS: mô phỏng cháy, khói và nhiệt",
-        "description": "Dựng mô hình từ CAD/Revit, thiết lập đám cháy, chọn lưới theo D*/dx và đọc kết quả bằng Smokeview.",
+        "name": "PyroSim + Pathfinder: mô phỏng cháy và thoát nạn",
+        "description": "10 buổi: dựng mô hình từ CAD/Revit, thiết lập kịch bản cháy, mô phỏng thoát nạn và tính RSET.",
         "provider": { "@id": "https://firetech.edu.vn/#org" },
-        "inLanguage": "vi"
+        "inLanguage": "vi",
+        "offers": { "@type": "Offer", "price": "10000000", "priceCurrency": "VND" }
       },
       {
         "@type": "Course",
-        "name": "Pathfinder: mô phỏng thoát nạn và tính RSET",
-        "description": "Nhập hình học, cấu hình hồ sơ người, chế độ SFPE và Steering, tính RSET và đọc biểu đồ dòng người.",
+        "name": "FDS + Edit video + Xuất báo cáo mô phỏng",
+        "description": "5 buổi: chạy FDS, đọc kết quả bằng Smokeview, dựng video kết quả và xuất báo cáo mô phỏng.",
         "provider": { "@id": "https://firetech.edu.vn/#org" },
-        "inLanguage": "vi"
+        "inLanguage": "vi",
+        "offers": { "@type": "Offer", "price": "5000000", "priceCurrency": "VND" }
       },
       {
         "@type": "FAQPage",
@@ -109,9 +113,9 @@
         <a href="#thu-vien">Thư viện</a>
         <a href="#hoc-phi">Học phí</a>
         <a href="#zalo">Zalo</a>
-        <a class="nav-phone" data-cfg-tel href="tel:+84900000000">
+        <a class="nav-phone" data-cfg-tel href="tel:+84387582114">
           <svg width="16" height="16" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 11.4 11.4 0 0 0 3.6.57 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1c0 1.25.2 2.45.57 3.6a1 1 0 0 1-.25 1z"/></svg>
-          <span data-cfg="contact.phoneDisplay">0900 000 000</span>
+          <span data-cfg="contact.phoneDisplay">0387 582 114</span>
         </a>
       </nav>
 
@@ -344,7 +348,7 @@
       <div class="container">
         <header class="section-head center reveal">
           <h2 id="hp-title">Học phí rõ ràng, chọn đúng phần bạn cần</h2>
-          <p>Chọn gói lẻ cho từng phần mềm hoặc combo cho đồ án trọn gói. Học phí có thể thay đổi, liên hệ để biết ưu đãi sinh viên.</p>
+          <p>Gói PyroSim + Pathfinder để dựng mô hình và tính thoát nạn, gói FDS + Edit video + Xuất báo cáo để hoàn thiện đồ án. Học phí có thể thay đổi, liên hệ để được tư vấn lịch học.</p>
         </header>
         <div class="plans" id="plans"></div>
       </div>
@@ -355,9 +359,9 @@
       <div class="container">
         <header class="section-head center reveal">
           <h2 id="zl-title">Mắc lỗi? Hỏi trong nhóm Zalo.</h2>
-          <p>Gửi file mô hình, ảnh lỗi và log chạy để được hỗ trợ gỡ lỗi. Chọn nhóm phù hợp với vấn đề của bạn.</p>
+          <p>Gửi file mô hình, ảnh lỗi và log chạy vào nhóm để được hỗ trợ gỡ lỗi và trao đổi cùng các học viên khác.</p>
         </header>
-        <div class="grid-3" id="zalo-list"></div>
+        <div class="zalo-grid" id="zalo-list"></div>
       </div>
     </section>
 
@@ -368,9 +372,9 @@
           <h2 id="dk-title">Sẵn sàng bắt đầu đồ án?</h2>
           <p>Để lại thông tin, chúng tôi sẽ tư vấn khóa học phù hợp với đề tài và kế hoạch của bạn. Bạn cũng có thể gọi hoặc nhắn Zalo trực tiếp.</p>
           <div class="reg-contact">
-            <a class="contact-line" data-cfg-tel href="tel:+84900000000"><span class="ic" aria-hidden="true">☎</span><span><strong data-cfg="contact.phoneDisplay">0900 000 000</strong><small>Gọi tư vấn</small></span></a>
-            <a class="contact-line" data-cfg-href="contact.zalo" href="https://zalo.me/0900000000" target="_blank" rel="noopener noreferrer"><span class="ic" aria-hidden="true">Z</span><span><strong>Nhắn Zalo</strong><small>Phản hồi trong giờ hành chính</small></span></a>
-            <a class="contact-line" data-cfg-mail href="mailto:lienhe@firetech.edu.vn"><span class="ic" aria-hidden="true">@</span><span><strong data-cfg="contact.email">lienhe@firetech.edu.vn</strong><small>Gửi email</small></span></a>
+            <a class="contact-line" data-cfg-tel href="tel:+84387582114"><span class="ic" aria-hidden="true">☎</span><span><strong data-cfg="contact.phoneDisplay">0387 582 114</strong><small>Gọi tư vấn</small></span></a>
+            <a class="contact-line" data-cfg-href="contact.zalo" href="https://zalo.me/0387582114" target="_blank" rel="noopener noreferrer"><span class="ic" aria-hidden="true">Z</span><span><strong>Nhắn Zalo</strong><small>Phản hồi trong giờ hành chính</small></span></a>
+            <a class="contact-line" data-cfg-mail href="mailto:firetech.ec@gmail.com"><span class="ic" aria-hidden="true">@</span><span><strong data-cfg="contact.email">firetech.ec@gmail.com</strong><small>Gửi email</small></span></a>
           </div>
         </div>
 
@@ -459,8 +463,8 @@
       </nav>
       <div>
         <h2 class="footer-h">Liên hệ</h2>
-        <a data-cfg-tel href="tel:+84900000000"><span data-cfg="contact.phoneDisplay">0900 000 000</span></a>
-        <a data-cfg-mail href="mailto:lienhe@firetech.edu.vn"><span data-cfg="contact.email">lienhe@firetech.edu.vn</span></a>
+        <a data-cfg-tel href="tel:+84387582114"><span data-cfg="contact.phoneDisplay">0387 582 114</span></a>
+        <a data-cfg-mail href="mailto:firetech.ec@gmail.com"><span data-cfg="contact.email">firetech.ec@gmail.com</span></a>
       </div>
     </div>
     <div class="container footer-bottom">

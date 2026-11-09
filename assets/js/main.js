@@ -220,7 +220,7 @@
           el("p", { class: "std", text: "Tiêu chuẩn: " + t.standards }),
           el("div", { class: "topic-actions" }, [
             el("button", { type: "button", class: "btn btn-ghost btn-sm", text: "Sao chép gợi ý", onclick: function () { copyWithToast(topicText(t)); } }),
-            el("button", { type: "button", class: "btn btn-ink btn-sm", text: "Học để làm đề tài này", onclick: function () { goRegister("combo", "Quan tâm đề tài: " + t.title); } })
+            el("button", { type: "button", class: "btn btn-ink btn-sm", text: "Học để làm đề tài này", onclick: function () { goRegister(CFG.plans[0].id, "Quan tâm đề tài: " + t.title); } })
           ])
         ]));
       });
@@ -404,16 +404,14 @@
     var box = $("#plans");
     if (!box) { return; }
     var plans = CFG.plans;
-    var singles = plans.filter(function (p) { return p.id !== "combo"; });
+    box.setAttribute("data-count", String(plans.length));
     plans.forEach(function (p) {
-      var hot = p.id === "combo";
-      var saving = hot ? singles.reduce(function (s, x) { return s + x.price; }, 0) - p.price : 0;
+      var hot = !!p.featured;
       box.appendChild(el("article", { class: "plan" + (hot ? " hot" : "") }, [
         hot && p.badge ? el("span", { class: "plan-badge", text: p.badge }) : null,
         el("h3", { text: p.name }),
         el("p", { class: "tagline", text: p.tagline }),
         el("p", { class: "price" }, [fmtVND(p.price), " ", el("small", { text: "/ khóa" })]),
-        saving > 0 ? el("span", { class: "save", text: "Tiết kiệm " + fmtVND(saving) }) : null,
         el("p", { class: "sched", text: p.schedule }),
         el("ul", { class: "ticks" }, p.features.map(function (f) { return el("li", { text: f }); })),
         el("button", { type: "button", class: "btn " + (hot ? "btn-ember" : "btn-ink"), text: "Đăng ký gói này", onclick: function () { goRegister(p.id); } })
@@ -427,6 +425,7 @@
   function initZalo() {
     var box = $("#zalo-list");
     if (!box) { return; }
+    box.setAttribute("data-count", String(CFG.zaloGroups.length));
     CFG.zaloGroups.forEach(function (g) {
       box.appendChild(el("article", { class: "zalo-card reveal" }, [
         el("span", { class: "zi", "aria-hidden": "true", text: "Z" }),

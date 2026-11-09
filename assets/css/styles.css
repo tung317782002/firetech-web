@@ -301,21 +301,23 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .stat dt { margin-top: 8px; color: #b6bedb; font-weight: 600; }
 
 /* ------------------------------------------------ Học phí */
-.plans { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: stretch; }
-@media (max-width: 960px) { .plans { grid-template-columns: 1fr; max-width: 520px; margin-inline: auto; } }
+.plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 20px; align-items: stretch; }
+.plans[data-count="2"] { max-width: 900px; margin-inline: auto; }
 .plan { position: relative; display: flex; flex-direction: column; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; }
 .plan.hot { border: 2px solid var(--ember); box-shadow: var(--shadow-lg); }
 .plan-badge { position: absolute; top: -14px; left: 24px; background: var(--ember); color: #fff; font-size: .78rem; font-weight: 700; padding: 5px 12px; border-radius: 999px; }
 .plan h3 { font-size: 1.4rem; }
 .plan .tagline { color: var(--muted); margin: 6px 0 18px; font-size: .95rem; }
-.price { font-size: clamp(2rem, 5vw, 2.6rem); font-weight: 800; letter-spacing: -.05em; line-height: 1.1; }
+.price { font-size: clamp(2rem, 5vw, 2.6rem); font-weight: 800; letter-spacing: -.05em; line-height: 1.1; margin: 0; }
 .price small { font-size: .95rem; font-weight: 600; color: var(--muted); letter-spacing: 0; }
-.save { display: inline-block; margin-top: 8px; font-size: .82rem; font-weight: 700; color: #0b7a5b; background: var(--teal-bg); padding: 3px 10px; border-radius: 999px; }
 .plan .sched { margin: 10px 0 18px; color: var(--ink-2); font-weight: 600; font-size: .92rem; }
 .plan .ticks { margin-bottom: 24px; font-size: .94rem; }
 .plan .btn { margin-top: auto; }
 
 /* ------------------------------------------------ Zalo */
+.zalo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 20px; }
+.zalo-grid[data-count="1"] { max-width: 520px; margin-inline: auto; }
+.zalo-grid[data-count="2"] { max-width: 860px; margin-inline: auto; }
 .zalo-card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 26px; display: flex; flex-direction: column; gap: 10px; }
 .zalo-card .zi { width: 44px; height: 44px; border-radius: 12px; background: #0068ff; color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 1.2rem; }
 .zalo-card h3 { font-size: 1.15rem; }
