@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://firetech.edu.vn/sitemap.xml
