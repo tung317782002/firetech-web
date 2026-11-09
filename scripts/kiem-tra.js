@@ -6,7 +6,7 @@
  * kéo thả thanh so sánh, click phòng, thời gian, phát/dừng, đặt lại, tải PNG/CSV/xlsx,
  * bộ lọc đề tài và thư viện, dialog bài viết, form đăng ký.
  */
-const { chromium } = require("playwright");
+const { chromium, devices } = require("playwright");
 const fs = require("fs");
 const path = require("path");
 
@@ -281,12 +281,44 @@ async function mobile(browser) {
   await ctx.close();
 }
 
+async function thietBiCamUng(browser) {
+  console.log("\n== Thiết bị cảm ứng giả lập (sự kiện cảm ứng thật qua CDP)");
+  for (const name of ["iPhone SE", "iPhone 13", "Pixel 5", "Galaxy S9+", "iPad Mini"]) {
+    const ctx = await browser.newContext({ ...devices[name] });
+    const page = await ctx.newPage();
+    const errs = [];
+    page.on("console", (m) => { if (["error", "warning"].includes(m.type())) { errs.push(m.text()); } });
+    page.on("pageerror", (e) => errs.push(e.message));
+    await page.goto(URL, { waitUntil: "load" });
+    const w = await page.evaluate(() => [document.documentElement.scrollWidth, document.documentElement.clientWidth]);
+    ok(w[0] <= w[1], `${name}: không cuộn ngang (${w[0]}/${w[1]})`);
+    await page.locator("#sim-stage").scrollIntoViewIfNeeded();
+    const box = await page.locator("#sim-stage").boundingBox();
+    const hb = await page.locator("#sim-handle").boundingBox();
+    const cdp = await ctx.newCDPSession(page);
+    const touch = (type, x, y) => cdp.send("Input.dispatchTouchEvent", { type, touchPoints: type === "touchEnd" ? [] : [{ x, y }] });
+    const x0 = hb.x + hb.width / 2, y = hb.y + hb.height / 2, x1 = box.x + box.width * 0.75;
+    await touch("touchStart", x0, y);
+    for (let i = 1; i <= 6; i++) { await touch("touchMove", x0 + ((x1 - x0) * i) / 6, y); }
+    await touch("touchEnd");
+    const v = Number(await page.locator("#sim-handle").getAttribute("aria-valuenow"));
+    ok(v >= 65 && v <= 85, `${name}: kéo cảm ứng tay cầm tới ~75% (được ${v})`);
+    await page.waitForTimeout(1500); // Chromium bỏ qua cú chạm sát ngay sau cú kéo
+    await page.locator('.room-btn[data-room="2"]').tap();
+    ok((await page.locator("#sim-info h3").innerText()).includes("Kho"), `${name}: chạm chọn phòng`);
+    ok(errs.length === 0, `${name}: không lỗi console ${errs[0] || ""}`);
+    if (errs.length) { failures.push(`[${name}] ${errs[0]}`); }
+    await ctx.close();
+  }
+}
+
 (async () => {
   const browser = await chromium.launch();
   try {
     for (const [w, h] of [[1440, 900], [1280, 800], [1024, 768], [768, 1024], [480, 900], [414, 800], [375, 740], [360, 740], [320, 640]]) { await layout(browser, w, h); }
     await interactions(browser);
     await mobile(browser);
+    await thietBiCamUng(browser);
   } finally { await browser.close(); }
   console.log(`\n${checks} kiểm tra, ${failures.length} lỗi`);
   if (failures.length) { console.log(failures.map((f) => " - " + f).join("\n")); process.exit(1); }

@@ -30,7 +30,7 @@ node scripts/kiem-tra.js http://localhost:8080/index.html /đường/dẫn/lưu/
 node scripts/kiem-config.js         # liệt kê giá trị mẫu còn lại trong config.js (mã 1 nếu còn); chạy trước khi công bố
 ```
 
-`kiem-tra.js` chạy 100+ kiểm tra: 0 lỗi console/pageerror/request lỗi, không cuộn ngang ở 320–1440px, kéo thả/phím/click phòng/đặt lại/tải PNG-CSV-xlsx, bộ lọc, máy tính nhanh, dialog, form, SEO. Không có lệnh chạy riêng một test: sửa/comment phần liên quan trong file. Không có lint.
+`kiem-tra.js` chạy 120+ kiểm tra (gồm 5 thiết bị cảm ứng giả lập iPhone/Pixel/Galaxy/iPad): 0 lỗi console/pageerror/request lỗi, không cuộn ngang ở 320–1440px, kéo thả/phím/click phòng/đặt lại/tải PNG-CSV-xlsx, bộ lọc, máy tính nhanh, dialog, form, SEO. Không có lệnh chạy riêng một test: sửa/comment phần liên quan trong file. Không có lint.
 
 ## Kiến trúc
 
