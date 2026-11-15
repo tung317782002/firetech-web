@@ -1,0 +1,78 @@
+# Build bản React trong web/ và đăng lên GitHub Pages mỗi lần có commit vào main.
+# Pull request chỉ chạy bước build và kiểm tra, không đăng.
+# Cần bật một lần: Settings → Pages → Build and deployment → Source: GitHub Actions.
+name: Build và đăng web
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+          cache-dependency-path: web/pnpm-lock.yaml
+
+      - name: Cài thư viện
+        working-directory: web
+        run: pnpm install --frozen-lockfile
+
+      - name: Kiểm tra kiểu
+        working-directory: web
+        run: pnpm exec tsc -b
+
+      - name: Kiểm tra số liệu
+        working-directory: web
+        run: pnpm kiem-so-lieu
+
+      - name: Đóng gói thành một file HTML
+        working-directory: web
+        run: pnpm bundle
+
+      - name: Ghép thư mục đăng
+        run: |
+          mkdir -p _site/assets/img
+          cp web/bundle.html _site/index.html
+          cp robots.txt sitemap.xml favicon.svg _site/
+          cp assets/img/og.png _site/assets/img/
+          if [ -d web/public ]; then cp -R web/public/. _site/; fi
+          test -s _site/index.html
+          grep -Eq 'rel="?canonical"? href="?https://firetech.edu.vn/' _site/index.html
+          grep -q 'application/ld+json' _site/index.html
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    if: github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
