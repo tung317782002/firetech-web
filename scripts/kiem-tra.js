@@ -132,7 +132,7 @@ async function interactions(browser) {
   await page.keyboard.press("Escape");
   await page.locator('[role="dialog"], dialog[open]').first().waitFor({ state: "detached", timeout: 3000 });
   ok(true, "Escape đóng dialog");
-  await page.locator(".doc", { hasText: "RSET gồm những thành phần nào" }).getByRole("button", { name: /Đọc bài viết/ }).click();
+  await page.locator(".doc", { hasText: "RSET gồm những" }).getByRole("button", { name: /Đọc bài viết/ }).click();
   await page.locator('#article-close, [role="dialog"] button:has-text("Đóng")').first().click();
   await page.locator('[role="dialog"], dialog[open]').first().waitFor({ state: "detached", timeout: 3000 });
   ok(true, "nút đóng dialog hoạt động");
