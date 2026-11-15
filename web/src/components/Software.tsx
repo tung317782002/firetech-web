@@ -1,5 +1,5 @@
 import { MediaSlot } from "@/components/MediaSlot"
-import { Section, SectionHead } from "@/components/shared"
+import { Section, SectionHead, Tick } from "@/components/shared"
 import { copy } from "@/content/copy"
 import { cn } from "@/lib/utils"
 
@@ -10,23 +10,37 @@ const TONE = {
 } as const
 
 export function Software() {
+  const s = copy.software
   return (
-    <Section id="phan-mem" labelledBy="pm-title" className="border-y border-border bg-secondary/50">
-      <SectionHead id="pm-title" title={copy.software.title} intro={copy.software.intro} />
+    <Section id="cong-cu" labelledBy="pm-title" className="border-y border-border bg-secondary/50">
+      <SectionHead id="pm-title" title={s.title} intro={s.intro} />
       <div className="grid gap-5 md:grid-cols-3">
-        {copy.software.items.map((s) => (
-          <article key={s.name} className="flex flex-col overflow-hidden rounded-[10px] border border-border bg-card">
-            <MediaSlot id={s.slot} compact />
+        {s.items.map((it) => (
+          <article key={it.name} className="flex flex-col overflow-hidden rounded-[10px] border border-border bg-card">
+            <MediaSlot id={it.slot} compact />
             <div className="flex flex-1 flex-col p-5">
-              <span className={cn("mb-3 w-fit rounded-[3px] px-2 py-1 text-xs font-bold", TONE[s.tone])}>{s.tag}</span>
-              <h3 className="text-xl font-extrabold">{s.name}</h3>
-              <p className="mt-2 text-[15px] text-muted-foreground">{s.body}</p>
-              <p className="mt-auto pt-3 text-sm font-semibold">{s.gives}</p>
+              <span className={cn("mb-3 w-fit rounded-[3px] px-2 py-1 text-xs font-bold", TONE[it.tone])}>{it.tag}</span>
+              <h3 className="text-xl font-extrabold">{it.name}</h3>
+              {it.paras.map((p) => (
+                <p key={p} className="mt-2 text-[15px] text-muted-foreground">
+                  {p}
+                </p>
+              ))}
+              {it.points.length > 0 && (
+                <ul className="mt-3 space-y-2">
+                  {it.points.map((p) => (
+                    <Tick key={p}>{p}</Tick>
+                  ))}
+                </ul>
+              )}
             </div>
           </article>
         ))}
       </div>
-      <p className="mt-6 max-w-3xl text-sm text-muted-foreground">{copy.software.legal}</p>
+      <div className="mt-6 rounded-[10px] border border-ink/80 bg-card p-5 shadow-[6px_6px_0_0_hsl(var(--ink)/0.9)] sm:p-6">
+        <h3 className="text-xl font-extrabold">{s.together.title}</h3>
+        <p className="mt-2 max-w-3xl text-base">{s.together.text}</p>
+      </div>
     </Section>
   )
 }

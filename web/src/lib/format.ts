@@ -7,10 +7,6 @@ export function fmtNum(n: number, maxDigits = 2): string {
   }
 }
 
-export function fmtVND(n: number): string {
-  return `${fmtNum(n, 0)} ₫`
-}
-
 /** Bỏ dấu tiếng Việt và đưa về chữ thường để tìm kiếm không phân biệt dấu. */
 export function norm(s: string): string {
   return s

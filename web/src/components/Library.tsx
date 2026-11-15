@@ -3,8 +3,9 @@ import { Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { MediaSlot } from "@/components/MediaSlot"
+import { Topics } from "@/components/Topics"
 import { Chips, Section, SectionHead, type ChipOption } from "@/components/shared"
-import { docs, docTags, TYPE_LABEL, type ArticleDoc, type Doc, type DocType, type FormulaDoc } from "@/data/library"
+import { docs, docTags, TYPE_LABEL, type Doc, type DocType, type FormulaDoc, type ReadableDoc } from "@/data/library"
 import { calcs, type CalcInput } from "@/data/calcs"
 import { XLSX_FILES } from "@/data/files"
 import { config } from "@/data/config"
@@ -15,8 +16,14 @@ import { cn } from "@/lib/utils"
 
 const ALL = "all"
 const XLSX_MIME = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-const TYPE_ICON: Record<DocType, string> = { formula: "fx", excel: "XLS", article: "Aa" }
-const TYPE_TONE: Record<DocType, string> = { formula: "bg-secondary text-ink", excel: "bg-teal-soft text-teal", article: "bg-ember-soft text-ember-dark" }
+const TYPE_ICON: Record<DocType, string> = { formula: "fx", excel: "XLS", article: "Aa", template: "Ck", standard: "TC" }
+const TYPE_TONE: Record<DocType, string> = {
+  formula: "bg-secondary text-ink",
+  excel: "bg-teal-soft text-teal",
+  article: "bg-ember-soft text-ember-dark",
+  template: "bg-teal-soft text-teal",
+  standard: "bg-ink text-primary-foreground",
+}
 
 const typeOpts: ChipOption<string>[] = [{ value: ALL, label: copy.topics.filters.all }, ...(Object.keys(TYPE_LABEL) as DocType[]).map((k) => ({ value: k, label: TYPE_LABEL[k] }))]
 const tagOpts: ChipOption<string>[] = [{ value: ALL, label: copy.topics.filters.all }, ...docTags.map((t) => ({ value: t, label: t }))]
@@ -90,7 +97,7 @@ function Calculator({ doc }: { doc: FormulaDoc }) {
   )
 }
 
-function DocCard({ doc, onRead }: { doc: Doc; onRead: (d: ArticleDoc) => void }) {
+function DocCard({ doc, onRead }: { doc: Doc; onRead: (d: ReadableDoc) => void }) {
   return (
     <article className="doc flex min-w-0 flex-col overflow-hidden rounded-[10px] border border-border bg-card">
       {doc.type === "article" && <MediaSlot id={`article-${doc.id}`} compact />}
@@ -132,11 +139,17 @@ function DocCard({ doc, onRead }: { doc: Doc; onRead: (d: ArticleDoc) => void })
             </Button>
           </div>
         )}
-        {doc.type === "article" && (
+        {(doc.type === "article" || doc.type === "template") && (
           <div className="mt-auto pt-1">
             <Button type="button" size="sm" className="rounded-full" onClick={() => onRead(doc)}>
-              Đọc bài viết ({doc.read})
+              {doc.type === "article" ? "Đọc bài viết" : "Xem mẫu"} ({doc.read})
             </Button>
+          </div>
+        )}
+        {doc.type === "standard" && (
+          <div className="mt-auto rounded-[6px] bg-secondary px-3.5 py-3 text-sm">
+            <p className="font-mono text-sm font-bold">{doc.code}</p>
+            <p className="mt-1 text-muted-foreground">{doc.scope}</p>
           </div>
         )}
       </div>
@@ -144,11 +157,11 @@ function DocCard({ doc, onRead }: { doc: Doc; onRead: (d: ArticleDoc) => void })
   )
 }
 
-export function Library() {
+export function Library({ onRegister }: { onRegister: (note: string) => void }) {
   const [q, setQ] = useState("")
   const [type, setType] = useState(ALL)
   const [tag, setTag] = useState(ALL)
-  const [reading, setReading] = useState<ArticleDoc | null>(null)
+  const [reading, setReading] = useState<ReadableDoc | null>(null)
 
   const nq = norm(q.trim())
   const shown = docs.filter((d) => {
@@ -210,6 +223,9 @@ export function Library() {
       <p id="lib-empty" hidden={shown.length > 0} className="py-8 text-muted-foreground">
         {copy.library.empty}
       </p>
+      <p className="mt-6 text-sm text-muted-foreground">{copy.library.standardNote}</p>
+
+      <Topics onRegister={onRegister} />
 
       <Dialog open={reading !== null} onOpenChange={(o) => !o && setReading(null)}>
         <DialogContent id="article-dialog" className="max-h-[calc(100vh-2rem)] w-[calc(100vw-1.5rem)] max-w-2xl overflow-y-auto">
@@ -217,16 +233,22 @@ export function Library() {
             <>
               <DialogHeader className="text-left">
                 <DialogDescription id="article-meta">
-                  Bài viết · {reading.read} · {reading.tags.join(", ")}
+                  {TYPE_LABEL[reading.type]} · {reading.read} · {reading.tags.join(", ")}
                 </DialogDescription>
                 <DialogTitle id="article-title" className="text-2xl font-extrabold">
                   {reading.title}
                 </DialogTitle>
               </DialogHeader>
               <div id="article-body" className="space-y-4 text-[16px] leading-relaxed text-foreground/90">
-                {reading.body.map((p, i) => (
-                  <p key={i}>{p}</p>
-                ))}
+                {reading.type === "article" ? (
+                  reading.body.map((p, i) => <p key={i}>{p}</p>)
+                ) : (
+                  <ol className="list-decimal space-y-2 pl-5">
+                    {reading.items.map((it) => (
+                      <li key={it}>{it}</li>
+                    ))}
+                  </ol>
+                )}
               </div>
             </>
           )}

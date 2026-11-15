@@ -28,7 +28,7 @@ export function Footer() {
           {contact.address && <p className="mt-2 text-sm text-muted-foreground">{contact.address}</p>}
         </div>
         <Col title={copy.footer.cols.content.title} links={copy.footer.cols.content.links} />
-        <Col title={copy.footer.cols.course.title} links={copy.footer.cols.course.links} />
+        <Col title={copy.footer.cols.about.title} links={copy.footer.cols.about.links} />
         <div>
           <h2 className="mb-2.5 text-xs font-bold uppercase tracking-wider text-muted-foreground">{copy.footer.cols.contact.title}</h2>
           <a href={`tel:${contact.phoneTel}`} className="block py-1 text-ink/85 hover:text-ember-dark">

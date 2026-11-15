@@ -2,25 +2,22 @@ import { useCallback, useState } from "react"
 import { Toaster } from "@/components/ui/sonner"
 import { Header } from "@/components/Header"
 import { Hero } from "@/components/Hero"
-import { Tools, Workflow } from "@/components/Workflow"
+import { Tools } from "@/components/Tools"
+import { Concepts } from "@/components/Concepts"
 import { Software } from "@/components/Software"
-import { Topics } from "@/components/Topics"
-import { Simulator } from "@/components/Simulator"
+import { Scenarios } from "@/components/Scenarios"
 import { Library } from "@/components/Library"
-import { Gallery } from "@/components/Gallery"
-import { Stats } from "@/components/Stats"
-import { Pricing } from "@/components/Pricing"
+import { About } from "@/components/About"
 import { Zalo } from "@/components/Zalo"
 import { Register, type Prefill } from "@/components/Register"
-import { Faq } from "@/components/Faq"
 import { Footer } from "@/components/Footer"
 
 export default function App() {
   const [prefill, setPrefill] = useState<Prefill>({ nonce: 0 })
 
-  /** Chọn gói (và ghi chú), cuộn tới form đăng ký rồi đưa con trỏ vào ô họ tên. */
-  const goRegister = useCallback((planId?: string, note?: string) => {
-    setPrefill((p) => ({ planId, note, nonce: p.nonce + 1 }))
+  /** Điền ghi chú (nếu có), cuộn tới form để lại thông tin rồi đưa con trỏ vào ô họ tên. */
+  const goRegister = useCallback((note?: string) => {
+    setPrefill((p) => ({ note, nonce: p.nonce + 1 }))
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches
     document.getElementById("dang-ky")?.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" })
     setTimeout(() => document.getElementById("f-name")?.focus({ preventScroll: true }), reduce ? 50 : 500)
@@ -35,17 +32,13 @@ export default function App() {
       <main id="noi-dung">
         <Hero />
         <Tools />
-        <Workflow />
+        <Concepts />
         <Software />
-        <Topics onRegister={goRegister} />
-        <Simulator />
-        <Library />
-        <Gallery />
-        <Stats />
-        <Pricing onRegister={(id) => goRegister(id)} />
+        <Scenarios />
+        <Library onRegister={goRegister} />
+        <About />
         <Zalo />
         <Register prefill={prefill} />
-        <Faq />
       </main>
       <Footer />
       <Toaster />

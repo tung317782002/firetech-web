@@ -6,15 +6,12 @@ import { MediaSlot } from "@/components/MediaSlot"
 import { Section } from "@/components/shared"
 import { config } from "@/data/config"
 import { copy } from "@/content/copy"
-import { fmtVND } from "@/lib/format"
 import { copyWithToast } from "@/lib/utils-app"
 import { cn } from "@/lib/utils"
 
 const PHONE_RE = /^(\+84|84|0)(3|5|7|8|9)\d{8}$/
-const UNSURE = "tu-van"
 
 export interface Prefill {
-  planId?: string
   note?: string
   nonce: number
 }
@@ -30,7 +27,6 @@ export function Register({ prefill }: { prefill: Prefill }) {
   const { contact } = config
   const [name, setName] = useState("")
   const [phone, setPhone] = useState("")
-  const [course, setCourse] = useState(config.plans[0].id)
   const [note, setNote] = useState("")
   const [errName, setErrName] = useState("")
   const [errPhone, setErrPhone] = useState("")
@@ -44,14 +40,8 @@ export function Register({ prefill }: { prefill: Prefill }) {
   const [seenNonce, setSeenNonce] = useState(0)
   if (prefill.nonce !== seenNonce) {
     setSeenNonce(prefill.nonce)
-    if (prefill.planId) setCourse(prefill.planId)
     if (prefill.note !== undefined) setNote(prefill.note)
     setDone(null)
-  }
-
-  const courseLabel = (id: string) => {
-    const p = config.plans.find((x) => x.id === id)
-    return p ? `${p.name} – ${fmtVND(p.price)}` : copy.register.unsure
   }
 
   async function submit(e: FormEvent) {
@@ -71,8 +61,8 @@ export function Register({ prefill }: { prefill: Prefill }) {
       return
     }
 
-    const payload = { name: name.trim(), phone: digits, course: courseLabel(course), note: note.trim(), createdAt: new Date().toISOString() }
-    const msg = [`Đăng ký khóa học – ${config.brand.name}`, `Họ tên: ${payload.name}`, `Số điện thoại: ${payload.phone}`, `Khóa học: ${payload.course}`, ...(payload.note ? [`Ghi chú: ${payload.note}`] : [])].join("\n")
+    const payload = { name: name.trim(), phone: digits, note: note.trim(), createdAt: new Date().toISOString() }
+    const msg = [`Đề nghị trao đổi – ${config.brand.name}`, `Họ tên: ${payload.name}`, `Số điện thoại: ${payload.phone}`, ...(payload.note ? [`Nội dung: ${payload.note}`] : [])].join("\n")
 
     if (!config.registerEndpoint) {
       setDone({ msg, sent: false })
@@ -186,22 +176,9 @@ export function Register({ prefill }: { prefill: Prefill }) {
                   {errPhone}
                 </p>
               </div>
-              <div className="mb-4">
-                <label htmlFor="f-course" className="mb-1.5 block text-sm font-semibold">
-                  Khóa học quan tâm
-                </label>
-                <select id="f-course" name="course" value={course} onChange={(e) => setCourse(e.target.value)} className={inputCls}>
-                  {config.plans.map((p) => (
-                    <option key={p.id} value={p.id}>
-                      {courseLabel(p.id)}
-                    </option>
-                  ))}
-                  <option value={UNSURE}>{copy.register.unsure}</option>
-                </select>
-              </div>
               <div className="mb-5">
                 <label htmlFor="f-note" className="mb-1.5 block text-sm font-semibold">
-                  Đề tài hoặc ghi chú <span className="font-normal text-muted-foreground">(không bắt buộc)</span>
+                  {copy.register.noteLabel} <span className="font-normal text-muted-foreground">(không bắt buộc)</span>
                 </label>
                 <textarea id="f-note" name="note" rows={3} value={note} onChange={(e) => setNote(e.target.value)} className={cn(inputCls, "min-h-[88px] resize-y")} />
               </div>
@@ -212,14 +189,14 @@ export function Register({ prefill }: { prefill: Prefill }) {
           ) : (
             <div id="reg-done" ref={doneRef} tabIndex={-1} className="outline-none">
               <h3 id="reg-done-title" className="mb-2 text-2xl font-extrabold">
-                {done.sent ? "Đã gửi đăng ký" : "Thông tin đã sẵn sàng"}
+                {done.sent ? "Đã gửi thông tin" : "Thông tin đã sẵn sàng"}
               </h3>
               <p id="reg-done-text" className="text-[15px] text-muted-foreground">
                 {done.sent
-                  ? "Cảm ơn bạn. Đơn vị sẽ liên hệ qua số điện thoại đã nhập."
+                  ? "Cảm ơn bạn. Chúng tôi sẽ nhắn lại qua số điện thoại đã nhập."
                   : "Thông tin chưa được gửi đi: trang chưa kết nối máy chủ nhận đăng ký. Hãy gửi nội dung dưới đây qua Zalo, email hoặc gọi điện."}
               </p>
-              <textarea id="reg-msg" readOnly rows={5} value={done.msg} aria-label="Nội dung đăng ký" className="my-3.5 w-full resize-y rounded-[8px] border border-border bg-secondary p-3" />
+              <textarea id="reg-msg" readOnly rows={5} value={done.msg} aria-label="Nội dung đề nghị trao đổi" className="my-3.5 w-full resize-y rounded-[8px] border border-border bg-secondary p-3" />
               <div className="mb-3 flex flex-wrap gap-2">
                 <Button type="button" variant="outline" size="sm" className="rounded-full border-ink/30 bg-transparent" onClick={() => copyWithToast(done.msg)}>
                   Sao chép nội dung
@@ -232,7 +209,7 @@ export function Register({ prefill }: { prefill: Prefill }) {
                       </a>
                     </Button>
                     <Button asChild variant="outline" size="sm" className="rounded-full border-ink/30 bg-transparent">
-                      <a href={`mailto:${contact.email}?subject=${encodeURIComponent("Đăng ký khóa học")}&body=${encodeURIComponent(done.msg)}`}>Gửi email</a>
+                      <a href={`mailto:${contact.email}?subject=${encodeURIComponent("Đề nghị trao đổi")}&body=${encodeURIComponent(done.msg)}`}>Gửi email</a>
                     </Button>
                     <Button asChild variant="outline" size="sm" className="rounded-full border-ink/30 bg-transparent">
                       <a href={`tel:${contact.phoneTel}`}>Gọi {contact.phoneDisplay}</a>

@@ -6,6 +6,7 @@
  */
 import { topics } from "./topics.ts"
 import { docs } from "./library.ts"
+import { scenarios } from "./scenarios.ts"
 
 export type MediaKind = "image" | "video" | "embed"
 
@@ -38,20 +39,25 @@ const VIDEO_169 = "MP4 (H.264) hoặc liên kết YouTube/Drive · 1920×1080 ·
 
 const fixed: MediaSlotDef[] = [
   { id: "logo", kind: "image", purpose: "Logo đơn vị (header, footer)", ratio: "4/1", recommended: "SVG hoặc PNG nền trong suốt · cao 64 px", src: "" },
-  { id: "hero-video", kind: "embed", purpose: "Video giới thiệu khóa học", ratio: "16/9", recommended: VIDEO_169, src: "" },
+  { id: "hero-video", kind: "embed", purpose: "Video mở đầu: chuyện gì diễn ra khi có cháy", ratio: "16/9", recommended: VIDEO_169, src: "" },
+  { id: "concepts-aset-rset", kind: "image", purpose: "Hình gợi ý: sơ đồ so sánh ASET và RSET", ratio: "16/9", recommended: IMG_169, src: "" },
+  { id: "concepts-video", kind: "embed", purpose: "Video đề xuất: công trình vận hành khi có cháy", ratio: "16/9", recommended: VIDEO_169, src: "" },
+  { id: "concepts-smoke", kind: "image", purpose: "Khói tràn xuống dần từ trần", ratio: "4/3", recommended: `${IMG_43} (hoặc video MP4)`, src: "" },
+  { id: "concepts-heatmap", kind: "image", purpose: "Bản đồ nhiệt của công trình", ratio: "4/3", recommended: `${IMG_43} (hoặc video MP4)`, src: "" },
+  { id: "concepts-crowd", kind: "image", purpose: "Dòng người dồn về cửa thoát nạn", ratio: "4/3", recommended: `${IMG_43} (hoặc video MP4)`, src: "" },
+  { id: "concepts-counter", kind: "image", purpose: "Đồng hồ đếm số người đã ra ngoài", ratio: "4/3", recommended: `${IMG_43} (hoặc video MP4)`, src: "" },
   { id: "software-pyrosim", kind: "image", purpose: "Ảnh màn hình PyroSim", ratio: "16/9", recommended: IMG_169, src: "" },
   { id: "software-pathfinder", kind: "image", purpose: "Ảnh màn hình Pathfinder", ratio: "16/9", recommended: IMG_169, src: "" },
   { id: "software-fds", kind: "image", purpose: "Ảnh kết quả FDS trong Smokeview", ratio: "16/9", recommended: IMG_169, src: "" },
-  ...Array.from({ length: 6 }, (_, i): MediaSlotDef => ({
-    id: `result-${i + 1}`, kind: "image", purpose: `Kết quả mô phỏng của học viên ${i + 1}`, ratio: "4/3", recommended: `${IMG_43} (hoặc video MP4)`, src: "",
-  })),
-  { id: "course-pyrosim-pathfinder", kind: "image", purpose: "Ảnh hoặc video giới thiệu gói PyroSim + Pathfinder", ratio: "16/9", recommended: IMG_169, src: "" },
-  { id: "course-fds-edit-video-bao-cao", kind: "image", purpose: "Ảnh hoặc video giới thiệu gói FDS + Edit video + Xuất báo cáo", ratio: "16/9", recommended: IMG_169, src: "" },
-  { id: "instructor", kind: "image", purpose: "Ảnh giảng viên", ratio: "1/1", recommended: IMG_11, src: "" },
+  { id: "about-team", kind: "image", purpose: "Ảnh nhóm FireTech", ratio: "16/9", recommended: IMG_169, src: "" },
+  { id: "instructor", kind: "image", purpose: "Ảnh người trao đổi cùng bạn", ratio: "1/1", recommended: IMG_11, src: "" },
   { id: "zalo-qr", kind: "image", purpose: "Mã QR nhóm Zalo thực chiến mô phỏng", ratio: "1/1", recommended: "Ảnh PNG mã QR · tối thiểu 512×512", src: "" },
 ]
 
 const derived: MediaSlotDef[] = [
+  ...scenarios.map((sc): MediaSlotDef => ({
+    id: `scenario-${sc.id}`, kind: "image", purpose: `Ảnh hoặc video: ${sc.name}`, ratio: "16/9", recommended: `${IMG_169} (hoặc video MP4)`, src: "",
+  })),
   ...topics.map((t): MediaSlotDef => ({
     id: `topic-${t.id}`, kind: "image", purpose: "Ảnh minh họa đề tài", ratio: "16/9", recommended: IMG_169, src: "",
   })),

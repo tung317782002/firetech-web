@@ -74,9 +74,9 @@ export function Header() {
 
         <div className="flex items-center gap-2">
           <Button asChild size="sm" className="rounded-full bg-ember px-3 text-white hover:bg-ember-dark sm:px-4">
-            <a href="#dang-ky" aria-label={copy.cta.register}>
-              <span className="sm:hidden" aria-hidden="true">Đăng ký</span>
-              <span className="hidden sm:inline">{copy.cta.register}</span>
+            <a href="#dang-ky" aria-label={copy.cta.consult}>
+              <span className="sm:hidden" aria-hidden="true">Liên hệ</span>
+              <span className="hidden sm:inline">{copy.cta.consult}</span>
             </a>
           </Button>
           <button

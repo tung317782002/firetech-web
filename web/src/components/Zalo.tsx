@@ -10,6 +10,7 @@ export function Zalo() {
   return (
     <Section id="zalo" labelledBy="zl-title" className="border-t border-border bg-secondary/50">
       <SectionHead id="zl-title" title={copy.zalo.title} intro={copy.zalo.intro} />
+      <blockquote className="mb-8 border-l-4 border-ember pl-4 text-xl font-extrabold sm:text-2xl">“{copy.zalo.quote}”</blockquote>
       <div id="zalo-list" data-count={n} className={cn("grid gap-5", n === 1 ? "max-w-xl" : "md:grid-cols-2 lg:grid-cols-3")}>
         {config.zaloGroups.map((g, i) => (
           <article key={g.url} className="zalo-card flex gap-5 rounded-[10px] border border-border bg-card p-6">

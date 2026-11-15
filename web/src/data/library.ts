@@ -1,6 +1,6 @@
-/* Thư viện tài liệu mở: công thức (có máy tính nhanh), bảng tính Excel và bài viết. */
-export type DocType = "formula" | "excel" | "article"
-export type DocTag = "FDS" | "Khói và nhiệt" | "Thoát nạn" | "Pathfinder" | "Revit/BIM"
+/* Thư viện tài liệu mở: công thức (có máy tính nhanh), bảng tính Excel, bài viết, mẫu kịch bản/checklist và danh mục tiêu chuẩn. */
+export type DocType = "formula" | "excel" | "article" | "template" | "standard"
+export type DocTag = "FDS" | "Khói và nhiệt" | "Thoát nạn" | "Pathfinder" | "Revit/BIM" | "Tiêu chuẩn"
 
 interface DocBase {
   id: string
@@ -27,15 +27,33 @@ export interface ArticleDoc extends DocBase {
   body: string[]
 }
 
-export type Doc = FormulaDoc | ExcelDoc | ArticleDoc
+/** Mẫu kịch bản hoặc checklist: danh sách mục cần điền hoặc cần kiểm. */
+export interface TemplateDoc extends DocBase {
+  type: "template"
+  read: string
+  items: string[]
+}
+
+/** Tiêu chuẩn hoặc nguồn dữ liệu: chỉ nêu tên, mã và phạm vi, không chép nội dung có bản quyền. */
+export interface StandardDoc extends DocBase {
+  type: "standard"
+  code: string
+  scope: string
+}
+
+export type Doc = FormulaDoc | ExcelDoc | ArticleDoc | TemplateDoc | StandardDoc
+/** Tài liệu mở được trong hộp thoại đọc. */
+export type ReadableDoc = ArticleDoc | TemplateDoc
 
 export const TYPE_LABEL: Record<DocType, string> = {
   formula: "Công thức",
   excel: "Bảng tính Excel",
   article: "Bài viết",
+  template: "Mẫu và checklist",
+  standard: "Tiêu chuẩn",
 }
 
-export const docTags: DocTag[] = ["FDS", "Khói và nhiệt", "Thoát nạn", "Pathfinder", "Revit/BIM"]
+export const docTags: DocTag[] = ["FDS", "Khói và nhiệt", "Thoát nạn", "Pathfinder", "Revit/BIM", "Tiêu chuẩn"]
 
 export const docs: Doc[] = [
   {
@@ -128,8 +146,83 @@ export const docs: Doc[] = [
     body: [
       "ASET là thời điểm đầu tiên điều kiện tại một vị trí vượt ngưỡng chịu đựng. Cần chọn trước đại lượng, ngưỡng và độ cao đo, rồi lấy thời điểm sớm nhất vượt ngưỡng trên toàn bộ đường thoát nạn.",
       "Các tiêu chí thường gặp là tầm nhìn (khoảng 10 m ở không gian lớn, khoảng 5 m ở không gian nhỏ), nhiệt độ khí ở độ cao đầu người (thường lấy khoảng 60 °C) và nồng độ khí độc như CO. Ngưỡng cụ thể phải lấy theo tiêu chuẩn áp dụng hoặc thỏa thuận với cơ quan thẩm duyệt, không chỉ dựa vào bài viết này.",
-      "Đặt các thiết bị đo (slice, device) dọc đường thoát nạn ở độ cao khoảng 1,8–2,0 m, rồi xuất dữ liệu theo thời gian. Smokeview giúp quan sát, nhưng con số dùng trong thuyết minh nên lấy từ file dữ liệu của thiết bị đo.",
+      "Đặt các thiết bị đo (slice, device) dọc đường thoát nạn ở độ cao khoảng 2,0–2,1 m, rồi xuất dữ liệu theo thời gian. Smokeview giúp quan sát, nhưng con số dùng trong thuyết minh nên lấy từ file dữ liệu của thiết bị đo.",
       "Cuối cùng, trình bày bảng ASET theo từng vị trí và từng tiêu chí, nêu rõ tiêu chí nào quyết định. Nội dung này cho thấy kết quả được hiểu và kiểm soát, không chỉ là chạy được phần mềm.",
     ],
+  },
+  {
+    id: "bv-tieu-chi", type: "article", title: "Tiêu chí an toàn đối với con người: nhiệt độ, nhiệt bức xạ, tầm nhìn và khí độc",
+    desc: "Bốn ngưỡng dùng để xác định ASET và độ cao đo tương ứng, kèm hệ số an toàn thường áp dụng.",
+    tags: ["Khói và nhiệt", "Thoát nạn"], read: "4 phút đọc",
+    body: [
+      "Khi xác định ASET, điều kiện được đo ở độ cao 2–2,1 m tính từ sàn, tức khoảng đầu người. Bốn yếu tố thường được dùng làm tiêu chí.",
+      "Nhiệt độ (nhiệt đối lưu) không vượt 60°C. Nhiệt bức xạ không vượt 2,5 kW/m², tương đương lớp khói có nhiệt độ dưới 200°C. Tầm nhìn tối thiểu 10 m trong không gian lớn; với phòng nhỏ, mật độ khói cho phép có thể lớn gấp đôi. Khí độc tích luỹ, biểu thị bằng liều FED, nhỏ hơn 0,3 (theo ISO 13571:2012).",
+      "Kịch bản thiết kế yêu cầu ASET lớn hơn 1,5 lần RSET; kịch bản phân tích độ nhạy yêu cầu ASET lớn hơn 1,0 lần RSET. Ngưỡng cụ thể vẫn phải lấy theo tiêu chuẩn áp dụng hoặc thỏa thuận với cơ quan thẩm duyệt.",
+    ],
+  },
+  {
+    id: "bv-hrr", type: "article", title: "Đường cong phát triển đám cháy: chọn HRR và hệ số α",
+    desc: "Đám cháy thiết kế thường được mô tả bằng hàm bậc hai theo thời gian; cách đọc và kiểm tra một đường cong.",
+    tags: ["Khói và nhiệt", "FDS"], read: "4 phút đọc",
+    body: [
+      "Tốc độ toả nhiệt (HRR) của đám cháy giai đoạn phát triển thường được mô tả bằng hàm bậc hai Q = α·t², trong đó α phụ thuộc vào chất cháy và cách chất xếp.",
+      "Ví dụ trong một báo cáo kho kệ cao, đám cháy được lấy theo Q = 0,0469·t² và đạt đỉnh khoảng 1.400 kW sau khoảng 173 giây, khi sprinkler kích hoạt. Kiểm tra nhanh: 0,0469 × 173² ≈ 1.404 kW, khớp với giá trị đỉnh nêu trên.",
+      "Công suất toả nhiệt lớn nhất cũng là đầu vào để tính đường kính đám cháy đặc trưng D* và chọn lưới cho FDS. Hãy dùng công thức và máy tính nhanh trong thư viện, và ghi rõ nguồn của α trong thuyết minh.",
+    ],
+  },
+  {
+    id: "mau-kich-ban", type: "template", title: "Mẫu kịch bản cháy",
+    desc: "Các mục cần điền khi mô tả một kịch bản cháy, để người đọc báo cáo kiểm lại được từng giả định.",
+    tags: ["Thoát nạn", "Khói và nhiệt"], read: "8 mục",
+    items: [
+      "Mục tiêu mô phỏng và hạng mục chưa đáp ứng quy chuẩn cần chứng minh.",
+      "Vị trí đám cháy và lý do chọn (kịch bản làm RSET dài nhất và/hoặc ASET ngắn nhất).",
+      "Chất cháy và đường cong HRR: hệ số α, công suất lớn nhất, thời điểm đạt đỉnh.",
+      "Hệ thống phát hiện, chữa cháy và hút khói, cùng trạng thái hoạt động giả định.",
+      "Số người, phân bố theo khu vực, các nhóm người và thời gian chuẩn bị di tản.",
+      "Tiêu chí an toàn và độ cao đo: nhiệt độ, nhiệt bức xạ, tầm nhìn, FED.",
+      "Thời gian mô phỏng, lưới tính và cách chia mesh.",
+      "Nguồn của từng giả định: tiêu chuẩn, sổ tay hoặc báo cáo tham khảo.",
+    ],
+  },
+  {
+    id: "checklist-mo-hinh", type: "template", title: "Checklist kiểm tra mô hình trước khi chạy",
+    desc: "Các điểm cần rà trong PyroSim và Pathfinder để hạn chế lỗi hình học, lưới tính và thiết lập người.",
+    tags: ["FDS", "Pathfinder", "Revit/BIM"], read: "9 mục",
+    items: [
+      "Đơn vị và gốc tọa độ đã kiểm tra; công trình nằm gần gốc tọa độ.",
+      "Hình học không còn lỗ hổng ở tường, cửa nối đúng hai phòng, cầu thang liên tục giữa các tầng.",
+      "Mesh phủ kín công trình, ranh mesh căn theo kết cấu; D*/dx nằm trong khoảng 4–16.",
+      "Vật liệu và bề mặt đã gán; lỗ mở, cửa và quạt đặt đúng vị trí.",
+      "Đường cong HRR khớp kịch bản; thời gian mô phỏng đủ dài để thấy kết quả cần kết luận.",
+      "Thiết bị đo (slice, device) đặt dọc đường thoát nạn ở độ cao 2,0–2,1 m.",
+      "Pathfinder: hồ sơ người, tốc độ đi (0,8–1,7 m/s), thời gian trì hoãn, tốc độ cầu thang và chế độ di chuyển (SFPE hoặc Steering) đã đặt.",
+      "Đã chạy thử lưới thô để kiểm tra kịch bản trước khi chạy lưới mịn.",
+      "Đã chạy ít nhất hai mức lưới để kiểm tra độ nhạy của kết luận.",
+    ],
+  },
+  {
+    id: "tc-qcvn06", type: "standard", title: "QCVN 06:2022/BXD (kèm Sửa đổi 1:2023)",
+    desc: "Quy chuẩn kỹ thuật quốc gia về an toàn cháy cho nhà và công trình.",
+    tags: ["Tiêu chuẩn", "Thoát nạn"], code: "QCVN 06",
+    scope: "Căn cứ chính của hồ sơ thiết kế và thẩm duyệt về PCCC tại Việt Nam, gồm yêu cầu về thoát nạn.",
+  },
+  {
+    id: "tc-nfpa101", type: "standard", title: "NFPA 101: Life Safety Code",
+    desc: "Bộ quy tắc về an toàn tính mạng trong công trình do NFPA ban hành.",
+    tags: ["Tiêu chuẩn", "Thoát nạn"], code: "NFPA 101",
+    scope: "Yêu cầu về lối thoát nạn và bảo vệ người sử dụng theo loại hình công trình.",
+  },
+  {
+    id: "tc-nfpa92", type: "standard", title: "NFPA 92: Standard for Smoke Control Systems",
+    desc: "Tiêu chuẩn về hệ thống kiểm soát khói do NFPA ban hành.",
+    tags: ["Tiêu chuẩn", "Khói và nhiệt"], code: "NFPA 92",
+    scope: "Thiết kế, lắp đặt và nghiệm thu hệ thống kiểm soát khói.",
+  },
+  {
+    id: "nguon-nist", type: "standard", title: "Dữ liệu và phần mềm của NIST",
+    desc: "FDS, Smokeview, tài liệu kỹ thuật và dữ liệu do NIST công bố được phép dùng.",
+    tags: ["Tiêu chuẩn", "FDS"], code: "NIST",
+    scope: "Nguồn tham khảo cho mô hình, tài liệu kiểm chứng và dữ liệu thực nghiệm; kiểm tra điều khoản sử dụng trước khi trích dẫn.",
   },
 ]

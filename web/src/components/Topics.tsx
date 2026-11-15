@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { MediaSlot } from "@/components/MediaSlot"
-import { Chips, Section, SectionHead, type ChipOption } from "@/components/shared"
+import { Chips, type ChipOption } from "@/components/shared"
 import { topics, type Topic } from "@/data/topics"
 import { config } from "@/data/config"
 import { copy } from "@/content/copy"
@@ -28,7 +28,7 @@ function topicText(t: Topic): string {
   ].join("\n")
 }
 
-export function Topics({ onRegister }: { onRegister: (planId: string, note: string) => void }) {
+export function Topics({ onRegister }: { onRegister: (note: string) => void }) {
   const [field, setField] = useState(ALL)
   const [level, setLevel] = useState(ALL)
   const [tool, setTool] = useState(ALL)
@@ -42,8 +42,13 @@ export function Topics({ onRegister }: { onRegister: (planId: string, note: stri
   )
 
   return (
-    <Section id="de-tai" labelledBy="dt-title">
-      <SectionHead id="dt-title" title={copy.topics.title} intro={copy.topics.intro} />
+    <div id="de-tai" aria-labelledby="dt-title" role="group" className="mt-16 border-t border-border pt-12">
+      <header className="mb-6 max-w-2xl">
+        <h3 id="dt-title" className="text-2xl font-extrabold sm:text-3xl">
+          {copy.topics.title}
+        </h3>
+        <p className="mt-2 text-base text-muted-foreground">{copy.topics.intro}</p>
+      </header>
 
       <div className="flex flex-col gap-3" role="group" aria-label="Lọc đề tài">
         <Chips id="topic-field" label={copy.topics.filters.field} options={fieldOpts} value={field} onChange={setField} />
@@ -68,7 +73,7 @@ export function Topics({ onRegister }: { onRegister: (planId: string, note: stri
                   </span>
                 ))}
               </div>
-              <h3 className="text-[17px] font-bold leading-snug">{t.title}</h3>
+              <h4 className="text-[17px] font-bold leading-snug">{t.title}</h4>
               <p className="mt-2 text-[15px] text-muted-foreground">{t.summary}</p>
               <p className="mb-1 mt-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">{copy.topics.outcomes}</p>
               <ul className="list-disc space-y-0.5 pl-5 text-sm">
@@ -84,7 +89,7 @@ export function Topics({ onRegister }: { onRegister: (planId: string, note: stri
                 <Button type="button" variant="outline" size="sm" className="rounded-full border-ink/30 bg-transparent" onClick={() => copyWithToast(topicText(t))}>
                   {copy.topics.copy}
                 </Button>
-                <Button type="button" size="sm" className="rounded-full" onClick={() => onRegister(config.plans[0].id, copy.topics.prefix + t.title)}>
+                <Button type="button" size="sm" className="rounded-full" onClick={() => onRegister(copy.topics.prefix + t.title)}>
                   {copy.topics.enroll}
                 </Button>
               </div>
@@ -92,6 +97,6 @@ export function Topics({ onRegister }: { onRegister: (planId: string, note: stri
           </article>
         ))}
       </div>
-    </Section>
+    </div>
   )
 }

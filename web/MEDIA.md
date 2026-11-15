@@ -30,13 +30,16 @@ Mọi chỗ đặt hình trên trang đều đã được khai báo sẵn và **
 | Mã | Loại | Tỉ lệ | Dùng cho |
 |---|---|---|---|
 | `logo` | ảnh | 4:1 | Logo đơn vị ở header, footer |
-| `hero-video` | embed/video | 16:9 | Video giới thiệu khóa học (đầu trang, cạnh trình mô phỏng) |
-| `software-pyrosim`, `software-pathfinder`, `software-fds` | ảnh | 16:9 | Ảnh màn hình từng phần mềm, mục "Phần mềm" |
+| `hero-video` | embed/video | 16:9 | Video mở đầu, cạnh ba câu hỏi ở đầu trang |
+| `concepts-aset-rset` | ảnh | 16:9 | "Hình gợi ý" ở câu hỏi 1: sơ đồ so sánh ASET và RSET |
+| `concepts-video` | embed/video | 16:9 | "Video đề xuất" ở câu hỏi 3: công trình vận hành khi có cháy |
+| `concepts-smoke`, `concepts-heatmap`, `concepts-crowd`, `concepts-counter` | ảnh/video | 4:3 | Bốn hình của câu hỏi 3: khói, bản đồ nhiệt, dòng người, bộ đếm người đã ra ngoài |
+| `software-pyrosim`, `software-pathfinder`, `software-fds` | ảnh | 16:9 | Ảnh màn hình từng phần mềm, mục "Công cụ" |
+| `scenario-<mã tình huống>` (5 vị trí, mã lấy từ `src/data/scenarios.ts`) | ảnh/video | 16:9 | Hình hoặc video của từng tình huống mô phỏng |
 | `topic-<mã đề tài>` (9 vị trí, mã lấy từ `src/data/topics.ts`) | ảnh | 16:9 | Ảnh minh họa từng đề tài |
-| `article-<mã bài>` (4 vị trí, mã lấy từ `src/data/library.ts`) | ảnh | 16:9 | Ảnh bìa bài viết trong thư viện |
-| `result-1` … `result-6` | ảnh | 4:3 | Kết quả mô phỏng của học viên |
-| `course-pyrosim-pathfinder`, `course-fds-edit-video-bao-cao` | ảnh | 16:9 | Ảnh giới thiệu từng gói học phí |
-| `instructor` | ảnh | 1:1 | Ảnh giảng viên |
+| `article-<mã bài>` (6 vị trí, mã lấy từ `src/data/library.ts`) | ảnh | 16:9 | Ảnh bìa bài viết trong thư viện |
+| `about-team` | ảnh | 16:9 | Ảnh nhóm ở mục "Chúng tôi là ai" |
+| `instructor` | ảnh | 1:1 | Ảnh người trao đổi cùng bạn, cạnh form liên hệ |
 | `zalo-qr` | ảnh | 1:1 | Mã QR nhóm Zalo |
 
 Vị trí mới thêm ở `src/data/media.ts` (mảng `fixed`) rồi gắn `<MediaSlot id="..." />` vào đúng khối.
