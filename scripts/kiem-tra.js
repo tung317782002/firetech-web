@@ -1,5 +1,6 @@
 /*
  * Kiểm thử tự động bằng Playwright (Chromium).
+ * Chỉ dùng cho BẢN TĨNH ở gốc repo (bản React dùng web/scripts/kiem-tra.cjs).
  * Chạy:  python3 -m http.server 8080   (ở thư mục gốc, cửa sổ khác)
  *        node scripts/kiem-tra.js [URL] [thư-mục-lưu-ảnh]
  * Thoát với mã 1 nếu có lỗi. Kiểm tra: lỗi console/pageerror/request lỗi, cuộn ngang,

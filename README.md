@@ -9,7 +9,7 @@ Thông tin liên hệ, nhóm Zalo và học phí nằm trong `assets/js/config.j
 node scripts/kiem-config.js
 ```
 
-Chạy site: `python3 -m http.server 8080`. Kiểm thử giao diện: `node scripts/kiem-tra.js`.
+Chạy site: `python3 -m http.server 8080`. Kiểm thử giao diện bản tĩnh: `node scripts/kiem-tra.js`.
 
 ## Bản React (`web/`)
 
@@ -17,7 +17,9 @@ Bản dựng lại bằng React + TypeScript + Tailwind + shadcn/ui, đóng gói
 
 ```bash
 cd web && pnpm install && pnpm bundle      # tạo web/bundle.html
-pnpm kiem-so-lieu && pnpm kiem-cau-hinh   # số liệu mô phỏng, giá trị mẫu và vị trí ảnh/video còn trống
+pnpm kiem-so-lieu && pnpm kiem-cau-hinh   # số liệu RSET/ASET và máy tính nhanh, giá trị mẫu và vị trí ảnh/video còn trống
 ```
 
-Thông tin liên hệ và học phí: `web/src/data/config.ts`. Chữ trên trang: `web/src/content/copy.ts`. Thêm ảnh, video: `web/MEDIA.md`.
+Kiểm thử giao diện (cần server tĩnh `python3 -m http.server 8080` ở gốc repo): `node web/scripts/kiem-tra.cjs`.
+
+Thông tin liên hệ: `web/src/data/config.ts`. Chữ trên trang: `web/src/content/copy.ts`. Tình huống mô phỏng và số liệu: `web/src/data/scenarios.ts`, `method.ts`. Thêm ảnh, video: `web/MEDIA.md`. Nội dung 2.0 không ghi học phí.

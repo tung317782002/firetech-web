@@ -21,16 +21,16 @@ Hai phần đăng ký khoá học và tra cứu thư viện cần backend hoặc
 
 ## Stack và lệnh
 
-Repo có **hai bản** của cùng một trang: bản **tĩnh thuần HTML/CSS/JS ở gốc repo** (không build, không package manager, không phụ thuộc mạng ngoài, mô tả ngay dưới đây) và bản **React trong `web/`** (xem mục "Bản React trong web/"). Bản tĩnh giữ làm dự phòng cho đến khi chủ dự án quyết định thay bằng bản React; cả hai phải giữ đủ SEO/meta bên dưới.
+Repo có **hai bản** của cùng một trang: bản **tĩnh thuần HTML/CSS/JS ở gốc repo** (không build, không package manager, không phụ thuộc mạng ngoài, mô tả ngay dưới đây) và bản **React trong `web/`** (xem mục "Bản React trong web/"). Bản tĩnh giữ làm dự phòng cho đến khi chủ dự án quyết định thay bằng bản React; cả hai phải giữ đủ SEO/meta bên dưới. **Từ nội dung 2.0, bản React có cấu trúc và chữ khác bản tĩnh** (7 mục theo tài liệu "FireTech – Nội dung web", không ghi học phí, không có trình mô phỏng kéo thả); bản tĩnh vẫn mang nội dung cũ có giá và chỉ là bản dự phòng.
 
 ```bash
 python3 -m http.server 8080          # chạy site tại http://localhost:8080
-node scripts/kiem-tra.js             # kiểm thử Playwright (cần server đang chạy); thoát mã 1 nếu có lỗi
+node scripts/kiem-tra.js             # kiểm thử Playwright cho BẢN TĨNH (cần server đang chạy); thoát mã 1 nếu có lỗi
 node scripts/kiem-tra.js http://localhost:8080/index.html /đường/dẫn/lưu/ảnh   # kèm ảnh chụp từng cỡ màn hình
 node scripts/kiem-config.js         # liệt kê giá trị mẫu còn lại trong config.js (mã 1 nếu còn); chạy trước khi công bố
 ```
 
-`kiem-tra.js` chạy 120+ kiểm tra (gồm 5 thiết bị cảm ứng giả lập iPhone/Pixel/Galaxy/iPad): 0 lỗi console/pageerror/request lỗi, không cuộn ngang ở 320–1440px, kéo thả/phím/click phòng/đặt lại/tải PNG-CSV-xlsx, bộ lọc, máy tính nhanh, dialog, form, SEO. Không có lệnh chạy riêng một test: sửa/comment phần liên quan trong file. Không có lint.
+`scripts/kiem-tra.js` (chỉ dùng cho bản tĩnh) chạy 120+ kiểm tra (gồm 5 thiết bị cảm ứng giả lập iPhone/Pixel/Galaxy/iPad): 0 lỗi console/pageerror/request lỗi, không cuộn ngang ở 320–1440px, kéo thả/phím/click phòng/đặt lại/tải PNG-CSV-xlsx, bộ lọc, máy tính nhanh, dialog, form, SEO. Không có lệnh chạy riêng một test: sửa/comment phần liên quan trong file. Không có lint.
 
 ## Kiến trúc
 
@@ -53,18 +53,18 @@ cd web && pnpm install
 pnpm dev                              # chạy thử với Vite
 pnpm exec tsc -b && pnpm lint         # kiểm tra kiểu và lint (cảnh báo trong src/components/ui/ là của mẫu shadcn)
 pnpm bundle                           # ra web/bundle.html (một file: CSS, JS, font woff2 đã nhúng)
-pnpm kiem-so-lieu                     # số liệu mô phỏng và máy tính nhanh phải trùng bản tĩnh (RSET 99 s, ASET 201 s, D* = 0,959 m)
+pnpm kiem-so-lieu                     # máy tính nhanh (D* = 0,959 m, RSET 195 s) và các bảng RSET/ASET của 5 tình huống: phép cộng, 1,5 × RSET, hệ số ASET/RSET
 pnpm kiem-cau-hinh                    # giá trị mẫu còn lại trong config.ts (mã 1) và vị trí media còn trống (chỉ lưu ý)
-node scripts/kiem-tra.js http://localhost:8080/web/bundle.html   # bộ kiểm thử Playwright, chạy từ gốc repo, cần server tĩnh (python3 -m http.server 8080)
+node web/scripts/kiem-tra.cjs        # kiểm thử Playwright cho bản React (140+ kiểm tra), chạy từ gốc repo, cần server tĩnh và web/bundle.html; URL mặc định http://localhost:8080/web/bundle.html
 ```
 
-- `src/data/config.ts`: nơi duy nhất thay SĐT, email, Zalo, nhóm Zalo, gói học phí, `registerEndpoint` (cùng nội dung với `assets/js/config.js` của bản tĩnh; sửa cả hai khi đổi thông tin liên hệ hoặc giá).
-- `src/content/copy.ts`: **toàn bộ tiêu đề, đoạn dẫn, nhãn nút** ở một chỗ. Giọng học thuật, chính xác; không dùng câu khoa trương; giữ nguyên thuật ngữ. `index.html` (title, description, JSON-LD) phải khớp với nội dung hiển thị.
-- `src/data/topics.ts`, `library.ts`, `calcs.ts`: đề tài, thư viện, máy tính nhanh. `src/data/files.ts` là file **tự sinh** (4 bảng tính `.xlsx` dạng base64): chạy `node scripts/dong-goi-xlsx.mjs` sau khi sửa file trong `assets/downloads/`.
-- `src/lib/plan.ts`: mô hình mặt bằng (hàm thuần trả chuỗi SVG, PRNG seed 7), chuyển nguyên từ bản tĩnh; đừng đổi hình học mà không chạy `pnpm kiem-so-lieu`.
-- **Vị trí ảnh/video** nằm hết trong `src/data/media.ts` (28 vị trí, để trống), hiển thị qua `MediaSlot`: `src` trống thì hiện khung giữ chỗ đúng tỉ lệ. Quy cách và cách thêm: `web/MEDIA.md`. Thêm vị trí mới thì khai báo ở `media.ts` rồi gắn `<MediaSlot id="..." />`.
+- `src/data/config.ts`: nơi duy nhất thay SĐT, email, Zalo, nhóm Zalo, `registerEndpoint` (cùng nội dung liên hệ với `assets/js/config.js` của bản tĩnh; sửa cả hai khi đổi thông tin liên hệ). `plans` (gói học phí) vẫn còn trong file nhưng **trang không hiển thị**: nội dung 2.0 không ghi giá. Muốn hiện lại phải thêm component và cập nhật JSON-LD, hỏi chủ dự án trước.
+- `src/content/copy.ts`: **toàn bộ tiêu đề, đoạn dẫn, nhãn nút** ở một chỗ, chép sát tài liệu nội dung 2.0 (7 mục: trang chủ, Mô phỏng cháy là gì?, Công cụ, Tình huống mô phỏng, Thư viện mở, Chúng tôi là ai, Trao đổi). Giọng học thuật, chính xác; không dùng câu khoa trương; giữ nguyên thuật ngữ. `index.html` (title, description, JSON-LD `FAQPage` lấy từ 3 câu hỏi ở mục 2) phải khớp với nội dung hiển thị.
+- `src/data/scenarios.ts`, `src/data/method.ts`: 5 tình huống mô phỏng và phương pháp đánh giá chung, **chép đúng từng số** từ tài liệu "Tóm tắt các tình huống mô phỏng" (báo cáo dự án của đội ngũ FireTech). Không tính lại hay làm tròn khác; sửa số thì chạy `pnpm kiem-so-lieu`.
+- `src/data/topics.ts`, `library.ts`, `calcs.ts`: đề tài (nhóm nhỏ trong mục Thư viện), thư viện (công thức, Excel, bài viết, mẫu kịch bản/checklist, danh mục tiêu chuẩn), máy tính nhanh. `src/data/files.ts` là file **tự sinh** (4 bảng tính `.xlsx` dạng base64): chạy `node scripts/dong-goi-xlsx.mjs` sau khi sửa file trong `assets/downloads/`.
+- **Vị trí ảnh/video** nằm hết trong `src/data/media.ts` (34 vị trí, để trống; vị trí của tình huống, đề tài và bài viết tự sinh từ dữ liệu tương ứng), hiển thị qua `MediaSlot`: `src` trống thì hiện khung giữ chỗ đúng tỉ lệ. Quy cách và cách thêm: `web/MEDIA.md`. Thêm vị trí mới thì khai báo ở `media.ts` rồi gắn `<MediaSlot id="..." />`.
 - `scripts/dong-goi.mjs` thay bước `html-inline` của script mẫu: `html-inline` làm hỏng thẻ `canonical` và không nhúng font. Giữ nguyên các thẻ `<link>` SEO và favicon dạng data URI trong `web/index.html` (Parcel không resolve `/favicon.svg`).
-- Bộ kiểm thử dùng các móc giao diện cố định: `#sim-stage`, `#sim-handle` (`role="slider"`), `.hit-room[data-room]`, `.room-btn[data-room]`, `#sim-time`, `#sim-play`, `#layer-*`, `#sim-reset/png/csv`, `#lib-*`, `.doc`, `.topic`, `.plan`/`.plan.hot`, `#f-*`, `#reg-*`. Đổi tên các móc này thì phải sửa `scripts/kiem-tra.js`.
+- Bộ kiểm thử bản React dùng các móc giao diện cố định: `#hero-questions`, `#cau-hoi-1..3`, `#th-<mã tình huống>` (mục accordion, thuộc tính `data-state`), `.scenario`, `#phuong-phap`, `#lib-*`, `.doc`, `#article-body`, `#de-tai`, `.topic`, `#topic-*`, `#f-name/#f-phone/#f-note`, `#reg-*`, `#zalo-list`, `[data-slot-empty]`, `[data-media]`. Đổi tên các móc này thì phải sửa `web/scripts/kiem-tra.cjs`.
 - Dùng TypeScript 7 nên **không có `baseUrl`** trong tsconfig; Parcel cần `"@parcel/resolver-default": { "packageExports": true }` trong `package.json` để đọc các gói Radix.
 
 ## Quy tắc frontend
