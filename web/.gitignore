@@ -26,3 +26,7 @@ dist-ssr
 # Bản đóng gói và cache Parcel (không commit file build)
 bundle.html
 .parcel-cache
+
+# Tin tức: file tự sinh bởi scripts/tao-tin-tuc.mjs
+src/data/news.generated.ts
+dist-tin
