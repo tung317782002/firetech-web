@@ -7,7 +7,7 @@ function Col({ title, links }: { title: string; links: readonly (readonly [strin
     <nav aria-label={title}>
       <h2 className="mb-2.5 text-xs font-bold uppercase tracking-wider text-muted-foreground">{title}</h2>
       {links.map(([id, label]) => (
-        <a key={id} href={`#${id}`} className="block break-words py-1 text-ink/85 hover:text-ember-dark">
+        <a key={id} href={id.includes("/") ? id : `#${id}`} className="block break-words py-1 text-ink/85 hover:text-ember-dark">
           {label}
         </a>
       ))}

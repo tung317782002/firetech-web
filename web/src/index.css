@@ -68,6 +68,21 @@
 }
 
 @layer components {
+  /* Băng tin chạy ngang: nội dung được nhân đôi nên dịch -50% là lặp liền mạch */
+  @keyframes news-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+  .news-track { animation: news-scroll var(--news-dur, 40s) linear infinite; }
+  .news-ticker:hover .news-track,
+  .news-ticker:focus-within .news-track,
+  .news-ticker[data-paused="true"] .news-track { animation-play-state: paused; }
+  @media (prefers-reduced-motion: reduce) {
+    .news-viewport { overflow-x: auto; }
+    .news-track { animation: none !important; }
+    .news-dup { display: none; }
+  }
+
   /* Vùng chọn phòng trong trình mô phỏng */
   .hit-room { fill: transparent; stroke: transparent; stroke-width: 4; cursor: pointer; pointer-events: all; }
   .hit-room:hover { fill: hsl(var(--ember) / 0.1); }

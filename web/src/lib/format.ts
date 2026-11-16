@@ -7,6 +7,11 @@ export function fmtNum(n: number, maxDigits = 2): string {
   }
 }
 
+/** Đổi ngày YYYY-MM-DD sang dd/MM/yyyy. */
+export function fmtDate(iso: string): string {
+  return iso.split("-").reverse().join("/")
+}
+
 /** Bỏ dấu tiếng Việt và đưa về chữ thường để tìm kiếm không phân biệt dấu. */
 export function norm(s: string): string {
   return s
