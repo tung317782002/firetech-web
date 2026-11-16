@@ -1,5 +1,5 @@
-# Build bản React trong web/ và đăng lên GitHub Pages mỗi lần có commit vào main.
-# Pull request chỉ chạy bước build và kiểm tra, không đăng.
+# Build bản React trong web/ và đăng lên GitHub Pages mỗi lần có commit vào main và mỗi ngày lúc 00:10 giờ
+# Việt Nam (để tin tức hẹn ngày tự hiện đúng hôm đó). Pull request chỉ chạy bước build và kiểm tra, không đăng.
 # Cần bật một lần: Settings → Pages → Build and deployment → Source: GitHub Actions.
 name: Build và đăng web
 
@@ -7,6 +7,8 @@ on:
   push:
     branches: [main]
   pull_request:
+  schedule:
+    - cron: "10 17 * * *"
   workflow_dispatch:
 
 permissions:
@@ -36,6 +38,10 @@ jobs:
         working-directory: web
         run: pnpm install --frozen-lockfile
 
+      - name: Tạo tin tức
+        working-directory: web
+        run: pnpm tao-tin-tuc
+
       - name: Kiểm tra kiểu
         working-directory: web
         run: pnpm exec tsc -b
@@ -52,9 +58,16 @@ jobs:
         run: |
           mkdir -p _site/assets/img
           cp web/bundle.html _site/index.html
-          cp robots.txt sitemap.xml favicon.svg _site/
+          cp robots.txt favicon.svg _site/
           cp assets/img/og.png _site/assets/img/
           if [ -d web/public ]; then cp -R web/public/. _site/; fi
+          cp -R web/dist-tin/. _site/   # trang tin tức, feed, font dùng chung và sitemap.xml sinh tự động
+          test -s _site/tin-tuc/index.html
+          test -s _site/sitemap.xml
+          for f in _site/tin-tuc/*/index.html; do
+            [ -e "$f" ] || continue
+            grep -q 'rel="canonical" href="https://firetech.edu.vn/tin-tuc/' "$f" || { echo "Thiếu canonical: $f"; exit 1; }
+          done
           test -s _site/index.html
           grep -Eq 'rel="?canonical"? href="?https://firetech.edu.vn/' _site/index.html
           grep -q 'application/ld+json' _site/index.html
