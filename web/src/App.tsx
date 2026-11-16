@@ -1,6 +1,8 @@
 import { useCallback, useState } from "react"
 import { Toaster } from "@/components/ui/sonner"
 import { Header } from "@/components/Header"
+import { NewsTicker } from "@/components/NewsTicker"
+import { NewsFeatured } from "@/components/NewsFeatured"
 import { Hero } from "@/components/Hero"
 import { Tools } from "@/components/Tools"
 import { Concepts } from "@/components/Concepts"
@@ -29,7 +31,9 @@ export default function App() {
         Bỏ qua điều hướng
       </a>
       <Header />
+      <NewsTicker />
       <main id="noi-dung">
+        <NewsFeatured />
         <Hero />
         <Tools />
         <Concepts />

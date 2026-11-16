@@ -6,6 +6,7 @@
  */
 export const copy = {
   nav: [
+    { id: "tin-tuc", label: "Tin tức" },
     { id: "mo-phong-chay", label: "Mô phỏng cháy" },
     { id: "cong-cu", label: "Công cụ" },
     { id: "tinh-huong", label: "Tình huống" },
@@ -14,6 +15,18 @@ export const copy = {
     { id: "zalo", label: "Trao đổi" },
   ],
   cta: { consult: "Để lại thông tin", start: "Bắt đầu từ câu hỏi đầu tiên", scenarios: "Xem các tình huống mô phỏng" },
+
+  news: {
+    tickerLabel: "Tin mới",
+    tickerRegion: "Tin mới cập nhật",
+    pause: "Tạm dừng",
+    play: "Phát",
+    title: "Tin cập nhật",
+    intro: "Tin mới nhất về an toàn cháy, thoát nạn và mô phỏng. Bấm vào một tin để đọc bài đầy đủ.",
+    all: "Xem tất cả tin",
+    read: "Đọc tiếp",
+    latest: "Mới nhất",
+  },
 
   hero: {
     eyebrow: "Kiến thức mở về an toàn cháy và thoát nạn",
@@ -200,7 +213,7 @@ export const copy = {
   footer: {
     blurb: "Kiến thức mở về an toàn cháy và mô phỏng thoát nạn tại Việt Nam.",
     cols: {
-      content: { title: "Nội dung", links: [["mo-phong-chay", "Mô phỏng cháy là gì?"], ["cong-cu", "Công cụ"], ["tinh-huong", "Tình huống mô phỏng"], ["thu-vien", "Thư viện mở"]] },
+      content: { title: "Nội dung", links: [["mo-phong-chay", "Mô phỏng cháy là gì?"], ["cong-cu", "Công cụ"], ["tinh-huong", "Tình huống mô phỏng"], ["thu-vien", "Thư viện mở"], ["tin-tuc/", "Tin tức"]] },
       about: { title: "Cùng trao đổi", links: [["chung-toi", "Chúng tôi là ai"], ["zalo", "Nhóm Zalo"], ["dang-ky", "Để lại thông tin"]] },
       contact: { title: "Liên hệ" },
     },

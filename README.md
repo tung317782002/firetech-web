@@ -20,7 +20,9 @@ cd web && pnpm install && pnpm bundle      # tạo web/bundle.html
 pnpm kiem-so-lieu && pnpm kiem-cau-hinh   # số liệu RSET/ASET và máy tính nhanh, giá trị mẫu và vị trí ảnh/video còn trống
 ```
 
-Đăng web: mỗi lần có commit vào `main`, `.github/workflows/dang-web.yml` tự build `web/` và đăng lên GitHub Pages (bật một lần: Settings → Pages → Source: GitHub Actions).
+Tin tức: thêm file `web/tin-tuc/NGÀY-slug.md` (xem `web/tin-tuc/README.md`); tin mới nhất tự lên đầu trang chủ, băng tin và `/tin-tuc/`, mỗi tin có trang riêng.
+
+Đăng web: mỗi lần có commit vào `main` và mỗi ngày lúc 00:10 giờ Việt Nam, `.github/workflows/dang-web.yml` tự build `web/` và đăng lên GitHub Pages (bật một lần: Settings → Pages → Source: GitHub Actions).
 
 Kiểm thử giao diện (cần server tĩnh `python3 -m http.server 8080` ở gốc repo): `node web/scripts/kiem-tra.cjs`.
 
