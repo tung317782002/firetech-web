@@ -91,6 +91,30 @@ async function noiDung(browser) {
   const lower = text.toLowerCase()
   ok(lower.includes("cùng nhau gỡ từng bài toán khó") && lower.includes("giá trị cốt lõi") && lower.includes("sứ mệnh"), "mục Chúng tôi và Trao đổi có nội dung");
 
+  // Tin tức ở đầu trang
+  const ticker = page.locator("#news-ticker");
+  ok(await ticker.isVisible(), "băng tin hiện ngay dưới thanh menu");
+  const tickerLinks = await page.locator("#news-ticker ul:not([aria-hidden]) a").evaluateAll((as) => as.map((a) => a.getAttribute("href")));
+  ok(tickerLinks.length >= 1 && tickerLinks.every((h) => /^tin-tuc\/[a-z0-9-]+\/$/.test(h)), `băng tin có ${tickerLinks.length} liên kết tới trang bài`);
+  const cards = await page.locator(".news-card").evaluateAll((as) => as.map((a) => a.getAttribute("href")));
+  ok(cards.length >= 1 && cards[0] === tickerLinks[0], "tin nổi bật trùng tin đầu băng tin (tin mới nhất lên đầu)");
+  const dates = await page.locator("#tin-tuc time").evaluateAll((ts) => ts.map((t) => t.getAttribute("datetime")));
+  ok(dates.every((d, i) => i === 0 || dates[i - 1] >= d), "các tin trong khối nổi bật xếp từ mới tới cũ");
+  const state = () => page.locator("#news-ticker .news-track").evaluate((n) => getComputedStyle(n).animationPlayState);
+  ok((await state()) === "running", "băng tin đang chạy");
+  await page.locator("#news-ticker-pause").click();
+  ok((await state()) === "paused" && (await page.locator("#news-ticker-pause").getAttribute("aria-pressed")) === "true", "nút Tạm dừng dừng băng tin");
+  await page.locator("#news-ticker-pause").click();
+  ok((await state()) === "running", "nút Phát chạy lại");
+  await page.locator("#news-ticker .news-viewport").hover();
+  ok((await state()) === "paused", "rê chuột vào băng tin thì dừng");
+  await page.mouse.move(5, 500);
+  const rm = await browser.newContext({ viewport: { width: 1280, height: 800 }, reducedMotion: "reduce" });
+  const rmPage = await rm.newPage();
+  await rmPage.goto(URL, { waitUntil: "load" });
+  ok((await rmPage.locator("#news-ticker .news-track").evaluate((n) => getComputedStyle(n).animationName)) === "none", "bật giảm chuyển động thì băng tin không chạy");
+  await rm.close();
+
   // Không còn giá
   ok(!/triệu|học phí|\d{1,2}\.000\.000/i.test(text), "trang không ghi học phí hay giá");
   ok((await page.locator("#f-course").count()) === 0, "form không còn chọn gói");

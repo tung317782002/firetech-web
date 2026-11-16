@@ -10,6 +10,7 @@ import { topics } from "../src/data/topics.ts"
 import { scenarios } from "../src/data/scenarios.ts"
 import { method } from "../src/data/method.ts"
 import { XLSX_FILES } from "../src/data/files.ts"
+import { news } from "../src/data/news.generated.ts"
 
 let fail = 0
 function eq(actual: unknown, expected: unknown, label: string) {
@@ -56,6 +57,13 @@ for (const r of kho) {
 }
 eq(Math.round(0.0469 * 173 ** 2), 1404, "đường cong t²: đỉnh khoảng 1.400 kW tại 173 s")
 eq(method.criteria.rows.length, 4, "số tiêu chí an toàn")
+
+// Tin tức: dữ liệu sinh từ web/tin-tuc/*.md
+const today = new Intl.DateTimeFormat("en-CA", { timeZone: "Asia/Ho_Chi_Minh" }).format(new Date())
+eq(news.every((n, i) => i === 0 || news[i - 1].date >= n.date), true, "tin xếp từ mới tới cũ")
+eq(news.every((n) => n.date <= today), true, "không có tin hẹn ngày trong danh sách hiển thị")
+eq(new Set(news.map((n) => n.slug)).size, news.length, "slug tin không trùng")
+eq(news.every((n) => !n.image || n.imageAlt), true, "tin có ảnh đều có alt")
 
 console.log(fail ? `\n${fail} lỗi` : "\nSố liệu nhất quán.")
 process.exit(fail ? 1 : 0)

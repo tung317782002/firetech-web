@@ -74,8 +74,8 @@
     to { transform: translateX(-50%); }
   }
   .news-track { animation: news-scroll var(--news-dur, 40s) linear infinite; }
-  .news-ticker:hover .news-track,
-  .news-ticker:focus-within .news-track,
+  .news-viewport:hover .news-track,
+  .news-track:focus-within,
   .news-ticker[data-paused="true"] .news-track { animation-play-state: paused; }
   @media (prefers-reduced-motion: reduce) {
     .news-viewport { overflow-x: auto; }
