@@ -14,7 +14,7 @@ export function Brand() {
   return (
     <a className="inline-flex items-center gap-2.5 text-lg font-extrabold tracking-tight" href="#top" aria-label={`${config.brand.name}, về đầu trang`}>
       {logo ? (
-        <img src={logo.src} alt={logo.alt ?? config.brand.name} width={logo.width} height={logo.height} className="h-8 w-auto" />
+        <img src={logo.src} alt={logo.alt ?? config.brand.name} width={logo.width} height={logo.height} className="h-8 w-auto sm:h-10" />
       ) : (
         <>
           <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true" focusable="false">

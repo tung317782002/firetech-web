@@ -7,6 +7,7 @@
 import { topics } from "./topics.ts"
 import { docs } from "./library.ts"
 import { scenarios } from "./scenarios.ts"
+import { LOGO } from "./logo.ts"
 
 export type MediaKind = "image" | "video" | "embed"
 
@@ -38,7 +39,7 @@ const IMG_11 = "Ảnh WebP hoặc AVIF · tối thiểu 800×800 · dưới 200 
 const VIDEO_169 = "MP4 (H.264) hoặc liên kết YouTube/Drive · 1920×1080 · dưới 50 MB"
 
 const fixed: MediaSlotDef[] = [
-  { id: "logo", kind: "image", purpose: "Logo đơn vị (header, footer)", ratio: "4/1", recommended: "SVG hoặc PNG nền trong suốt · cao 64 px", src: "" },
+  { id: "logo", kind: "image", purpose: "Logo đơn vị (header, footer)", ratio: `${LOGO.width}/${LOGO.height}`, recommended: "SVG hoặc PNG nền trong suốt · cao 64 px", src: LOGO.src, alt: "Logo FireTech E&C", width: LOGO.width, height: LOGO.height },
   { id: "hero-video", kind: "embed", purpose: "Video mở đầu: chuyện gì diễn ra khi có cháy", ratio: "16/9", recommended: VIDEO_169, src: "" },
   { id: "concepts-aset-rset", kind: "image", purpose: "Hình gợi ý: sơ đồ so sánh ASET và RSET", ratio: "16/9", recommended: IMG_169, src: "" },
   { id: "concepts-video", kind: "embed", purpose: "Video đề xuất: công trình vận hành khi có cháy", ratio: "16/9", recommended: VIDEO_169, src: "" },
