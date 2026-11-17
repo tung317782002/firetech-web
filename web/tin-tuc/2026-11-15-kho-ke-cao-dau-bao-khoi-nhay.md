@@ -3,7 +3,7 @@ tieu_de: Nhà kho kệ cao: đầu báo khói nhạy rút ngắn thời gian xá
 ngay: 2026-11-15
 tom_tat: Hai kịch bản trên cùng một công trình đều đạt hệ số ASET/RSET trên 2; nếu không có hút khói, kho có thể bị khói bao trùm sau khoảng 7–9 phút.
 nhan: Tình huống mô phỏng
-nguon: Báo cáo dự án của đội ngũ FireTech
+nguon: Báo cáo dự án của đội ngũ FireTech E&C
 ---
 Công trình là kho kín nhiệt với nhiều dãy kệ cao, gồm khu kho mát và khu kho lạnh nằm liền kề. Công nhân làm việc trong trang phục bảo hộ chống lạnh dày nên di chuyển kém linh hoạt hơn so với điều kiện thông thường.
 

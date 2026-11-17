@@ -3,7 +3,7 @@ tieu_de: Nhà ga tàu điện ngầm: thoát khói và thoát nạn phải tính
 ngay: 2026-11-16
 tom_tat: Ba kịch bản cháy tại tầng ke ga, tầng trung chuyển và đầu tàu đều cho ASET lớn hơn RSET, kể cả khi áp dụng hệ số an toàn 1,5.
 nhan: Tình huống mô phỏng
-nguon: Báo cáo dự án của đội ngũ FireTech
+nguon: Báo cáo dự án của đội ngũ FireTech E&C
 ---
 Nhà ga là công trình ngầm có không gian khép kín và mật độ người cao. Phần lớn hành khách không quen thuộc lối đi, nên thời gian phản ứng khi có báo động chênh lệch đáng kể giữa các nhóm.
 

@@ -50,7 +50,7 @@ const fixed: MediaSlotDef[] = [
   { id: "software-pyrosim", kind: "image", purpose: "Ảnh màn hình PyroSim", ratio: "16/9", recommended: IMG_169, src: "" },
   { id: "software-pathfinder", kind: "image", purpose: "Ảnh màn hình Pathfinder", ratio: "16/9", recommended: IMG_169, src: "" },
   { id: "software-fds", kind: "image", purpose: "Ảnh kết quả FDS trong Smokeview", ratio: "16/9", recommended: IMG_169, src: "" },
-  { id: "about-team", kind: "image", purpose: "Ảnh nhóm FireTech", ratio: "16/9", recommended: IMG_169, src: "" },
+  { id: "about-team", kind: "image", purpose: "Ảnh nhóm FireTech E&C", ratio: "16/9", recommended: IMG_169, src: "" },
   { id: "instructor", kind: "image", purpose: "Ảnh người trao đổi cùng bạn", ratio: "1/1", recommended: IMG_11, src: "" },
   { id: "zalo-qr", kind: "image", purpose: "Mã QR nhóm Zalo thực chiến mô phỏng", ratio: "1/1", recommended: "Ảnh PNG mã QR · tối thiểu 512×512", src: "" },
 ]
