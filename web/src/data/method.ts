@@ -1,4 +1,4 @@
-/* Phương pháp đánh giá chung của các báo cáo mô phỏng (tóm tắt từ báo cáo dự án của đội ngũ FireTech). */
+/* Phương pháp đánh giá chung của các báo cáo mô phỏng (tóm tắt từ báo cáo dự án của đội ngũ FireTech E&C). */
 export const method = {
   title: "Phương pháp đánh giá chung",
   intro:
@@ -31,5 +31,5 @@ export const method = {
   references:
     "QCVN 06:2022/BXD (kèm Sửa đổi 1:2023), TCVN 7336:2021, SFPE Handbook of Fire Protection Engineering, NFPA 101, NFPA 92, PD 7974-6:2019, ISO/TR 16738:2009, ISO 13571:2012, BRE 368 và Fire Engineering Design Guide.",
   software: "PyroSim/FDS cho mô phỏng cháy và khói, Pathfinder cho mô phỏng thoát nạn (Thunderhead Engineering, phiên bản 2024–2025).",
-  source: "Nguồn: tóm tắt từ báo cáo dự án của đội ngũ FireTech. Số liệu thuộc từng dự án cụ thể, không dùng thay cho tính toán của công trình khác.",
+  source: "Nguồn: tóm tắt từ báo cáo dự án của đội ngũ FireTech E&C. Số liệu thuộc từng dự án cụ thể, không dùng thay cho tính toán của công trình khác.",
 } as const

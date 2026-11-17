@@ -41,7 +41,7 @@ export interface SiteConfig {
 }
 
 export const config: SiteConfig = {
-  brand: { name: "FireTech", domain: "firetech.edu.vn" },
+  brand: { name: "FireTech E&C", domain: "firetech.edu.vn" },
 
   contact: {
     phoneDisplay: "0387 582 114",

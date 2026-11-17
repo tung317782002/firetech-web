@@ -133,7 +133,7 @@ export const copy = {
 
   scenarios: {
     title: "Tình huống mô phỏng",
-    intro: "Tóm tắt năm tình huống mô phỏng được chọn lọc từ báo cáo chi tiết của các dự án thực tế mà đội ngũ FireTech đã trực tiếp thực hiện.",
+    intro: "Tóm tắt năm tình huống mô phỏng được chọn lọc từ báo cáo chi tiết của các dự án thực tế mà đội ngũ FireTech E&C đã trực tiếp thực hiện.",
     overviewContent: "Nội dung mô phỏng chính",
     overviewConclusion: "Kết luận chính",
     context: "Bối cảnh",
@@ -173,7 +173,7 @@ export const copy = {
   about: {
     label: "Chúng tôi là ai",
     title: "Những người làm mô phỏng cháy, kể lại điều mình học được",
-    lead: "FireTech là nơi chia sẻ kiến thức về an toàn cháy và mô phỏng thoát nạn tại Việt Nam, do các kiến trúc sư, kỹ sư PCCC và chuyên gia mô phỏng CFD/FDS khởi xướng. Chúng tôi từng tham gia các dự án hạ tầng ngầm, công trình công nghiệp và dân dụng lớn, và muốn nối người làm nghề, nhà nghiên cứu với các bạn kỹ sư trẻ.",
+    lead: "FireTech E&C là nơi chia sẻ kiến thức về an toàn cháy và mô phỏng thoát nạn tại Việt Nam, do các kiến trúc sư, kỹ sư PCCC và chuyên gia mô phỏng CFD/FDS khởi xướng. Chúng tôi từng tham gia các dự án hạ tầng ngầm, công trình công nghiệp và dân dụng lớn, và muốn nối người làm nghề, nhà nghiên cứu với các bạn kỹ sư trẻ.",
     doTitle: "Chúng tôi làm gì",
     does: [
       "Dịch và hệ thống lại tài liệu từ NIST, SFPE, NFPA và các tiêu chuẩn kỹ thuật (QCVN 06 và các hệ khác) cho dễ tiếp cận.",

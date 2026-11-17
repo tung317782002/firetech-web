@@ -1,5 +1,5 @@
 /*
- * Năm tình huống mô phỏng, tóm tắt từ báo cáo dự án của đội ngũ FireTech.
+ * Năm tình huống mô phỏng, tóm tắt từ báo cáo dự án của đội ngũ FireTech E&C.
  * Số liệu thuộc từng dự án cụ thể; chép đúng theo tài liệu nguồn, không tính lại hay làm tròn khác.
  * `pnpm kiem-so-lieu` kiểm các phép cộng RSET, yêu cầu 1,5 × RSET và hệ số ASET/RSET.
  */

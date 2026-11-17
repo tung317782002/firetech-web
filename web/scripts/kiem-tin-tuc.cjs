@@ -91,7 +91,8 @@ async function open(browser, url, w = 1280, h = 800, opts = {}) {
       ok(na && na.headline === n.title && na.datePublished === n.date, `${n.slug}: JSON-LD NewsArticle đúng tiêu đề và ngày`);
       ok(m.ld["@graph"].some((x) => x["@type"] === "BreadcrumbList"), `${n.slug}: có BreadcrumbList`);
       ok(m.noAlt === 0, `${n.slug}: mọi ảnh có alt`);
-      ok(m.title.includes(n.title), `${n.slug}: <title> chứa tiêu đề`);
+      ok(await page.evaluate(() => { const i = document.querySelector('header img[alt="Logo FireTech E&C"]'); return !!i && i.complete && i.naturalWidth > 0; }), `${n.slug}: logo ảnh hiện ở header`);
+      ok(m.title.includes(n.title) && m.title.endsWith("FireTech E&C"), `${n.slug}: <title> chứa tiêu đề và tên FireTech E&C`);
       await ctx.close();
       ok(bad.length === 0, `${n.slug}: không lỗi console/request ${bad[0] || ""}`);
       for (const w of [320, 375, 768, 1440]) {

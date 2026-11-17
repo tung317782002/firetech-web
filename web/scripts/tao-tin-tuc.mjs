@@ -121,6 +121,12 @@ const write = (rel, content) => {
   fs.writeFileSync(f, content)
 }
 
+// Logo và icon dùng chung (cũng có trong web/public/media, workflow chép thư mục đó; chép ở đây để dist-tin tự đủ khi chạy thử)
+for (const f of ["logo.webp", "apple-touch-icon.png"]) {
+  fs.mkdirSync(path.join(OUT, "media"), { recursive: true })
+  fs.copyFileSync(path.join(root, "public/media", f), path.join(OUT, "media", f))
+}
+
 // Font dùng chung
 const fontDir = path.join(root, "node_modules/@fontsource/be-vietnam-pro/files")
 const SUBSETS = {
@@ -147,7 +153,7 @@ img{max-width:100%;height:auto;display:block}
 .narrow{max-width:760px}
 header.top{position:sticky;top:0;z-index:5;background:rgba(246,243,236,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--border)}
 header.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:64px}
-.brand{display:inline-flex;align-items:center;gap:10px;font-weight:800;font-size:19px;color:var(--ink);text-decoration:none}
+.brand{display:inline-flex;align-items:center;color:var(--ink);text-decoration:none}.brand img{height:32px;width:auto}
 nav.links{display:flex;gap:4px;flex-wrap:wrap}
 nav.links a{padding:8px 12px;border-radius:999px;color:var(--ink);text-decoration:none;font-weight:600;font-size:15px}
 nav.links a:hover,nav.links a[aria-current]{background:var(--ink);color:#fff}
@@ -172,12 +178,15 @@ h3{font-weight:800;font-size:1.2rem;margin:1.6em 0 .4em}
 .btn{display:inline-block;margin-top:24px;padding:12px 22px;border-radius:999px;background:var(--ember);color:#fff;font-weight:700;text-decoration:none}.btn:hover{background:var(--ember-dark)}
 footer.bot{border-top:1px solid var(--border);background:#efeadd;padding:24px 0;font-size:15px;color:var(--muted)}
 footer.bot a{color:var(--ink)}
+@media (min-width:640px){.brand img{height:40px}}
 @media (max-width:480px){body{font-size:16px}nav.links a{padding:8px 9px;font-size:14px}.brand span{font-size:17px}}
 `
 
-const LOGO = `<svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true" focusable="false"><rect width="32" height="32" rx="6" fill="#10131c"/><path d="M16 5c1.5 4.2 6 6.6 6 12a6 6 0 0 1-12 0c0-2.2 1-3.6 2-4.8.3 1.6 1.2 2.4 2 2.8C13.2 11.6 14 8.2 16 5z" fill="#e8501a"/><path d="M16 15c.9 1.7 2.8 2.6 2.8 4.7a2.8 2.8 0 0 1-5.6 0c0-1.2.7-2 1.2-2.6.3.7.8 1 1.2 1.2-.1-1.4.1-2.6.4-3.3z" fill="#ffd166"/></svg>`
-const FAVICON = `data:image/svg+xml,${encodeURIComponent(LOGO.replace(' aria-hidden="true" focusable="false"', "").replace("<svg ", '<svg xmlns="http://www.w3.org/2000/svg" '))}`
+const FAVICON = `data:image/png;base64,${fs.readFileSync(path.join(root, "public/media/favicon-32.png")).toString("base64")}`
 const { contact, brand } = config
+const png = fs.readFileSync(path.join(root, "public/media/logo.png"))
+const LOGO_W = png.readUInt32BE(16)
+const LOGO_H = png.readUInt32BE(20)
 
 /** Khung trang chung. rel: đường dẫn tương đối về gốc site (ví dụ "../../"). */
 function page({ rel, title, description, canonical, og, jsonLd, body, current }) {
@@ -191,10 +200,11 @@ function page({ rel, title, description, canonical, og, jsonLd, body, current })
 <meta name="description" content="${esc(description)}">
 <meta name="theme-color" content="#10131c">
 <link rel="canonical" href="${canonical}">
-<link rel="icon" href="${FAVICON}" type="image/svg+xml">
+<link rel="icon" href="${FAVICON}" type="image/png">
+<link rel="apple-touch-icon" href="${rel}media/apple-touch-icon.png">
 <meta property="og:type" content="${og.type}">
 <meta property="og:locale" content="vi_VN">
-<meta property="og:site_name" content="${brand.name}">
+<meta property="og:site_name" content="${esc(brand.name)}">
 <meta property="og:title" content="${esc(og.title)}">
 <meta property="og:description" content="${esc(description)}">
 <meta property="og:url" content="${canonical}">
@@ -203,21 +213,21 @@ ${og.published ? `<meta property="article:published_time" content="${og.publishe
 <meta name="twitter:title" content="${esc(og.title)}">
 <meta name="twitter:description" content="${esc(description)}">
 <meta name="twitter:image" content="${ogImage}">
-<link rel="alternate" type="application/rss+xml" title="${brand.name} – Tin tức" href="${rel}tin-tuc/feed.xml">
+<link rel="alternate" type="application/rss+xml" title="${esc(brand.name)} – Tin tức" href="${rel}tin-tuc/feed.xml">
 <script type="application/ld+json">${JSON.stringify(jsonLd).replace(/</g, "\\u003c")}</script>
 <style>${fontFaces.replace(/FONTS\//g, `${rel}assets/fonts/`)}${CSS}</style>
 </head>
 <body>
 <a href="#noi-dung" style="position:absolute;left:-999px" onfocus="this.style.left='8px'">Bỏ qua điều hướng</a>
 <header class="top"><div class="wrap">
-<a class="brand" href="${rel}" aria-label="${brand.name}, về trang chủ">${LOGO}<span>${brand.name}</span></a>
+<a class="brand" href="${rel}" aria-label="${esc(brand.name)}, về trang chủ"><img src="${rel}media/logo.webp" alt="Logo ${esc(brand.name)}" width="${LOGO_W}" height="${LOGO_H}"></a>
 <nav class="links" aria-label="Điều hướng chính"><a href="${rel}">Trang chủ</a><a href="${rel}tin-tuc/"${current === "list" ? ' aria-current="page"' : ""}>Tin tức</a><a href="tel:${contact.phoneTel}">${contact.phoneDisplay}</a></nav>
 </div></header>
 <main id="noi-dung"><div class="wrap narrow">
 ${body}
 </div></main>
 <footer class="bot"><div class="wrap">
-<p style="margin:0 0 6px"><strong>${brand.name}</strong> · ${brand.domain}</p>
+<p style="margin:0 0 6px"><strong>${esc(brand.name)}</strong> · ${brand.domain}</p>
 <p style="margin:0"><a href="tel:${contact.phoneTel}">${contact.phoneDisplay}</a> · <a href="mailto:${contact.email}">${contact.email}</a></p>
 </div></footer>
 </body>
@@ -331,7 +341,7 @@ write(
   "tin-tuc/feed.xml",
   `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0"><channel>
-<title>${brand.name} – Tin tức</title><link>${SITE}tin-tuc/</link><description>Tin cập nhật về an toàn cháy và thoát nạn</description><language>vi</language>
+<title>${esc(brand.name)} – Tin tức</title><link>${SITE}tin-tuc/</link><description>Tin cập nhật về an toàn cháy và thoát nạn</description><language>vi</language>
 ${shown.slice(0, 30).map((p) => `<item><title>${esc(p.title)}</title><link>${SITE}tin-tuc/${p.slug}/</link><guid>${SITE}tin-tuc/${p.slug}/</guid><pubDate>${new Date(`${p.date}T00:00:00+07:00`).toUTCString()}</pubDate><description>${esc(p.summary)}</description></item>`).join("\n")}
 </channel></rss>
 `,

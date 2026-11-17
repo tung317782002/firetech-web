@@ -14,7 +14,7 @@ export function Brand() {
   return (
     <a className="inline-flex items-center gap-2.5 text-lg font-extrabold tracking-tight" href="#top" aria-label={`${config.brand.name}, về đầu trang`}>
       {logo ? (
-        <img src={logo.src} alt={logo.alt ?? config.brand.name} width={logo.width} height={logo.height} className="h-8 w-auto" />
+        <img src={logo.src} alt={logo.alt ?? config.brand.name} width={logo.width} height={logo.height} className="h-8 w-auto sm:h-9" />
       ) : (
         <>
           <svg width="28" height="28" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
@@ -56,7 +56,7 @@ export function Header() {
               onClick={() => setOpen(false)}
               aria-current={active === n.id ? "true" : undefined}
               className={cn(
-                "rounded-full px-3 py-3 text-base font-semibold text-ink/80 hover:bg-secondary xl:py-2 xl:text-sm",
+                "whitespace-nowrap rounded-full px-3 py-3 text-base font-semibold text-ink/80 hover:bg-secondary xl:px-2.5 xl:py-2 xl:text-sm",
                 active === n.id && "bg-ink text-primary-foreground hover:bg-ink",
               )}
             >
@@ -65,7 +65,7 @@ export function Header() {
           ))}
           <a
             href={`tel:${contact.phoneTel}`}
-            className="mt-2 inline-flex items-center justify-center gap-1.5 rounded-full bg-ember-soft px-3 py-3 font-bold text-ember-dark hover:bg-ember-soft/70 xl:ml-2 xl:mt-0 xl:bg-transparent xl:py-2 xl:text-sm"
+            className="mt-2 inline-flex items-center justify-center gap-1.5 whitespace-nowrap rounded-full bg-ember-soft px-3 py-3 font-bold text-ember-dark hover:bg-ember-soft/70 xl:ml-2 xl:mt-0 xl:bg-transparent xl:py-2 xl:text-sm xl:max-2xl:hidden"
           >
             <Phone className="h-4 w-4" aria-hidden="true" />
             {contact.phoneDisplay}

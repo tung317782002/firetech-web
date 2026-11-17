@@ -3,7 +3,7 @@ tieu_de: Viện dưỡng lão: cần thông số thoát nạn riêng cho ngườ
 ngay: 2026-11-14
 tom_tat: Một người cần hỗ trợ có thể kéo dài thời gian thoát nạn của cả nhóm; gian phòng bất lợi nhất luôn cần được xem xét riêng.
 nhan: Tình huống mô phỏng
-nguon: Báo cáo dự án của đội ngũ FireTech
+nguon: Báo cáo dự án của đội ngũ FireTech E&C
 ---
 Người sử dụng công trình chủ yếu là người cao tuổi, di chuyển chậm; một số người ngồi xe lăn và cần hộ lý hỗ trợ. Công trình gồm sảnh, hành lang và cầu thang bộ trên nhiều tầng.
 

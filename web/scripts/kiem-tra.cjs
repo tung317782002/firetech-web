@@ -91,6 +91,19 @@ async function noiDung(browser) {
   const lower = text.toLowerCase()
   ok(lower.includes("cùng nhau gỡ từng bài toán khó") && lower.includes("giá trị cốt lõi") && lower.includes("sứ mệnh"), "mục Chúng tôi và Trao đổi có nội dung");
 
+  // Logo và tên thương hiệu
+  for (const where of ["header", "footer"]) {
+    const img = page.locator(`${where} img[alt="Logo FireTech E&C"]`).first();
+    ok((await img.count()) === 1 && (await img.evaluate((i) => i.complete && i.naturalWidth > 0)), `logo ảnh hiện ở ${where}`);
+  }
+  const brandSeo = await page.evaluate(() => ({
+    t: document.title, s: document.querySelector('meta[property="og:site_name"]')?.content,
+    ld: JSON.parse(document.querySelector('script[type="application/ld+json"]').textContent)["@graph"].find((n) => n["@type"] === "Organization"),
+  }));
+  ok(brandSeo.t.includes("FireTech E&C") && brandSeo.s === "FireTech E&C" && brandSeo.ld.name === "FireTech E&C", "title, og:site_name và JSON-LD dùng tên FireTech E&C");
+  ok(brandSeo.ld.logo === "https://firetech.edu.vn/media/logo.png", "JSON-LD Organization.logo trỏ tới logo mới");
+  ok((await page.evaluate(() => document.querySelector('link[rel="icon"]').href.startsWith("data:image/png"))), "favicon là PNG của logo mới");
+
   // Tin tức ở đầu trang
   const ticker = page.locator("#news-ticker");
   ok(await ticker.isVisible(), "băng tin hiện ngay dưới thanh menu");
