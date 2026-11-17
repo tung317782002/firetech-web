@@ -29,7 +29,7 @@ Mọi chỗ đặt hình trên trang đều đã được khai báo sẵn và **
 
 | Mã | Loại | Tỉ lệ | Dùng cho |
 |---|---|---|---|
-| `logo` | ảnh | 4:1 | Logo đơn vị ở header, footer |
+| `logo` | ảnh | 846:186 | Logo FireTech E&C ở header, footer; đã điền sẵn từ `public/media/logo.webp` (thay file rồi chạy `node scripts/dong-goi-logo.mjs`) |
 | `hero-video` | embed/video | 16:9 | Video mở đầu, cạnh ba câu hỏi ở đầu trang |
 | `concepts-aset-rset` | ảnh | 16:9 | "Hình gợi ý" ở câu hỏi 1: sơ đồ so sánh ASET và RSET |
 | `concepts-video` | embed/video | 16:9 | "Video đề xuất" ở câu hỏi 3: công trình vận hành khi có cháy |
