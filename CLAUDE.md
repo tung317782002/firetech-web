@@ -103,4 +103,5 @@ Sau khi sửa phần head/layout, so sánh các thẻ trước và sau thay đ�
 - Dòng tiêu đề tối đa khoảng 72 ký tự, ở thể mệnh lệnh, tiếng Việt hoặc tiếng Anh nhưng thống nhất trong một commit. Phần thân giải thích *vì sao* thay đổi.
 - Mỗi commit một thay đổi logic. Không gộp thay đổi nội dung với refactor.
 - Không commit thẳng lên `main`: làm trên nhánh `feat/...`, `fix/...`, `content/...` rồi mở PR.
+- **Gộp tự động (chủ dự án đã cho phép lâu dài):** mỗi lần chủ dự án yêu cầu sửa thêm, làm xong thì mở PR, đợi bước build của PR đạt, **gộp PR vào `main`** (kiểu merge commit, không cần chủ dự án nhắc lại), rồi theo dõi workflow `dang-web.yml` đến khi đăng xong và báo kết quả. Chỉ gộp PR do chính yêu cầu đó tạo ra. Không gộp khi build lỗi, khi PR có xung đột hoặc khi chủ dự án nói chờ/không gộp; khi đó dừng và báo lý do. Vẫn không commit thẳng lên `main` và không gộp PR của người khác.
 - Không commit file build, `node_modules`, `.env` hay file mô phỏng nặng (`.fds`, `.psm`, `.pth`, kết quả `.smv`/`.q`). Nếu cần file mẫu để tải về, dùng Git LFS hoặc lưu trữ ngoài.
