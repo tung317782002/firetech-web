@@ -164,6 +164,7 @@ export const copy = {
     title: "Thư viện mở",
     intro: "Kho tài liệu dành cho sinh viên, nhà nghiên cứu và kỹ sư trẻ, miễn phí và không cần đăng nhập: bài viết giải thích, bảng tính Excel, mẫu kịch bản cháy kèm checklist kiểm tra mô hình, và danh mục tiêu chuẩn.",
     search: "Tìm bài viết, bảng tính, tiêu chuẩn…",
+    topicsTab: "Đề tài NCKH",
     empty: "Không có tài liệu phù hợp. Hãy thử từ khóa khác hoặc xóa bộ lọc.",
     standardNote: "Trang chỉ nêu tên và phạm vi của tiêu chuẩn. Hãy đọc bản chính thức khi áp dụng.",
   },

@@ -174,22 +174,30 @@ async function noiDung(browser) {
   ok((await page.locator("#phuong-phap tbody tr").count()) === 4, "bảng tiêu chí an toàn có 4 dòng");
   ok((await page.locator("#phuong-phap").innerText()).includes("ASET > 1,5 × RSET"), "phương pháp: hệ số an toàn 1,5");
 
-  // Thư viện
-  ok((await page.locator(".doc").count()) === 21, "21 tài liệu hiển thị");
-  await page.locator("#lib-type button", { hasText: "Mẫu và checklist" }).click();
-  ok((await page.locator(".doc").count()) === 2, "lọc Mẫu và checklist còn 2");
-  await page.locator("#lib-type button", { hasText: "Tiêu chuẩn" }).click();
-  ok((await page.locator(".doc").count()) === 4, "lọc Tiêu chuẩn còn 4 (QCVN 06, NFPA 101, NFPA 92, NIST)");
-  await page.locator("#lib-type button", { hasText: "Bảng tính Excel" }).click();
-  ok((await page.locator(".doc").count()) === 4, "lọc Excel còn 4");
-  await page.locator("#lib-type button", { hasText: "Tất cả" }).click();
+  // Thư viện: mỗi lần mở một nhóm
+  const tab = (name) => page.locator("#lib-type button", { hasText: name }).click();
+  ok((await page.locator("#lib-type button").count()) === 6, "thư viện có 6 nhóm (5 loại tài liệu và Đề tài NCKH)");
+  ok((await page.locator("#lib-type button[aria-pressed=true]").innerText()).startsWith("Bài viết"), "mặc định mở nhóm Bài viết");
+  ok((await page.locator(".doc").count()) === 6, "nhóm Bài viết có 6 tài liệu (không liệt kê cả 21)");
+  await tab("Mẫu và checklist");
+  ok((await page.locator(".doc").count()) === 2, "nhóm Mẫu và checklist còn 2");
+  await tab("Tiêu chuẩn");
+  ok((await page.locator(".doc").count()) === 4, "nhóm Tiêu chuẩn còn 4 (QCVN 06, NFPA 101, NFPA 92, NIST)");
+  await tab("Bảng tính Excel");
+  ok((await page.locator(".doc").count()) === 4, "nhóm Excel còn 4");
+  await tab("Bài viết");
+  await page.locator("#lib-tag button", { hasText: "Revit/BIM" }).click();
+  ok((await page.locator(".doc").count()) === 1, "Bài viết + chủ đề Revit/BIM còn 1");
+  await page.locator("#lib-clear").click();
   await page.fill("#lib-search", "luoi");
-  ok((await page.locator(".doc").count()) >= 2, "tìm không dấu 'luoi' có kết quả");
+  ok((await page.locator(".doc").count()) >= 2 && (await page.locator("#lib-type button[aria-pressed=true]").count()) === 0, "tìm không dấu 'luoi' tìm trong toàn thư viện");
   await page.fill("#lib-search", "zzzz");
   ok(await page.locator("#lib-empty").isVisible(), "tìm không có kết quả hiện thông báo rỗng");
   await page.locator("#lib-clear").click();
-  ok((await page.locator(".doc").count()) === 21, "xóa bộ lọc trở lại 21 tài liệu");
+  ok((await page.locator(".doc").count()) === 6 || (await page.locator(".doc").count()) === 21, "xóa bộ lọc trở lại danh sách theo nhóm");
+  await tab("Bài viết");
 
+  await tab("Công thức");
   const hrrDoc = page.locator(".doc", { hasText: "Đường cong phát triển cháy t²" });
   await hrrDoc.locator("summary").click();
   await hrrDoc.locator('input[type="number"]').fill("100");
@@ -203,6 +211,7 @@ async function noiDung(browser) {
   await hrrDoc.locator('input[type="number"]').fill("-5");
   ok((await hrrDoc.locator(".calc-out").innerText()).includes("khoảng cho phép"), "giá trị âm báo ngoài khoảng");
 
+  await tab("Bảng tính Excel");
   const dl = path.join(SHOTS || "/tmp", "dl");
   fs.mkdirSync(dl, { recursive: true });
   for (const name of ["Bảng tính HRR theo đường cong t²", "Bảng tính RSET/ASET", "Bảng tính D*", "Bảng tính số người"]) {
@@ -213,12 +222,19 @@ async function noiDung(browser) {
   }
 
   const dialog = page.locator('[role="dialog"], dialog[open]').first();
+  await tab("Bài viết");
   await page.locator(".doc", { hasText: "Chọn kích thước ô lưới FDS" }).getByRole("button", { name: /Đọc bài viết/ }).click();
   await dialog.waitFor({ state: "visible", timeout: 3000 });
   ok((await page.locator("#article-body p").count()) >= 3, "bài viết mở trong hộp thoại có nội dung");
   await page.keyboard.press("Escape");
   await dialog.waitFor({ state: "detached", timeout: 3000 });
   ok(true, "Escape đóng hộp thoại");
+  await page.locator(".doc", { hasText: "Tiêu chí an toàn đối với con người" }).getByRole("button", { name: /Đọc bài viết/ }).click();
+  await dialog.waitFor({ state: "visible", timeout: 3000 });
+  ok((await page.locator("#article-body").innerText()).includes("FED"), "bài viết tiêu chí an toàn nhắc FED");
+  await page.keyboard.press("Escape");
+  await dialog.waitFor({ state: "detached", timeout: 3000 });
+  await tab("Mẫu và checklist");
   await page.locator(".doc", { hasText: "Mẫu kịch bản cháy" }).getByRole("button", { name: /Xem mẫu/ }).click();
   await dialog.waitFor({ state: "visible", timeout: 3000 });
   ok((await page.locator("#article-body li").count()) === 8, "mẫu kịch bản cháy có 8 mục");
@@ -229,14 +245,12 @@ async function noiDung(browser) {
   ok((await page.locator("#article-body li").count()) === 9, "checklist kiểm tra mô hình có 9 mục");
   await page.keyboard.press("Escape");
   await dialog.waitFor({ state: "detached", timeout: 3000 });
-  await page.locator(".doc", { hasText: "Tiêu chí an toàn đối với con người" }).getByRole("button", { name: /Đọc bài viết/ }).click();
-  await dialog.waitFor({ state: "visible", timeout: 3000 });
-  ok((await page.locator("#article-body").innerText()).includes("FED"), "bài viết tiêu chí an toàn nhắc FED");
-  await page.keyboard.press("Escape");
-  await dialog.waitFor({ state: "detached", timeout: 3000 });
 
-  // Đề tài (nhóm nhỏ trong Thư viện)
-  ok((await page.locator(".topic").count()) === 9, "9 đề tài hiển thị");
+  // Đề tài nghiên cứu khoa học (một nhóm của thư viện)
+  await tab("Đề tài NCKH");
+  ok((await page.locator(".topic").count()) === 6 && (await page.locator("#topic-more").count()) === 1, "đề tài: hiện 6 đề tài đầu và nút Xem thêm");
+  await page.locator("#topic-more").click();
+  ok((await page.locator(".topic").count()) === 9, "Xem thêm hiện đủ 9 đề tài");
   await page.locator("#topic-field button", { hasText: "Kiến trúc" }).click();
   ok((await page.locator(".topic").count()) === 3, "lọc Kiến trúc còn 3 đề tài");
   await page.locator("#topic-tool button", { hasText: "Pathfinder" }).click();
