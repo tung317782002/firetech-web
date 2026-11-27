@@ -171,8 +171,8 @@ export const copy = {
 
   about: {
     label: "Chúng tôi là ai",
-    title: "Hiểu đúng đám cháy, thiết kế đúng lối thoát",
-    lead: "FireTech E&C là nền tảng tri thức mở và cộng đồng chuyên gia độc lập về Kỹ thuật An toàn Cháy và Mô phỏng Thoát nạn (FSE) tại Việt Nam. Nền tảng được khởi xướng bởi các kiến trúc sư, kỹ sư PCCC và chuyên gia mô phỏng động lực học cháy (CFD/FDS) đã trực tiếp tham gia các dự án hạ tầng ngầm, công trình công nghiệp và dân dụng quy mô lớn, với mong muốn kết nối người làm nghề, nhà nghiên cứu và thế hệ kỹ sư trẻ.",
+    title: "Từ mô phỏng động lực học đến giải pháp an toàn bền vững",
+    lead: "FireTech E&C là không gian học thuật mở và cộng đồng chuyên môn độc lập về Kỹ thuật An toàn Cháy (FSE) tại Việt Nam. Xuất phát từ kinh nghiệm thực tiễn tại các dự án hạ tầng ngầm, công nghiệp và dân dụng trọng điểm, chúng tôi thúc đẩy sự giao thoa giữa thực tế thiết kế, nghiên cứu khoa học và đào tạo thế hệ kỹ sư trẻ.",
     doTitle: "Mục đích hoạt động",
     does: [
       "Xây dựng thư viện tri thức mở: hệ thống hóa, biên dịch và phổ biến dữ liệu nghiên cứu từ NIST, SFPE, UL FSRI, NFPA cùng các hệ tiêu chuẩn kỹ thuật (QCVN 06, GOST/MChS, BS, MLIT).",
