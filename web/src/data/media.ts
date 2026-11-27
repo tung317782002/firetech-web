@@ -146,6 +146,7 @@ const TOPIC_IMAGES: Record<string, { src: string; alt: string; width: number; he
   "kho-xep-gia": { src: "media/tinh-huong/kho-ke-cao.webp", width: 1280, height: 720, alt: "Mô hình nhà kho kệ cao dạng khung dây, lớp khói tích tụ dưới trần" },
   "sfpe-so-voi-steering": { src: "media/de-tai/sfpe-steering.webp", width: 1280, height: 720, alt: "Hai ảnh Pathfinder cùng một hành lang tại giây 200: bên trái ít người tới cửa thang máy, bên phải đông người dồn về cửa" },
   "revit-sang-mo-phong": { src: "media/de-tai/revit-pyrosim.webp", width: 975, height: 528, alt: "Mô hình nhà kho trong Revit đang xuất dữ liệu (trái) và mô hình đã nhập vào PyroSim (phải)" },
+  "khoi-nha-xuong": { src: "media/tinh-huong/nha-xuong-cong-nghiep.webp", width: 1280, height: 720, alt: "Mô hình nhà xưởng dạng khung dây, khói lan dưới mái theo nồng độ" },
   "be-rong-loi-thoat": { src: "media/de-tai/be-rong-loi-thoat.webp", width: 973, height: 498, alt: "Hành lang hẹp đông người thoát nạn qua cửa kính trong mô phỏng Pathfinder" },
 }
 
