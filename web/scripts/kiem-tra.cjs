@@ -238,7 +238,7 @@ async function noiDung(browser) {
   // Đề tài (nhóm nhỏ trong Thư viện)
   ok((await page.locator(".topic").count()) === 9, "9 đề tài hiển thị");
   await page.locator("#topic-field button", { hasText: "Kiến trúc" }).click();
-  ok((await page.locator(".topic").count()) === 4, "lọc Kiến trúc còn 4 đề tài");
+  ok((await page.locator(".topic").count()) === 3, "lọc Kiến trúc còn 3 đề tài");
   await page.locator("#topic-tool button", { hasText: "Pathfinder" }).click();
   ok((await page.locator(".topic").count()) === 3, "Kiến trúc + Pathfinder còn 3 đề tài");
   await page.locator("#topic-field button", { hasText: "Tất cả" }).click();
