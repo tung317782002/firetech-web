@@ -31,7 +31,7 @@ export const copy = {
   hero: {
     eyebrow: "Kiến thức mở về an toàn cháy và thoát nạn",
     title: "Khi đám cháy xảy ra trong công trình, chuyện gì thực sự diễn ra?",
-    lead: "FireTech E&C quy tụ các kiến trúc sư, kỹ sư PCCC và chuyên gia mô phỏng trực tiếp thực hiện các dự án mô phỏng cháy và thoát nạn. Tại đây, chúng tôi hệ thống lại những hiểu biết rút ra từ thực tế: khói và nhiệt lan truyền ra sao, con người thoát nạn thế nào, và vì sao một kết quả mô phỏng có thể quyết định phương án thoát nạn của cả công trình.",
+    lead: "FireTech E&C quy tụ các kiến trúc sư, kỹ sư PCCC và chuyên gia trực tiếp thực hiện các dự án mô phỏng cháy – thoát nạn. Tại đây, chúng tôi hệ thống lại những kiến thức rút ra từ thực tế: khói và nhiệt lan truyền ra sao, con người phản ứng thế nào, và vì sao một kết quả tính toán có thể quyết định phương án an toàn của cả công trình.",
     questionsLabel: "Ba câu hỏi dẫn vào nội dung",
     questions: [
       { id: "cau-hoi-1", text: "Thế nào là mô phỏng cháy?" },
