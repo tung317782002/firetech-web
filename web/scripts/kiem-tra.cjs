@@ -142,8 +142,8 @@ async function noiDung(browser) {
 
   // Khung ảnh/video để trống
   const empties = await page.locator("[data-slot-empty]").count();
-  ok(empties === 1, `${empties} khung để trống (chờ ảnh: đề tài trung tâm thương mại)`);
-  ok((await page.locator("[data-slot-empty]").evaluateAll((n) => n.every((e) => /^topic-rset-trung-tam-thuong-mai$/.test(e.getAttribute("data-slot-empty"))))), "khung trống chỉ còn ở đề tài trung tâm thương mại");
+  ok(empties === 0, `${empties} khung ảnh/video để trống (đã đủ ảnh)`);
+  ok((await page.locator("[data-slot-empty]").evaluateAll((n) => n.every((e) => /^$/.test(e.getAttribute("data-slot-empty"))))), "không còn khung trống");
   await page.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 700) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 60)); } window.scrollTo(0, 0); });
   await page.waitForTimeout(800);
   const broken = await page.evaluate(() => [...document.images].filter((i) => i.complete && i.naturalWidth === 0).length);
