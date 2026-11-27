@@ -135,6 +135,11 @@ const SCENARIO_MEDIA: Record<string, { image: string; alt: string; video: Pick<M
   },
 }
 
+/** Ảnh đã có cho đề tài (các đề tài còn lại chờ ảnh của chủ dự án). */
+const TOPIC_IMAGES: Record<string, { src: string; alt: string }> = {
+  "kho-xep-gia": { src: "media/tinh-huong/kho-ke-cao.webp", alt: "Mô hình nhà kho kệ cao dạng khung dây, lớp khói tích tụ dưới trần" },
+}
+
 const derived: MediaSlotDef[] = [
   ...scenarios.flatMap((sc): MediaSlotDef[] => {
     const m = SCENARIO_MEDIA[sc.id]
@@ -144,7 +149,7 @@ const derived: MediaSlotDef[] = [
     ]
   }),
   ...topics.map((t): MediaSlotDef => ({
-    id: `topic-${t.id}`, kind: "image", purpose: "Ảnh minh họa đề tài", ratio: "16/9", recommended: IMG_169, src: "",
+    id: `topic-${t.id}`, kind: "image", purpose: `Ảnh minh họa đề tài: ${t.title}`, ratio: "16/9", recommended: IMG_169, src: TOPIC_IMAGES[t.id]?.src ?? "", alt: TOPIC_IMAGES[t.id]?.alt, width: 1280, height: 720,
   })),
   ...docs.filter((d) => d.type === "article").map((d): MediaSlotDef => ({
     id: `article-${d.id}`, kind: "image", purpose: "Ảnh bìa bài viết", ratio: "16/9", recommended: IMG_169, src: "",
