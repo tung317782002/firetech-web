@@ -142,12 +142,12 @@ const TOPIC_IMAGES: Record<string, { src: string; alt: string; width: number; he
   "khoi-ham-do-xe": { src: "media/de-tai/ham-do-xe.webp", width: 975, height: 497, alt: "Bản đồ nhiệt độ trên mặt bằng một tầng rộng trong mô phỏng FDS, vùng màu đỏ là nơi nóng nhất" },
   "thang-bo-chung-cu": { src: "media/de-tai/chung-cu.webp", width: 973, height: 517, alt: "Mô phỏng Pathfinder: người dồn về cửa thoát nạn ở hành lang chung cư, khói đen bốc lên từ khoảng thông tầng phía sau" },
   "khoi-thong-tang": { src: "media/de-tai/khoi-thong-tang.webp", width: 973, height: 517, alt: "Hành lang một tầng nhìn ra khoảng thông tầng của tòa nhà trong mô hình mô phỏng" },
-  "hanh-lang-truong-hoc": { src: "media/de-tai/truong-hoc.webp", width: 973, height: 517, alt: "Dòng người dồn xuống cầu thang bộ trong mô phỏng Pathfinder" },
+  "hanh-lang-truong-hoc": { src: "media/de-tai/truong-hoc.webp", width: 973, height: 498, alt: "Hành lang hẹp đông người thoát nạn qua cửa kính trong mô phỏng Pathfinder" },
   "kho-xep-gia": { src: "media/tinh-huong/kho-ke-cao.webp", width: 1280, height: 720, alt: "Mô hình nhà kho kệ cao dạng khung dây, lớp khói tích tụ dưới trần" },
   "sfpe-so-voi-steering": { src: "media/de-tai/sfpe-steering.webp", width: 1280, height: 720, alt: "Hai ảnh Pathfinder cùng một hành lang tại giây 200: bên trái ít người tới cửa thang máy, bên phải đông người dồn về cửa" },
   "revit-sang-mo-phong": { src: "media/de-tai/revit-pyrosim.webp", width: 975, height: 528, alt: "Mô hình nhà kho trong Revit đang xuất dữ liệu (trái) và mô hình đã nhập vào PyroSim (phải)" },
   "khoi-nha-xuong": { src: "media/tinh-huong/nha-xuong-cong-nghiep.webp", width: 1280, height: 720, alt: "Mô hình nhà xưởng dạng khung dây, khói lan dưới mái theo nồng độ" },
-  "be-rong-loi-thoat": { src: "media/de-tai/be-rong-loi-thoat.webp", width: 973, height: 498, alt: "Hành lang hẹp đông người thoát nạn qua cửa kính trong mô phỏng Pathfinder" },
+  "be-rong-loi-thoat": { src: "media/de-tai/be-rong-loi-thoat.webp", width: 973, height: 517, alt: "Dòng người dồn xuống cầu thang bộ trong mô phỏng Pathfinder" },
 }
 
 /** Ảnh bìa bài viết thư viện. */
