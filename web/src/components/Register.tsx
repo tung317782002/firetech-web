@@ -117,9 +117,10 @@ export function Register({ prefill }: { prefill: Prefill }) {
               </a>
             ))}
           </div>
-          <div className="mt-8 flex max-w-xl items-center gap-4">
-            <MediaSlot id="instructor" compact className="w-28 shrink-0" />
-            <p className="text-sm font-semibold text-muted-foreground">{copy.register.instructor}</p>
+          <div className="mt-8 grid max-w-xl grid-cols-3 gap-3">
+            {["contact-site", "instructor", "contact-fire"].map((id) => (
+              <MediaSlot key={id} id={id} compact className="overflow-hidden rounded-[8px] border border-border bg-card" />
+            ))}
           </div>
         </div>
 

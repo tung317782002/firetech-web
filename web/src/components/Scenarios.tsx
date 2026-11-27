@@ -65,31 +65,29 @@ function Block({ title, items }: { title: string; items: string[] }) {
 
 function Detail({ s }: { s: Scenario }) {
   return (
-    <div className="grid gap-6 pb-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,22rem)] lg:gap-8">
-      <div className="grid min-w-0 gap-6">
-        <div>
-          <h4 className="mb-2 text-sm font-extrabold uppercase tracking-wider text-muted-foreground">{c.context}</h4>
-          <p className="text-[15px]">{s.context}</p>
-        </div>
-        <Block title={c.simulation} items={s.simulation} />
-        <Block title={c.observations} items={s.observations} />
-        <Block title={c.lessons} items={s.lessons} />
-        {s.extra && (
-          <p className="border-l-4 border-ember pl-4 text-[15px]">
-            <strong>{c.extra}:</strong> {s.extra}
-          </p>
-        )}
-        <Block title={c.basis} items={s.basis} />
-        {s.table && (
-          <div className="min-w-0">
-            <DataTable t={s.table} />
-            {s.table.note && <p className="mt-3 text-[15px] text-muted-foreground">{s.table.note}</p>}
-          </div>
-        )}
+    <div className="grid gap-6 pb-2">
+      <div className="grid gap-4 sm:grid-cols-2">
+        {[`scenario-${s.id}`, `scenario-${s.id}-video`].map((id) => (
+          <MediaSlot key={id} id={id} className="[&>div]:!aspect-video [&_img]:bg-white overflow-hidden rounded-[4px] border border-border bg-card" />
+        ))}
       </div>
-      <div>
-        <MediaSlot id={`scenario-${s.id}`} className="rounded-[4px] border border-border bg-card p-2" />
-        <p className="mt-2 text-xs text-muted-foreground">{c.mediaLabel}</p>
+      <div className="grid min-w-0 gap-6 lg:grid-cols-2 lg:gap-8">
+        <div className="grid content-start gap-6">
+          <div>
+            <h4 className="mb-2 text-sm font-extrabold uppercase tracking-wider text-muted-foreground">{c.context}</h4>
+            <p className="text-[15px]">{s.context}</p>
+          </div>
+          <Block title={c.simulation} items={s.simulation} />
+        </div>
+        <div className="grid content-start gap-6">
+          <Block title={c.observations} items={s.observations} />
+          <Block title={c.lessons} items={s.lessons} />
+          {s.extra && (
+            <p className="border-l-4 border-ember pl-4 text-[15px]">
+              <strong>{c.extra}:</strong> {s.extra}
+            </p>
+          )}
+        </div>
       </div>
     </div>
   )
