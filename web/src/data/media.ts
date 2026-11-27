@@ -84,15 +84,15 @@ const fixed: MediaSlotDef[] = [
   },
   {
     id: "software-pyrosim", kind: "image", purpose: "Ảnh màn hình PyroSim", ratio: "16/9", recommended: IMG_169,
-    src: "media/phan-mem/pyrosim.webp", width: 1280, height: 720, alt: "Logo phần mềm PyroSim",
+    src: "media/phan-mem/pyrosim.webp", width: 558, height: 312, alt: "Hình minh họa PyroSim: mô hình công trình nhiều tầng dạng lưới ba chiều với đám cháy và khói đen",
   },
   {
     id: "software-pathfinder", kind: "image", purpose: "Ảnh màn hình Pathfinder", ratio: "16/9", recommended: IMG_169,
-    src: "media/phan-mem/pathfinder.webp", width: 1280, height: 720, alt: "Logo phần mềm Pathfinder",
+    src: "media/phan-mem/pathfinder.webp", width: 536, height: 300, alt: "Hình minh họa Pathfinder: dòng người thoát nạn trong mặt bằng nhiều phòng, màu thể hiện mật độ và hướng di chuyển",
   },
   {
     id: "software-fds", kind: "image", purpose: "Ảnh kết quả FDS trong Smokeview", ratio: "16/9", recommended: IMG_169,
-    src: "media/phan-mem/fds.webp", width: 1280, height: 720, alt: "Logo FDS và Smokeview: luồng khói bốc lên từ đám cháy",
+    src: "media/phan-mem/fds.webp", width: 578, height: 324, alt: "Hình minh họa FDS và Smokeview: lửa và cột khói trong một khoang có khung lưới tính toán",
   },
   {
     id: "contact-site", kind: "image", purpose: "Ảnh hiện trường", ratio: "1/1", recommended: IMG_11,

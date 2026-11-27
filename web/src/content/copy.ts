@@ -102,7 +102,7 @@ export const copy = {
         name: "PyroSim",
         paras: ["PyroSim là giao diện đồ hoạ cho FDS. Thay vì viết tay file đầu vào dạng chữ, người dùng dựng mô hình bằng hình ảnh trực quan rồi để phần mềm tự sinh file cho FDS."],
         points: [
-          "Nhập hình học từ CAD hoặc BIM và chuyển thành hình học dùng được cho mô phỏng cháy.",
+          "Nhập hình học từ IFC file và chuyển thành hình học dùng được cho mô phỏng cháy.",
           "Thiết kế mô phỏng bằng đồ hoạ, có báo lỗi ngay khi làm để giảm sai sót.",
           "Quản lý tài nguyên máy tính, tạo nhiều cấu hình để phân tích độ nhạy.",
           "Xuất biểu đồ và video kết quả có lớp thông tin chồng lên.",
