@@ -60,7 +60,7 @@ export function MediaSlot({
             height={def.height}
             loading={eager ? "eager" : "lazy"}
             decoding="async"
-            className="h-full w-full object-cover"
+            className={cn("h-full w-full", def.fit === "contain" ? "bg-white object-contain" : "object-cover")}
             onError={() => setFailed(true)}
           />
         )}
