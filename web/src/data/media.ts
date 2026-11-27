@@ -33,6 +33,8 @@ export interface MediaSlotDef {
   href?: string
   /** Nhãn ngắn (chữ in hoa) dưới khung, ví dụ "Mô hình mô phỏng". */
   label?: string
+  /** Cách vừa khung: `cover` (mặc định, cắt) hoặc `contain` (hiện đủ ảnh, nền trắng; dùng cho bảng, ảnh quá rộng). */
+  fit?: "cover" | "contain"
   /** Kích thước thật của ảnh (px) để trình duyệt giữ chỗ chính xác. */
   width?: number
   height?: number
@@ -145,6 +147,15 @@ const TOPIC_IMAGES: Record<string, { src: string; alt: string; width: number; he
   "be-rong-loi-thoat": { src: "media/de-tai/be-rong-loi-thoat.webp", width: 973, height: 498, alt: "Hành lang hẹp đông người thoát nạn qua cửa kính trong mô phỏng Pathfinder" },
 }
 
+/** Ảnh bìa bài viết thư viện. */
+const ARTICLE_IMAGES: Record<string, { src: string; alt: string; width: number; height: number; fit?: "contain" }> = {
+  "bv-luoi": { src: "media/bai-viet/bv-luoi.webp", width: 913, height: 345, fit: "contain", alt: "Giao diện PyroSim: danh sách mesh và các ô lưới tính toán chia trên mô hình" },
+  "bv-rset": { src: "media/bai-viet/bv-rset.webp", width: 973, height: 517, alt: "Mô phỏng Pathfinder: người di chuyển trong nhà kho có giá kệ cao tới cửa thoát nạn, bộ đếm số người đã ra ngoài ở góc trên" },
+  "bv-revit": { src: "media/bai-viet/bv-revit.webp", width: 975, height: 530, alt: "Bản vẽ mặt bằng kho giá kệ trong CAD (trái) và mô hình đã nhập vào PyroSim (phải)" },
+  "bv-ketqua": { src: "media/bai-viet/bv-ketqua.webp", width: 975, height: 295, fit: "contain", alt: "Bảng kết quả năm kịch bản: bức xạ nhiệt, nhiệt độ, CO, CO2 và oxy lớn nhất hoặc nhỏ nhất so với ngưỡng cho phép" },
+  "bv-tieu-chi": { src: "media/bai-viet/bv-tieu-chi.webp", width: 975, height: 548, alt: "Bảng số liệu theo thời gian tại một điểm đo: bức xạ nhiệt, CO, oxy, nhiệt độ và CO2" },
+}
+
 const derived: MediaSlotDef[] = [
   ...scenarios.flatMap((sc): MediaSlotDef[] => {
     const m = SCENARIO_MEDIA[sc.id]
@@ -157,7 +168,7 @@ const derived: MediaSlotDef[] = [
     id: `topic-${t.id}`, kind: "image", purpose: `Ảnh minh họa đề tài: ${t.title}`, ratio: "16/9", recommended: IMG_169, src: TOPIC_IMAGES[t.id]?.src ?? "", alt: TOPIC_IMAGES[t.id]?.alt, width: TOPIC_IMAGES[t.id]?.width, height: TOPIC_IMAGES[t.id]?.height,
   })),
   ...docs.filter((d) => d.type === "article").map((d): MediaSlotDef => ({
-    id: `article-${d.id}`, kind: "image", purpose: "Ảnh bìa bài viết", ratio: "16/9", recommended: IMG_169, src: "",
+    id: `article-${d.id}`, kind: "image", purpose: `Ảnh bìa bài viết: ${d.title}`, ratio: "16/9", recommended: IMG_169, src: ARTICLE_IMAGES[d.id]?.src ?? "", alt: ARTICLE_IMAGES[d.id]?.alt, width: ARTICLE_IMAGES[d.id]?.width, height: ARTICLE_IMAGES[d.id]?.height, fit: ARTICLE_IMAGES[d.id]?.fit,
   })),
 ]
 
