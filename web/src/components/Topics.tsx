@@ -9,6 +9,7 @@ import { copyWithToast } from "@/lib/utils-app"
 import { cn } from "@/lib/utils"
 
 const ALL = "all"
+const LIMIT = 6
 
 function opts(values: string[]): ChipOption<string>[] {
   return [{ value: ALL, label: copy.topics.filters.all }, ...values.map((v) => ({ value: v, label: v }))]
@@ -31,6 +32,7 @@ function topicText(t: Topic): string {
 export function Topics({ onRegister }: { onRegister: (note: string) => void }) {
   const [field, setField] = useState(ALL)
   const [tool, setTool] = useState(ALL)
+  const [all, setAll] = useState(false)
 
   const fieldOpts = useMemo(() => opts(uniq(topics.map((t) => t.field))), [])
   const toolOpts = useMemo(() => opts(uniq(topics.flatMap((t) => t.tools))), [])
@@ -40,13 +42,8 @@ export function Topics({ onRegister }: { onRegister: (note: string) => void }) {
   )
 
   return (
-    <div id="de-tai" aria-labelledby="dt-title" role="group" className="mt-16 border-t border-border pt-12">
-      <header className="mb-6 max-w-2xl">
-        <h3 id="dt-title" className="text-2xl font-extrabold sm:text-3xl">
-          {copy.topics.title}
-        </h3>
-        <p className="mt-2 text-base text-muted-foreground">{copy.topics.intro}</p>
-      </header>
+    <div id="de-tai">
+      <p className="mb-5 max-w-2xl text-[15px] text-muted-foreground">{copy.topics.intro}</p>
 
       <div className="flex flex-col gap-3" role="group" aria-label="Lọc đề tài">
         <Chips id="topic-field" label={copy.topics.filters.field} options={fieldOpts} value={field} onChange={setField} />
@@ -57,7 +54,7 @@ export function Topics({ onRegister }: { onRegister: (note: string) => void }) {
       </p>
 
       <div id="topic-list" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-        {shown.map((t) => (
+        {(all ? shown : shown.slice(0, LIMIT)).map((t) => (
           <article key={t.id} className="topic flex flex-col overflow-hidden rounded-[10px] border border-border bg-card transition-shadow hover:shadow-[4px_4px_0_0_hsl(var(--ink)/0.85)]">
             <MediaSlot id={`topic-${t.id}`} compact />
             <div className="flex flex-1 flex-col p-5">
@@ -69,7 +66,7 @@ export function Topics({ onRegister }: { onRegister: (note: string) => void }) {
                   </span>
                 ))}
               </div>
-              <h4 className="text-[17px] font-bold leading-snug">{t.title}</h4>
+              <h3 className="text-[17px] font-bold leading-snug">{t.title}</h3>
               <p className="mt-2 text-[15px] text-muted-foreground">{t.summary}</p>
               <p className="mb-1 mt-3 text-xs font-semibold uppercase tracking-wider text-muted-foreground">{copy.topics.outcomes}</p>
               <ul className="list-disc space-y-0.5 pl-5 text-sm">
@@ -93,6 +90,13 @@ export function Topics({ onRegister }: { onRegister: (note: string) => void }) {
           </article>
         ))}
       </div>
+      {!all && shown.length > LIMIT && (
+        <div className="mt-6">
+          <Button id="topic-more" type="button" variant="outline" className="rounded-full border-ink/30 bg-transparent" onClick={() => setAll(true)}>
+            Xem thêm {shown.length - LIMIT} đề tài
+          </Button>
+        </div>
+      )}
     </div>
   )
 }

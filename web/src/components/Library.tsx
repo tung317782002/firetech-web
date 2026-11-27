@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { MediaSlot } from "@/components/MediaSlot"
 import { Topics } from "@/components/Topics"
 import { Chips, Section, SectionHead, type ChipOption } from "@/components/shared"
+import { topics } from "@/data/topics"
 import { docs, docTags, TYPE_LABEL, type Doc, type DocType, type FormulaDoc, type ReadableDoc } from "@/data/library"
 import { calcs, type CalcInput } from "@/data/calcs"
 import { XLSX_FILES } from "@/data/files"
@@ -25,7 +26,14 @@ const TYPE_TONE: Record<DocType, string> = {
   standard: "bg-ink text-primary-foreground",
 }
 
-const typeOpts: ChipOption<string>[] = [{ value: ALL, label: copy.topics.filters.all }, ...(Object.keys(TYPE_LABEL) as DocType[]).map((k) => ({ value: k, label: TYPE_LABEL[k] }))]
+const TOPICS = "topic"
+/** Thứ tự các nhóm: mỗi lần chỉ mở một nhóm để thư viện không bị liệt kê dài. */
+const TAB_ORDER: DocType[] = ["article", "excel", "formula", "template", "standard"]
+const countOf = (t: DocType) => docs.filter((d) => d.type === t).length
+const tabOpts: ChipOption<string>[] = [
+  ...TAB_ORDER.map((k) => ({ value: k, label: `${TYPE_LABEL[k]} (${countOf(k)})` })),
+  { value: TOPICS, label: `${copy.library.topicsTab} (${topics.length})` },
+]
 const tagOpts: ChipOption<string>[] = [{ value: ALL, label: copy.topics.filters.all }, ...docTags.map((t) => ({ value: t, label: t }))]
 
 function Calculator({ doc }: { doc: FormulaDoc }) {
@@ -159,19 +167,19 @@ function DocCard({ doc, onRead }: { doc: Doc; onRead: (d: ReadableDoc) => void }
 
 export function Library({ onRegister }: { onRegister: (note: string) => void }) {
   const [q, setQ] = useState("")
-  const [type, setType] = useState(ALL)
+  const [type, setType] = useState<string>(TAB_ORDER[0])
   const [tag, setTag] = useState(ALL)
   const [reading, setReading] = useState<ReadableDoc | null>(null)
 
   const nq = norm(q.trim())
+  const searching = nq !== ""
+  const inTopics = type === TOPICS && !searching
   const shown = docs.filter((d) => {
-    if (type !== ALL && d.type !== type) return false
     if (tag !== ALL && !d.tags.includes(tag as Doc["tags"][number])) return false
-    if (!nq) return true
-    const hay = [d.title, d.desc, d.tags.join(" "), TYPE_LABEL[d.type], d.type === "formula" ? d.formula : ""].join(" ")
-    return norm(hay).includes(nq)
+    if (searching) return norm([d.title, d.desc, d.tags.join(" "), TYPE_LABEL[d.type], d.type === "formula" ? d.formula : ""].join(" ")).includes(nq)
+    return d.type === type
   })
-  const filtered = q !== "" || type !== ALL || tag !== ALL
+  const filtered = searching || tag !== ALL
 
   return (
     <Section id="thu-vien" labelledBy="tv-title">
@@ -193,39 +201,44 @@ export function Library({ onRegister }: { onRegister: (note: string) => void }) 
             className="min-h-12 w-full rounded-full border border-input bg-card pl-10 pr-4"
           />
         </div>
-        <Chips id="lib-type" label="Loại" options={typeOpts} value={type} onChange={setType} />
-        <Chips id="lib-tag" label="Chủ đề" options={tagOpts} value={tag} onChange={setTag} />
-        <div className="flex items-center gap-4">
-          <p id="lib-count" role="status" aria-live="polite" className="text-sm text-muted-foreground">
-            Hiển thị {shown.length} / {docs.length} tài liệu
+        <Chips id="lib-type" label="Nhóm" options={tabOpts} value={searching ? "" : type} onChange={(v) => { setType(v); setTag(ALL) }} />
+        {!inTopics && <Chips id="lib-tag" label="Chủ đề" options={tagOpts} value={tag} onChange={setTag} />}
+        {!inTopics && (
+          <div className="flex items-center gap-4">
+            <p id="lib-count" role="status" aria-live="polite" className="text-sm text-muted-foreground">
+              {searching ? `Tìm thấy ${shown.length} tài liệu trong toàn thư viện` : `${shown.length} tài liệu`}
+            </p>
+            <button
+              id="lib-clear"
+              type="button"
+              hidden={!filtered}
+              onClick={() => {
+                setQ("")
+                setTag(ALL)
+              }}
+              className="text-sm font-semibold text-ember-dark underline underline-offset-4"
+            >
+              Xóa bộ lọc
+            </button>
+          </div>
+        )}
+      </div>
+
+      {inTopics ? (
+        <Topics onRegister={onRegister} />
+      ) : (
+        <>
+          <div id="lib-list" className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+            {shown.map((d) => (
+              <DocCard key={d.id} doc={d} onRead={setReading} />
+            ))}
+          </div>
+          <p id="lib-empty" hidden={shown.length > 0} className="py-8 text-muted-foreground">
+            {copy.library.empty}
           </p>
-          <button
-            id="lib-clear"
-            type="button"
-            hidden={!filtered}
-            onClick={() => {
-              setQ("")
-              setType(ALL)
-              setTag(ALL)
-            }}
-            className="text-sm font-semibold text-ember-dark underline underline-offset-4"
-          >
-            Xóa bộ lọc
-          </button>
-        </div>
-      </div>
-
-      <div id="lib-list" className="grid gap-5 md:grid-cols-2">
-        {shown.map((d) => (
-          <DocCard key={d.id} doc={d} onRead={setReading} />
-        ))}
-      </div>
-      <p id="lib-empty" hidden={shown.length > 0} className="py-8 text-muted-foreground">
-        {copy.library.empty}
-      </p>
-      <p className="mt-6 text-sm text-muted-foreground">{copy.library.standardNote}</p>
-
-      <Topics onRegister={onRegister} />
+          {(type === "standard" || searching) && <p className="mt-6 text-sm text-muted-foreground">{copy.library.standardNote}</p>}
+        </>
+      )}
 
       <Dialog open={reading !== null} onOpenChange={(o) => !o && setReading(null)}>
         <DialogContent id="article-dialog" className="max-h-[calc(100vh-2rem)] w-[calc(100vw-1.5rem)] max-w-2xl overflow-y-auto">
