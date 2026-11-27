@@ -136,8 +136,13 @@ const SCENARIO_MEDIA: Record<string, { image: string; alt: string; video: Pick<M
 }
 
 /** Ảnh đã có cho đề tài (các đề tài còn lại chờ ảnh của chủ dự án). */
-const TOPIC_IMAGES: Record<string, { src: string; alt: string }> = {
-  "kho-xep-gia": { src: "media/tinh-huong/kho-ke-cao.webp", alt: "Mô hình nhà kho kệ cao dạng khung dây, lớp khói tích tụ dưới trần" },
+const TOPIC_IMAGES: Record<string, { src: string; alt: string; width: number; height: number }> = {
+  "khoi-ham-do-xe": { src: "media/de-tai/ham-do-xe.webp", width: 975, height: 497, alt: "Bản đồ nhiệt độ trên mặt bằng một tầng rộng trong mô phỏng FDS, vùng màu đỏ là nơi nóng nhất" },
+  "thang-bo-chung-cu": { src: "media/de-tai/chung-cu.webp", width: 973, height: 517, alt: "Mô phỏng Pathfinder: người dồn về cửa thoát nạn ở hành lang chung cư, khói đen bốc lên từ khoảng thông tầng phía sau" },
+  "khoi-thong-tang": { src: "media/de-tai/khoi-thong-tang.webp", width: 973, height: 517, alt: "Hành lang một tầng nhìn ra khoảng thông tầng của tòa nhà trong mô hình mô phỏng" },
+  "hanh-lang-truong-hoc": { src: "media/de-tai/truong-hoc.webp", width: 973, height: 517, alt: "Dòng người dồn xuống cầu thang bộ trong mô phỏng Pathfinder" },
+  "kho-xep-gia": { src: "media/tinh-huong/kho-ke-cao.webp", width: 1280, height: 720, alt: "Mô hình nhà kho kệ cao dạng khung dây, lớp khói tích tụ dưới trần" },
+  "be-rong-loi-thoat": { src: "media/de-tai/be-rong-loi-thoat.webp", width: 973, height: 498, alt: "Hành lang hẹp đông người thoát nạn qua cửa kính trong mô phỏng Pathfinder" },
 }
 
 const derived: MediaSlotDef[] = [
@@ -149,7 +154,7 @@ const derived: MediaSlotDef[] = [
     ]
   }),
   ...topics.map((t): MediaSlotDef => ({
-    id: `topic-${t.id}`, kind: "image", purpose: `Ảnh minh họa đề tài: ${t.title}`, ratio: "16/9", recommended: IMG_169, src: TOPIC_IMAGES[t.id]?.src ?? "", alt: TOPIC_IMAGES[t.id]?.alt, width: 1280, height: 720,
+    id: `topic-${t.id}`, kind: "image", purpose: `Ảnh minh họa đề tài: ${t.title}`, ratio: "16/9", recommended: IMG_169, src: TOPIC_IMAGES[t.id]?.src ?? "", alt: TOPIC_IMAGES[t.id]?.alt, width: TOPIC_IMAGES[t.id]?.width, height: TOPIC_IMAGES[t.id]?.height,
   })),
   ...docs.filter((d) => d.type === "article").map((d): MediaSlotDef => ({
     id: `article-${d.id}`, kind: "image", purpose: "Ảnh bìa bài viết", ratio: "16/9", recommended: IMG_169, src: "",
