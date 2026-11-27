@@ -55,22 +55,7 @@ jobs:
         run: pnpm bundle
 
       - name: Ghép thư mục đăng
-        run: |
-          mkdir -p _site/assets/img
-          cp web/bundle.html _site/index.html
-          cp robots.txt favicon.svg _site/
-          cp assets/img/og.png _site/assets/img/
-          if [ -d web/public ]; then cp -R web/public/. _site/; fi
-          cp -R web/dist-tin/. _site/   # trang tin tức, feed, font dùng chung và sitemap.xml sinh tự động
-          test -s _site/tin-tuc/index.html
-          test -s _site/sitemap.xml
-          for f in _site/tin-tuc/*/index.html; do
-            [ -e "$f" ] || continue
-            grep -q 'rel="canonical" href="https://firetech.edu.vn/tin-tuc/' "$f" || { echo "Thiếu canonical: $f"; exit 1; }
-          done
-          test -s _site/index.html
-          grep -Eq 'rel="?canonical"? href="?https://firetech.edu.vn/' _site/index.html
-          grep -q 'application/ld+json' _site/index.html
+        run: node web/scripts/ghep-site.mjs _site
 
       - uses: actions/upload-pages-artifact@v3
         with:

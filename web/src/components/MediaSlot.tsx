@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { Image as ImageIcon, PlayCircle, QrCode, UserRound } from "lucide-react"
+import { Image as ImageIcon, PlayCircle, UserRound } from "lucide-react"
 import { getSlot, type MediaSlotDef } from "@/data/media"
 import { cn } from "@/lib/utils"
 
@@ -11,7 +11,6 @@ function toEmbedUrl(src: string): string {
 
 function SlotIcon({ id, kind }: { id: string; kind: MediaSlotDef["kind"] }) {
   const cls = "h-6 w-6 shrink-0"
-  if (id === "zalo-qr") return <QrCode className={cls} aria-hidden="true" />
   if (id === "instructor") return <UserRound className={cls} aria-hidden="true" />
   return kind === "image" ? <ImageIcon className={cls} aria-hidden="true" /> : <PlayCircle className={cls} aria-hidden="true" />
 }
@@ -71,12 +70,29 @@ export function MediaSlot({
             playsInline
             preload="metadata"
             poster={def.poster}
-            className="h-full w-full bg-ink object-cover"
+            className="h-full w-full bg-ink object-contain"
             aria-label={def.alt}
             onError={() => setFailed(true)}
           >
             <source src={def.src} />
           </video>
+        )}
+        {has && def.kind === "youtube" && (
+          <a
+            href={def.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={def.alt}
+            className="relative block h-full w-full bg-ink bg-cover bg-center"
+            style={{ backgroundImage: `url("${def.src}")` }}
+          >
+            <span aria-hidden="true" className="absolute inset-0 m-auto grid h-[54px] w-[76px] place-items-center rounded-[14px] bg-ember">
+              <span className="ml-1.5 border-y-[13px] border-l-[22px] border-y-transparent border-l-white" />
+            </span>
+            <span aria-hidden="true" className="absolute bottom-2.5 left-2.5 rounded-[4px] bg-ink/80 px-2 py-1 text-xs font-bold text-primary-foreground">
+              Xem trên YouTube
+            </span>
+          </a>
         )}
         {has && def.kind === "embed" && (
           <iframe
@@ -90,6 +106,7 @@ export function MediaSlot({
         )}
       </div>
       {has && def.caption && <figcaption className="mt-1.5 text-xs text-muted-foreground">{def.caption}</figcaption>}
+      {has && def.label && <figcaption className="mt-2 text-xs font-bold uppercase tracking-wider text-muted-foreground">{def.label}</figcaption>}
     </figure>
   )
 }

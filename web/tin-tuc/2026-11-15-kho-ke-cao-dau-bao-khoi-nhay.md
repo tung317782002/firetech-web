@@ -12,11 +12,6 @@ Công trình là kho kín nhiệt với nhiều dãy kệ cao, gồm khu kho má
 - Cháy tại cửa xuất nhập hàng của kho mát (có hệ thống sprinkler).
 - Cháy bên trong kho lạnh (không có sprinkler).
 
-| Kịch bản | RSET | ASET | Hệ số ASET/RSET |
-|---|---|---|---|
-| Cháy tại cửa xuất nhập hàng (kho mát) | 10 + 5 + 43 + 25 = 83 giây | 200 giây | khoảng 2,4 |
-| Cháy bên trong kho lạnh | 20 + 5 + 33 + 12 = 70 giây | 150 giây | khoảng 2,1 |
-
 ## Bài học rút ra
 
 - Đầu báo khói có độ nhạy cao giúp rút ngắn đáng kể thời gian xác nhận cháy.

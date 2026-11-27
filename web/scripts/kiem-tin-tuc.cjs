@@ -1,22 +1,21 @@
 /*
  * Kiểm thử mục tin tức ở dạng đã ghép như khi đăng: trang chủ + trang danh sách + từng trang bài.
- * Chạy từ gốc repo sau `pnpm bundle` (đã gồm tao-tin-tuc), cần server:  python3 -m http.server 8080
+ * Chạy từ gốc repo sau `pnpm bundle` và `node web/scripts/ghep-site.mjs`, cần server:  python3 -m http.server 8080
  *   node web/scripts/kiem-tin-tuc.cjs
- * Tạm chép web/bundle.html thành web/dist-tin/index.html (thư mục build, không commit) để bấm từ trang chủ sang bài.
+ * Mở web/site/ (thư mục đăng đã ghép, không commit) để bấm từ trang chủ sang bài và tải media thật.
  */
 const { chromium } = require("playwright");
 const fs = require("fs");
 const path = require("path");
 
 const ROOT = path.resolve(__dirname, "..");
-const BASE = "http://localhost:8080/web/dist-tin/";
+const BASE = "http://localhost:8080/web/site/";
 const failures = [];
 let checks = 0;
 const ok = (c, m) => { checks++; if (!c) { failures.push(m); console.log("  ✗ " + m); } else console.log("  ✓ " + m); };
 
 const ts = fs.readFileSync(path.join(ROOT, "src/data/news.generated.ts"), "utf8");
 const news = JSON.parse(ts.match(/export const news: NewsItem\[\] = (\[[\s\S]*\])\s*$/)[1]);
-fs.copyFileSync(path.join(ROOT, "bundle.html"), path.join(ROOT, "dist-tin/index.html"));
 
 async function open(browser, url, w = 1280, h = 800, opts = {}) {
   const ctx = await browser.newContext({ viewport: { width: w, height: h }, ...opts });
@@ -24,7 +23,7 @@ async function open(browser, url, w = 1280, h = 800, opts = {}) {
   const bad = [];
   page.on("console", (m) => ["error", "warning"].includes(m.type()) && bad.push("console: " + m.text()));
   page.on("pageerror", (e) => bad.push("pageerror: " + e.message));
-  page.on("requestfailed", (r) => bad.push("requestfailed: " + r.url()));
+  page.on("requestfailed", (r) => { if (/\.mp4$/.test(r.url()) && /ERR_ABORTED/.test(r.failure()?.errorText || "")) return; bad.push("requestfailed: " + r.url()); });
   page.on("response", (r) => r.status() >= 400 && bad.push(`HTTP ${r.status()} ${r.url()}`));
   await page.goto(url, { waitUntil: "load" });
   return { page, ctx, bad };
@@ -105,16 +104,15 @@ async function open(browser, url, w = 1280, h = 800, opts = {}) {
 
     console.log("\n== Sitemap và RSS");
     {
-      const sm = fs.readFileSync(path.join(ROOT, "dist-tin/sitemap.xml"), "utf8");
+      const sm = fs.readFileSync(path.join(ROOT, "site/sitemap.xml"), "utf8");
       const locs = [...sm.matchAll(/<loc>([^<]+)<\/loc>/g)].map((x) => x[1]);
       ok(locs.length === news.length + 2, `sitemap có ${locs.length} URL (trang chủ + danh sách + ${news.length} bài)`);
       ok(news.every((n) => locs.includes(`https://firetech.edu.vn/tin-tuc/${n.slug}/`)), "sitemap có đủ URL từng bài");
-      const feed = fs.readFileSync(path.join(ROOT, "dist-tin/tin-tuc/feed.xml"), "utf8");
+      const feed = fs.readFileSync(path.join(ROOT, "site/tin-tuc/feed.xml"), "utf8");
       ok((feed.match(/<item>/g) || []).length === Math.min(news.length, 30), "feed RSS đủ tin");
     }
   } finally {
     await browser.close();
-    fs.rmSync(path.join(ROOT, "dist-tin/index.html"), { force: true });
   }
   console.log(`\n${checks} kiểm tra, ${failures.length} lỗi`);
   if (failures.length) { console.log(failures.map((f) => " - " + f).join("\n")); process.exit(1); }

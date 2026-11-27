@@ -1,7 +1,6 @@
 /*
- * Kiểm tra số liệu: máy tính nhanh trong thư viện và các bảng RSET/ASET của 5 tình huống mô phỏng.
- * Chỉ kiểm phép tính (cộng các thành phần RSET, yêu cầu 1,5 × RSET, hệ số ASET/RSET, kiểm tra đỉnh đường cong t²);
- * không thay thế việc đối chiếu với tài liệu nguồn.
+ * Kiểm tra số liệu: máy tính nhanh trong thư viện, dữ liệu 5 tình huống mô phỏng, tin tức và phương pháp chung.
+ * Không thay thế việc đối chiếu với tài liệu nguồn.
  * Chạy:  node scripts/kiem-so-lieu.ts   (Node 22+, không cần build)
  */
 import { calcs } from "../src/data/calcs.ts"
@@ -20,8 +19,6 @@ function eq(actual: unknown, expected: unknown, label: string) {
 }
 const run = (id: string, v: Record<string, number>) => calcs[id].run(v).map((r) => r.value)
 const defaults = (id: string) => Object.fromEntries(calcs[id].inputs.map((i) => [i.id, Number(i.value)]))
-/** Lấy số đầu tiên trong chuỗi, ví dụ "250 giây" → 250, "khoảng 2,4" → 2.4. */
-const num = (s: string) => Number((s.match(/\d+(?:,\d+)?/)?.[0] ?? "NaN").replace(",", "."))
 
 // Máy tính nhanh
 eq(run("dstar", { q: 1000 })[0], "0,959 m", "D* với Q = 1000 kW")
@@ -36,26 +33,10 @@ eq(topics.length, 9, "số đề tài")
 eq(Object.keys(XLSX_FILES).length, 4, "số file Excel nhúng")
 eq(docs.filter((d) => d.type === "excel").every((d) => d.type === "excel" && d.file in XLSX_FILES), true, "mọi tài liệu Excel đều có file nhúng")
 
-// Tình huống: cộng các thành phần RSET, yêu cầu 1,5 × RSET, hệ số ASET/RSET
+// Tình huống (chữ khái quát, không có bảng số liệu) và phương pháp chung
 eq(scenarios.length, 5, "số tình huống")
-const sum = (s: string) => {
-  const [parts, total] = s.split("=")
-  return { sum: parts.split("+").reduce((a, b) => a + num(b), 0), total: num(total) }
-}
-const ga = scenarios[0].table!.rows
-for (const r of ga) {
-  const { sum: s, total } = sum(r[1])
-  eq(s, total, `RSET cộng đúng: ${r[0]}`)
-  eq(num(r[2]) , total * 1.5, `yêu cầu 1,5 × RSET: ${r[0]}`)
-}
-const kho = scenarios[1].table!.rows
-for (const r of kho) {
-  const { sum: s, total } = sum(r[1])
-  eq(s, total, `RSET cộng đúng: ${r[0]}`)
-  const ratio = num(r[2]) / total
-  eq(Number(ratio.toFixed(1)), num(r[3]), `hệ số ASET/RSET: ${r[0]}`)
-}
-eq(Math.round(0.0469 * 173 ** 2), 1404, "đường cong t²: đỉnh khoảng 1.400 kW tại 173 s")
+eq(scenarios.every((sc) => sc.simulation.length > 0 && sc.observations.length > 0 && sc.lessons.length > 0), true, "mỗi tình huống đủ nội dung mô phỏng, quan sát, bài học")
+eq(Math.round(0.0469 * 173 ** 2), 1404, "đường cong t²: đỉnh khoảng 1.400 kW tại 173 s (dùng trong bài viết HRR)")
 eq(method.criteria.rows.length, 4, "số tiêu chí an toàn")
 
 // Tin tức: dữ liệu sinh từ web/tin-tuc/*.md

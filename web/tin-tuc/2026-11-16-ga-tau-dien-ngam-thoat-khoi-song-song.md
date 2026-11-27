@@ -15,12 +15,6 @@ Nhà ga là công trình ngầm có không gian khép kín và mật độ ngư�
 
 ## RSET và yêu cầu tối thiểu
 
-| Kịch bản | RSET | Yêu cầu tối thiểu (1,5 × RSET) |
-|---|---|---|
-| Hành lang văn phòng, tầng ke ga | 50 + 0 + 130 + 70 = 250 giây | 375 giây |
-| Thùng rác, tầng trung chuyển | 50 + 0 + 90 + 160 = 300 giây | 450 giây |
-| Đầu tàu dừng tại ke ga | 15 + 0 + 10 + 215 = 240 giây | 360 giây |
-
 Ở cả ba kịch bản, ASET đạt trọn 600 giây mô phỏng, vượt mức yêu cầu 1,5 × RSET.
 
 ## Bài học rút ra

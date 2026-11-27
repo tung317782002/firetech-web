@@ -42,7 +42,7 @@ export function Concepts() {
             <p className="mt-5 text-[15px] text-muted-foreground">{c.q1.closing}</p>
           </div>
           <div>
-            <MediaSlot id="concepts-aset-rset" className="rounded-[4px] border border-border bg-card p-2" />
+            <MediaSlot id="concepts-aset-rset" className="overflow-hidden rounded-[8px] border border-border bg-card" />
             <p className="mt-2 text-xs text-muted-foreground">{c.figureNote}</p>
           </div>
         </div>
@@ -65,12 +65,22 @@ export function Concepts() {
 
       <Q id="cau-hoi-3" n="3" title={c.q3.title}>
         <p className="mb-5 max-w-2xl text-base sm:text-lg">{c.q3.lead}</p>
-        <MediaSlot id="concepts-video" className="mb-6 max-w-3xl rounded-[4px] border border-border bg-card p-2" />
-        <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-3 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)]">
+          <MediaSlot id="concepts-video" className="self-start overflow-hidden rounded-[8px] border border-border bg-card" />
+          <ul className="grid grid-cols-2 gap-3">
+            {c.q3.items.map((it) => (
+              <li key={it.slot} className="relative flex overflow-hidden rounded-[8px] border border-border bg-card">
+                <MediaSlot id={it.slot} compact className="w-full lg:h-full lg:[&>div]:!aspect-auto lg:[&>div]:h-full" />
+                <span className="absolute bottom-2 left-2 rounded-[4px] bg-ink/85 px-2 py-1 text-xs font-bold text-primary-foreground">{it.label}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <ul className="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {c.q3.items.map((it) => (
-            <li key={it.slot} className="flex flex-col overflow-hidden rounded-[10px] border border-border bg-card">
-              <MediaSlot id={it.slot} compact />
-              <p className="p-4 text-[15px]">{it.text}</p>
+            <li key={it.slot} className="text-sm">
+              <strong className="block">{it.label}</strong>
+              <span className="text-muted-foreground">{it.text}</span>
             </li>
           ))}
         </ul>

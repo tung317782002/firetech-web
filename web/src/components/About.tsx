@@ -1,4 +1,3 @@
-import { MediaSlot } from "@/components/MediaSlot"
 import { Section, Tick } from "@/components/shared"
 import { copy } from "@/content/copy"
 
@@ -20,7 +19,6 @@ export function About() {
               <Tick key={d}>{d}</Tick>
             ))}
           </ul>
-          <MediaSlot id="about-team" className="mt-7 max-w-xl rounded-[4px] border border-border bg-card p-2" />
         </div>
 
         <div className="grid content-start gap-4">

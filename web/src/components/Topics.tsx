@@ -19,7 +19,7 @@ const uniq = <T,>(a: T[]) => a.filter((v, i) => a.indexOf(v) === i)
 function topicText(t: Topic): string {
   return [
     `Đề tài: ${t.title}`,
-    `Lĩnh vực: ${t.field} · Cấp: ${t.level}`,
+    `Lĩnh vực: ${t.field}`,
     `Phần mềm: ${t.tools.join(", ")}`,
     `Nội dung: ${t.summary}`,
     `Kết quả cần đạt: ${t.outcomes.join("; ")}`,
@@ -30,15 +30,13 @@ function topicText(t: Topic): string {
 
 export function Topics({ onRegister }: { onRegister: (note: string) => void }) {
   const [field, setField] = useState(ALL)
-  const [level, setLevel] = useState(ALL)
   const [tool, setTool] = useState(ALL)
 
   const fieldOpts = useMemo(() => opts(uniq(topics.map((t) => t.field))), [])
-  const levelOpts = useMemo(() => opts(uniq(topics.map((t) => t.level))), [])
   const toolOpts = useMemo(() => opts(uniq(topics.flatMap((t) => t.tools))), [])
 
   const shown = topics.filter(
-    (t) => (field === ALL || t.field === field) && (level === ALL || t.level === level) && (tool === ALL || t.tools.includes(tool as Topic["tools"][number])),
+    (t) => (field === ALL || t.field === field) && (tool === ALL || t.tools.includes(tool as Topic["tools"][number])),
   )
 
   return (
@@ -52,7 +50,6 @@ export function Topics({ onRegister }: { onRegister: (note: string) => void }) {
 
       <div className="flex flex-col gap-3" role="group" aria-label="Lọc đề tài">
         <Chips id="topic-field" label={copy.topics.filters.field} options={fieldOpts} value={field} onChange={setField} />
-        <Chips id="topic-level" label={copy.topics.filters.level} options={levelOpts} value={level} onChange={setLevel} />
         <Chips id="topic-tool" label={copy.topics.filters.tool} options={toolOpts} value={tool} onChange={setTool} />
       </div>
       <p id="topic-count" role="status" aria-live="polite" className="my-5 min-h-6 text-sm text-muted-foreground">
@@ -66,7 +63,6 @@ export function Topics({ onRegister }: { onRegister: (note: string) => void }) {
             <div className="flex flex-1 flex-col p-5">
               <div className="mb-3 flex flex-wrap gap-1.5">
                 <span className={cn("rounded-[3px] px-2 py-0.5 text-xs font-bold", t.field === "PCCC" ? "bg-ember-soft text-ember-dark" : "bg-teal-soft text-teal")}>{t.field}</span>
-                <span className="rounded-[3px] bg-secondary px-2 py-0.5 text-xs font-bold">{t.level}</span>
                 {t.tools.map((x) => (
                   <span key={x} className="rounded-[3px] bg-secondary px-2 py-0.5 font-mono text-xs font-semibold">
                     {x}

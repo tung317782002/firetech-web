@@ -30,3 +30,4 @@ bundle.html
 # Tin tức: file tự sinh bởi scripts/tao-tin-tuc.mjs
 src/data/news.generated.ts
 dist-tin
+site
