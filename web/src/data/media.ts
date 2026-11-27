@@ -144,6 +144,8 @@ const TOPIC_IMAGES: Record<string, { src: string; alt: string; width: number; he
   "khoi-thong-tang": { src: "media/de-tai/khoi-thong-tang.webp", width: 973, height: 517, alt: "Hành lang một tầng nhìn ra khoảng thông tầng của tòa nhà trong mô hình mô phỏng" },
   "hanh-lang-truong-hoc": { src: "media/de-tai/truong-hoc.webp", width: 973, height: 517, alt: "Dòng người dồn xuống cầu thang bộ trong mô phỏng Pathfinder" },
   "kho-xep-gia": { src: "media/tinh-huong/kho-ke-cao.webp", width: 1280, height: 720, alt: "Mô hình nhà kho kệ cao dạng khung dây, lớp khói tích tụ dưới trần" },
+  "sfpe-so-voi-steering": { src: "media/de-tai/sfpe-steering.webp", width: 1280, height: 720, alt: "Hai ảnh Pathfinder cùng một hành lang tại giây 200: bên trái ít người tới cửa thang máy, bên phải đông người dồn về cửa" },
+  "revit-sang-mo-phong": { src: "media/de-tai/revit-pyrosim.webp", width: 975, height: 528, alt: "Mô hình nhà kho trong Revit đang xuất dữ liệu (trái) và mô hình đã nhập vào PyroSim (phải)" },
   "be-rong-loi-thoat": { src: "media/de-tai/be-rong-loi-thoat.webp", width: 973, height: 498, alt: "Hành lang hẹp đông người thoát nạn qua cửa kính trong mô phỏng Pathfinder" },
 }
 
@@ -153,6 +155,7 @@ const ARTICLE_IMAGES: Record<string, { src: string; alt: string; width: number; 
   "bv-rset": { src: "media/bai-viet/bv-rset.webp", width: 973, height: 517, alt: "Mô phỏng Pathfinder: người di chuyển trong nhà kho có giá kệ cao tới cửa thoát nạn, bộ đếm số người đã ra ngoài ở góc trên" },
   "bv-revit": { src: "media/bai-viet/bv-revit.webp", width: 975, height: 530, alt: "Bản vẽ mặt bằng kho giá kệ trong CAD (trái) và mô hình đã nhập vào PyroSim (phải)" },
   "bv-ketqua": { src: "media/bai-viet/bv-ketqua.webp", width: 975, height: 295, fit: "contain", alt: "Bảng kết quả năm kịch bản: bức xạ nhiệt, nhiệt độ, CO, CO2 và oxy lớn nhất hoặc nhỏ nhất so với ngưỡng cho phép" },
+  "bv-hrr": { src: "media/bai-viet/bv-hrr.webp", width: 975, height: 278, fit: "contain", alt: "Đồ thị đường cong tốc độ toả nhiệt HRR theo hàm bậc hai t² (tăng trưởng nhanh) trong khoảng 0 đến 170 giây" },
   "bv-tieu-chi": { src: "media/bai-viet/bv-tieu-chi.webp", width: 975, height: 548, alt: "Bảng số liệu theo thời gian tại một điểm đo: bức xạ nhiệt, CO, oxy, nhiệt độ và CO2" },
 }
 
