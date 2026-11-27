@@ -37,7 +37,7 @@ Mọi chỗ đặt hình trên trang đều đã được khai báo sẵn và **
 | `software-pyrosim`, `software-pathfinder`, `software-fds` | ảnh | 16:9 | Đã có |
 | `scenario-<mã>` và `scenario-<mã>-video` (5 tình huống, mã lấy từ `src/data/scenarios.ts`) | ảnh + video/youtube | 16:9 | Đã có: ảnh mô hình và video trích đoạn (ga tàu điện ngầm dùng YouTube) |
 | `contact-site`, `instructor`, `contact-fire` | ảnh | 1:1 | Đã có: hàng 3 ảnh ở khối liên hệ |
-| `topic-<mã đề tài>` (9 vị trí, mã lấy từ `src/data/topics.ts`) | ảnh | 16:9 | **Còn trống**: chờ ảnh |
+| `topic-<mã đề tài>` (9 vị trí, mã lấy từ `src/data/topics.ts`) | ảnh | 16:9 | `topic-kho-xep-gia` đã có; **8 vị trí còn trống**: chờ ảnh (`khoi-ham-do-xe`, `rset-trung-tam-thuong-mai`, `thang-bo-chung-cu`, `khoi-thong-tang`, `hanh-lang-truong-hoc`, `be-rong-loi-thoat`, `sfpe-so-voi-steering`, `revit-sang-mo-phong`) |
 | `article-<mã bài>` (6 vị trí: `bv-luoi`, `bv-rset`, `bv-revit`, `bv-ketqua`, `bv-tieu-chi`, `bv-hrr`) | ảnh | 16:9 | **Còn trống**: chờ ảnh bìa |
 
 Video: H.264 (MP4), không âm thanh, dưới 4 MB, kèm ảnh bìa JPG (`poster`); nén bằng `ffmpeg -an -c:v libx264 -preset slow -crf 29 -movflags +faststart`. Tệp đặt trong `web/public/media/` và tham chiếu bằng `media/...` (không nhúng vào bundle).

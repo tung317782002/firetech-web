@@ -142,7 +142,7 @@ async function noiDung(browser) {
 
   // Khung ảnh/video để trống
   const empties = await page.locator("[data-slot-empty]").count();
-  ok(empties === 15, `${empties} khung để trống (chờ ảnh: 9 đề tài, 6 bài viết)`);
+  ok(empties === 14, `${empties} khung để trống (chờ ảnh: 8 đề tài, 6 bài viết)`);
   ok((await page.locator("[data-slot-empty]").evaluateAll((n) => n.every((e) => /^(topic|article)-/.test(e.getAttribute("data-slot-empty"))))), "khung trống chỉ còn ở đề tài và bài viết thư viện");
   await page.evaluate(async () => { for (let y = 0; y < document.body.scrollHeight; y += 700) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 60)); } window.scrollTo(0, 0); });
   await page.waitForTimeout(800);
