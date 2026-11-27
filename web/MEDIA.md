@@ -27,20 +27,20 @@ Mọi chỗ đặt hình trên trang đều đã được khai báo sẵn và **
 
 ## Danh sách vị trí
 
-| Mã | Loại | Tỉ lệ | Dùng cho |
+| Mã | Loại | Tỉ lệ | Trạng thái / dùng cho |
 |---|---|---|---|
-| `logo` | ảnh | 846:186 | Logo FireTech E&C ở header, footer; đã điền sẵn từ `public/media/logo.webp` (thay file rồi chạy `node scripts/dong-goi-logo.mjs`) |
-| `hero-video` | embed/video | 16:9 | Video mở đầu, cạnh ba câu hỏi ở đầu trang |
-| `concepts-aset-rset` | ảnh | 16:9 | "Hình gợi ý" ở câu hỏi 1: sơ đồ so sánh ASET và RSET |
-| `concepts-video` | embed/video | 16:9 | "Video đề xuất" ở câu hỏi 3: công trình vận hành khi có cháy |
-| `concepts-smoke`, `concepts-heatmap`, `concepts-crowd`, `concepts-counter` | ảnh/video | 4:3 | Bốn hình của câu hỏi 3: khói, bản đồ nhiệt, dòng người, bộ đếm người đã ra ngoài |
-| `software-pyrosim`, `software-pathfinder`, `software-fds` | ảnh | 16:9 | Ảnh màn hình từng phần mềm, mục "Công cụ" |
-| `scenario-<mã tình huống>` (5 vị trí, mã lấy từ `src/data/scenarios.ts`) | ảnh/video | 16:9 | Hình hoặc video của từng tình huống mô phỏng |
-| `topic-<mã đề tài>` (9 vị trí, mã lấy từ `src/data/topics.ts`) | ảnh | 16:9 | Ảnh minh họa từng đề tài |
-| `article-<mã bài>` (6 vị trí, mã lấy từ `src/data/library.ts`) | ảnh | 16:9 | Ảnh bìa bài viết trong thư viện |
-| `about-team` | ảnh | 16:9 | Ảnh nhóm ở mục "Chúng tôi là ai" |
-| `instructor` | ảnh | 1:1 | Ảnh người trao đổi cùng bạn, cạnh form liên hệ |
-| `zalo-qr` | ảnh | 1:1 | Mã QR nhóm Zalo |
+| `logo` | ảnh | 846:186 | Đã có (nhúng từ `public/media/logo.webp`; thay file rồi chạy `node scripts/dong-goi-logo.mjs`) |
+| `hero-video` | youtube | 16:9 | Đã có: ảnh bìa + liên kết YouTube mở tab mới |
+| `concepts-aset-rset` | ảnh (SVG) | 16:9 | Đã có: sơ đồ ASET/RSET |
+| `concepts-video` | video | 16:9 | Đã có: mô phỏng chung cư cao tầng (48 s) |
+| `concepts-smoke`, `concepts-visibility`, `concepts-crowd`, `concepts-density` | ảnh | 4:3 | Đã có: khói, tầm nhìn, dòng người, mật độ người |
+| `software-pyrosim`, `software-pathfinder`, `software-fds` | ảnh | 16:9 | Đã có |
+| `scenario-<mã>` và `scenario-<mã>-video` (5 tình huống, mã lấy từ `src/data/scenarios.ts`) | ảnh + video/youtube | 16:9 | Đã có: ảnh mô hình và video trích đoạn (ga tàu điện ngầm dùng YouTube) |
+| `contact-site`, `instructor`, `contact-fire` | ảnh | 1:1 | Đã có: hàng 3 ảnh ở khối liên hệ |
+| `topic-<mã đề tài>` (9 vị trí, mã lấy từ `src/data/topics.ts`) | ảnh | 16:9 | **Còn trống**: chờ ảnh |
+| `article-<mã bài>` (6 vị trí: `bv-luoi`, `bv-rset`, `bv-revit`, `bv-ketqua`, `bv-tieu-chi`, `bv-hrr`) | ảnh | 16:9 | **Còn trống**: chờ ảnh bìa |
+
+Video: H.264 (MP4), không âm thanh, dưới 4 MB, kèm ảnh bìa JPG (`poster`); nén bằng `ffmpeg -an -c:v libx264 -preset slow -crf 29 -movflags +faststart`. Tệp đặt trong `web/public/media/` và tham chiếu bằng `media/...` (không nhúng vào bundle).
 
 Vị trí mới thêm ở `src/data/media.ts` (mảng `fixed`) rồi gắn `<MediaSlot id="..." />` vào đúng khối.
 
